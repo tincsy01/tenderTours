@@ -88,7 +88,7 @@ require_once 'header.php';
                     <fieldset>
                         <h6>If you don't have an account yet, register:</h6>
 <!--                        <input type="button" href="register.php" class="bi bi-send">-->
-                        <button class="main-button col-" type="submit"><a href="../register.php"></a><i class="bi bi-send"></i> Register Now</button>
+                        <button class="main-button col-" type="submit"><a href="register.php"></a><i class="bi bi-send"></i> Register Now</button>
                     </fieldset>
                 </div>
 

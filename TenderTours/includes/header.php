@@ -5,12 +5,12 @@
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="../index.php" class="logo">
+                    <a href="../pages/index.php" class="logo">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="../index.php" class="active">Home</a></li>
+                        <li><a href="../pages/index.php" class="active">Home</a></li>
                         <li><a href="../pages/login.php">LogIn</a></li>
                         <li><a href="../pages/cities.php">Cities</a></li>
                         <li><a href="../contact.html">Contact Us</a></li>
