@@ -15,6 +15,9 @@ if (!empty($code) AND strlen($code) === 40) {
             WHERE  code <= '$code' AND reg_expire>now()";
 //    var_dump($reg_expire); die();
 
+    $selectsql = $pdo->query("SELECT reg_expire FROM users WHERE code = '$code'");
+    $reg_expire = $selectsql->fetch();
+
     $query->bindParam(':reg_expire', $reg_expire,PDO::PARAM_STR);
     $query->bindParam(':active', $active, PDO::PARAM_STR);
     $query->bindParam(':code', $code, PDO::PARAM_STR);
