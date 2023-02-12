@@ -9,7 +9,7 @@ $code = "";
 if (isset($_GET['code'])){
     $code = trim($_GET['code']);
 }
-    
+// gettype($reg_expire); die();
 if (!empty($code) AND strlen($code) === 40) {
     $sql = "UPDATE users SET active='1', code='', reg_expire=''
             WHERE  code <= '$code' AND reg_expire>now()";
@@ -19,6 +19,7 @@ if (!empty($code) AND strlen($code) === 40) {
     $reg_expire = $selectsql->fetch();
 
     $query->bindParam(':reg_expire', $reg_expire,PDO::PARAM_STR);
+
     $query->bindParam(':active', $active, PDO::PARAM_STR);
     $query->bindParam(':code', $code, PDO::PARAM_STR);
 

@@ -103,13 +103,15 @@ function registerUser($username, $password, $name, $address, $email, $code)
 {
 
     global $pdo;
-
-    $passwordHashed = password_hash($password, PASSWORD_BCRYPT);
-
     $sql = "INSERT INTO users
         (name, username, email, password, address, reg_expire, active, code)
          VALUES
         (:name,:username,:email, :password, :address, :reg_expire, :active, :code)";
+
+    $passwordHashed = password_hash($password, PASSWORD_BCRYPT);
+    $active = 0;
+    $datetime = new DateTime('tomorrow');
+    $reg_expire= $datetime->format('Y-m-d H:i:s');
 
     $query = $pdo->prepare($sql);
     $query->bindParam(':name', $name, PDO::PARAM_STR);
@@ -122,16 +124,16 @@ function registerUser($username, $password, $name, $address, $email, $code)
     $query->bindParam(':code', $code, PDO::PARAM_STR);
 
 
-    $name = $_POST['name'];
+ /*   $name = $_POST['name'];
     $email = $_POST['email'];
-    $passwordHashed = $_POST['password'];
+    $passwordHashed = password_hash($password, PASSWORD_BCRYPT);
     $username = $_POST['username'];
     $address = $_POST['address'];
     $active = 0;
     $datetime = new DateTime('tomorrow');
     $reg_expire= $datetime->format('Y-m-d H:i:s');
     //$reg_expire =  //mktime("Today + 1 day");
-    $code = $_GET['code'];
+    $code = $_GET['code'];*/
 
     $query->execute();
     //var_dump("ok");
@@ -158,7 +160,7 @@ function sendData($username, $email, $code)
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
         $mail->Username   = 'em';                     //SMTP username
         $mail->Password   = 'h3waxBgfAQHM6dk';                               //SMTP password
-        $mail->SMTPSecure = 'tls';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
 
@@ -177,23 +179,13 @@ function sendData($username, $email, $code)
 
         $mail->send();
         echo 'Message has been sent';
+        return true;
+
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        return false;
     }
-
-
-    $header = "From: TenderTours <tenderTours@gmail.com>\n";
-    $header .= "X-Sender: tenderTours@gmail.com\n";
-    $header .= "X-Mailer: PHP/" . phpversion();
-    $header .= "X-Priority: 1\n";
-    $header .= "Reply-To:support@vts.su.ac.rs\r\n";
-    $header .= "Content-Type: text/html; charset=UTF-8\n";
-
-    $message = "Data:\n\n user: $username \n \n www.vts.su.ac.rs";
-    $message .= "\n\n to activate your account click on the link: " . SITE . "active.php?code=$code";
-    $to = $email;
-    $subject = "Registration at VTS";
-    return mail($to, $subject, $message, $header);
+    //return mail($to, $subject, $message, $header);
 }
 
 
@@ -203,21 +195,21 @@ function addEmailFailure($user_id)
 
     global $pdo;
 
-    $sql = "INSERT INTO user_email_failure (user_id, date_time_added)
-             VALUES (:user_id, :date_time_added)";
-
-    $query = $pdo->prepare($sql);
-
-    $user_id = $_POST['user_id'];
-    $date_time_added = mktime("now");
-
-    $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-    $query->bindParam(':date_time_added', $date_time_added, PDO::PARAM_STR);
-
-
-
-    $query->execute();
-
+//    $sql = "INSERT INTO user_email_failure (user_id, date_time_added)
+//             VALUES (:user_id, :date_time_added)";
+//
+//    $query = $pdo->prepare($sql);
+//
+//    $user_id = $_POST['user_id'];
+//    $date_time_added = date("Y-m-d h:i:sa");
+//
+//    $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+//    $query->bindParam(':date_time_added', $date_time_added, PDO::PARAM_STR);
+//
+//
+//
+//    $query->execute();
+echo 'email failure';
     //$result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
 
 }
