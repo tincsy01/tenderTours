@@ -54,7 +54,27 @@ function existsUser($username)
 }
 
 
+function existsOrganization($username)
+{
+    global $pdo;
 
+//    $sql = "SELECT user_id FROM users
+//            WHERE username = '$username' AND (reg_expire>now() OR active ='1')";
+    $sql = $pdo->query("SELECT org_id FROM organizations
+            WHERE username = '$username'");
+//    $query = $pdo->prepare($sql);
+//    $result = $query->fetch();
+
+    $sql->execute();
+    $row_count = $sql->fetchColumn();
+
+    //$result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+
+    if ($row_count > 0)
+        return true;
+    else
+        return false;
+}
 /**
  * Kod letrehozo fuggveny
  *
@@ -144,12 +164,11 @@ function registerUser($username, $password, $name, $address, $email, $code)
 /**
  * Function tries to send email with activation code
  *
- * @param $username
  * @param $email
  * @param $code
  * @return bool
  */
-function sendData($username, $email, $code)
+function sendData($email, $code)
 {
     $mail = new PHPMailer(true);
     try {
@@ -214,6 +233,18 @@ echo 'email failure';
 
 }
 
+
+
+function registerOrganization($username, $password, $name, $city, $email,$description,$phone, $code){
+    if (isset($_POST['name']) AND !empty($_POST['name']) AND isset($_POST['city']) AND !empty($_POST['city']) AND
+        isset($_POST['email']) AND !empty($_POST['email']) AND isset($_POST['username']) AND !empty($_POST['username']) AND
+        isset($_POST['password']) AND !empty($_POST['password']) AND isset($_POST['phone']) AND !empty($_POST['phone']) AND
+        isset($_POST['description']) AND !empty($_POST['description'])) {
+
+        $sql = "INSERT INTO organizations(org_name,city_id, username, email, password, phone, description, code) VALUES 
+                            (:org_name, :city_id, :username, :email, :password, :phone, :description, :code)";
+    }
+}
 //
 //if (isset($_POST['register_button'])){
 //    if (isset($_POST['name']) and !empty($_POST['name']) and

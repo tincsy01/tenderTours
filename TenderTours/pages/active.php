@@ -11,17 +11,25 @@ if (isset($_GET['code'])){
 }
 // gettype($reg_expire); die();
 if (!empty($code) AND strlen($code) === 40) {
+
+//    $selectsql = $pdo->query("SELECT reg_expire FROM users WHERE code = :code");
+   // $reg_expire = $pdo->prepare($selectsql);
+
+
     $sql = "UPDATE users SET active='1', code='', reg_expire=''
-            WHERE  code <= '$code' AND reg_expire>now()";
+            WHERE  code = :code AND reg_expire>now()";
 //    var_dump($reg_expire); die();
 
-    $selectsql = $pdo->query("SELECT reg_expire FROM users WHERE code = '$code'");
-    $reg_expire = $selectsql->fetch();
 
-    $query->bindParam(':reg_expire', $reg_expire,PDO::PARAM_STR);
+    $query = $pdo->prepare($sql);
 
-    $query->bindParam(':active', $active, PDO::PARAM_STR);
+
+    //$query->bindParam(':reg_expire', $reg_expire,PDO::PARAM_STR);
+
+    //$query->bindParam(':active', $active, PDO::PARAM_INT);
     $query->bindParam(':code', $code, PDO::PARAM_STR);
+
+    //$code = $_GET['code'];
 
     /* ide lehet kell a definiálás*/
 //    $datetime = $reg_expire;
@@ -31,10 +39,10 @@ if (!empty($code) AND strlen($code) === 40) {
     $count = $query->fetchAll();
     $query = $pdo->prepare($sql);
     if ($count > 0) {
-       redirection('index.php?r=6');
+       redirection('register.php?r=6');
     }
     else {
-        redirection('index.php?r=11');
+        redirection('register.php?r=11');
     }
 
 }
