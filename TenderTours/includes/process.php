@@ -108,6 +108,8 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
 }
 
 
+
+
 //szerintem a regisztracio
 //if (isset($_POST['register_button'])){
 //    if (isset($_POST['name']) and !empty($_POST['name']) and
