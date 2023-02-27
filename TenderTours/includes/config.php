@@ -31,5 +31,6 @@ $messages = [
     8 => 'Format of e-mail address is not valid!',
     9 => 'Password is too short! It must be minimum 8 characters long!',
     10 => 'Something went wrong with mail server. We will try to send email later!',
-    11 => 'Your account is already activated!'
+    11 => 'Your account is already activated!',
+    12 => 'The city is added'
 ];

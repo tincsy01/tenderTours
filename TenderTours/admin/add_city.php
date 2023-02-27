@@ -34,6 +34,8 @@
 <?php
 require 'header.php';
 require 'sidebar.php';
+require '../includes/db_config.php';
+require '../includes/config.php';
 ?>
 <main id="main" class="main">
 
@@ -54,16 +56,10 @@ require 'sidebar.php';
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Add a new city organisation</h5>
+                        <h5 class="card-title">Add a new city</h5>
 
                         <!-- General Form Elements -->
-                        <form method="post" action="../includes/add_organization.php">
-                            <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Organisation name</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="name">
-                                </div>
-                            </div>
+                        <form method="post" action="../includes/add_city.php">
                             <div class="row mb-3">
                                 <label for="inputText" class="col-sm-2 col-form-label">City</label>
                                 <div class="col-sm-10">
@@ -71,53 +67,29 @@ require 'sidebar.php';
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Username</label>
+                                <label for="inputText" class="col-sm-2 col-form-label">Longitude</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="username">
+                                    <input type="text" class="form-control" name="longitude">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                <label for="inputText" class="col-sm-2 col-form-label">Lattitude</label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" name="email">
+                                    <input type="text" class="form-control" name="lattitude">
                                 </div>
                             </div>
+
                             <div class="row mb-3">
-                                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" name="password">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="inputNumber" class="col-sm-2 col-form-label">Phone</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="phone">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Address</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="address">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">From organization</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" style="height: 100px" name="description"></textarea>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-<!--                                <label class="col-sm-2 col-form-label">Submit</label>-->
+                                <!--                                <label class="col-sm-2 col-form-label">Submit</label>-->
                                 <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary" name="add_button">Submit</button>
                                 </div>
                             </div>
                             <?php
                             // index.php?r=1
-                            $r = 0;
+                             $r = 0;
 
                             if (isset($_GET["r"]) and is_numeric($_GET['r'])) {
-                                $r = (int)$_GET["r"];
 
                                 if (array_key_exists($r, $messages)) {
                                     echo '
@@ -129,7 +101,8 @@ require 'sidebar.php';
                                 </div>
                                 ';
                                 }
-                            }
+                            }      $r = (int)$_GET["r"];
+
                             ?>
                         </form><!-- End -->
 
@@ -162,3 +135,4 @@ require 'footer.php';
 </body>
 
 </html>
+

@@ -236,13 +236,23 @@ echo 'email failure';
 }
 
 
-
-function registerOrganization($username, $password, $name, $city, $email,$description,$phone, $code){
+/**
+ * @param $username
+ * @param $password
+ * @param $name
+ * @param $city
+ * @param $email
+ * @param $description
+ * @param $phone
+ * @param $code
+ * @return void
+ */
+function registerOrganization( $name, $city, $username,$email, $password, $phone, $address, $description, $code){
     global $pdo;
     if (isset($_POST['name']) AND !empty($_POST['name']) AND isset($_POST['city']) AND !empty($_POST['city']) AND
         isset($_POST['email']) AND !empty($_POST['email']) AND isset($_POST['username']) AND !empty($_POST['username']) AND
         isset($_POST['password']) AND !empty($_POST['password']) AND isset($_POST['phone']) AND !empty($_POST['phone']) AND
-        isset($_POST['description']) AND !empty($_POST['description'])) {
+        isset($_POST['description']) AND !empty($_POST['description']) AND isset($_POST['address']) AND !empty($_POST['address'])) {
 
         $sql = "INSERT INTO organizations(org_name, username, email, password, phone, address, description, code, reg_expire, active) VALUES 
                             (:org_name, :username, :email, :password, :phone, :address , :description, :code, :reg_expire, :active)";
@@ -253,14 +263,15 @@ function registerOrganization($username, $password, $name, $city, $email,$descri
         $reg_expire= $datetime->format('Y-m-d H:i:s');
 
         $query = $pdo->prepare($sql);
-        $query->bindParam(':org_name', $org_name, PDO::PARAM_STR);
+        $query->bindParam(':org_name', $name, PDO::PARAM_STR);
         $query->bindParam(':username', $username, PDO::PARAM_STR);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
         $query->bindParam(':password', $passwordHashed, PDO::PARAM_STR);
         $query->bindParam(':address', $address, PDO::PARAM_STR);
         $query->bindParam(':description', $description, PDO::PARAM_STR);
+        $query->bindParam(':phone', $phone, PDO::PARAM_STR);
         $query->bindParam(':reg_expire', $reg_expire, PDO::PARAM_STR);
-        $query->bindParam(':active', $active, PDO::PARAM_STR);
+        //$query->bindParam(':active', $active, PDO::PARAM_STR);
         $query->bindParam(':code', $code, PDO::PARAM_STR);
 
         $query->execute();

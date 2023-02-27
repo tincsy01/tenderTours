@@ -236,34 +236,59 @@ echo 'email failure';
 
 
 
-function registerOrganization($username = null, $password = null, $name = null, $city = null, $email = null,$description = null, $phone = null, $code = null){
+function registerOrganization($name, $city, $username,$email, $password, $phone, $address, $description, $code){
     global $pdo;
     if (isset($_POST['name']) AND !empty($_POST['name']) AND isset($_POST['city']) AND !empty($_POST['city']) AND
         isset($_POST['email']) AND !empty($_POST['email']) AND isset($_POST['username']) AND !empty($_POST['username']) AND
         isset($_POST['password']) AND !empty($_POST['password']) AND isset($_POST['phone']) AND !empty($_POST['phone']) AND
-        isset($_POST['description']) AND !empty($_POST['description'])) {
+        isset($_POST['description']) AND !empty($_POST['description']) AND isset($_POST['address']) AND !empty($_POST['address'])) {
 
-        $sql = "INSERT INTO organizations(org_name, username, email, password, phone, address, description, code, reg_expire, active) VALUES 
-                            (:org_name, :username, :email, :password, :phone, :address , :description, :code, :reg_expire, :active)";
+
+        $sql1 = "INSERT INTO cities(organization_name, city_name) VALUES(:org_name, :city_name)";
+        $query = $pdo->prepare($sql1);
+
+        $query->bindParam(':org_name', $name, PDO::PARAM_STR);
+        $query->bindParam(':city_name', $city, PDO::PARAM_STR);
+        $query->execute();
+
+
+
+        $sql2 = "INSERT INTO organizations(org_name, city_id, username, email, password, phone, address, description, code, reg_expire) VALUES
+                            (:org_name, :city_id,  :username, :email, :password, :phone, :address , :description, :code, :reg_expire)";
 
         $passwordHashed = password_hash($password, PASSWORD_BCRYPT);
         $active = 0;
         $datetime = new DateTime('tomorrow');
         $reg_expire= $datetime->format('Y-m-d H:i:s');
+        $city_id = $pdo->lastInsertId();
 
-        $query = $pdo->prepare($sql);
-        $query->bindParam(':org_name', $org_name, PDO::PARAM_STR);
+        $query = $pdo->prepare($sql2);
+        $query->bindParam(':org_name', $name, PDO::PARAM_STR);
+        $query->bindParam(':city_id', $city_id, PDO::PARAM_STR);
         $query->bindParam(':username', $username, PDO::PARAM_STR);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
         $query->bindParam(':password', $passwordHashed, PDO::PARAM_STR);
         $query->bindParam(':address', $address, PDO::PARAM_STR);
         $query->bindParam(':description', $description, PDO::PARAM_STR);
+        $query->bindParam(':phone', $phone, PDO::PARAM_STR);
         $query->bindParam(':reg_expire', $reg_expire, PDO::PARAM_STR);
-        $query->bindParam(':active', $active, PDO::PARAM_INT);
+        //$query->bindParam(':active', $active, PDO::PARAM_STR);
         $query->bindParam(':code', $code, PDO::PARAM_STR);
 
         $query->execute();
+        //var_dump($name, $city,$city_id, $username, $email,$passwordHashed, $address,$description, $phone, $reg_expire, $code   );die();
     }
+}
+function addCity($city, $lattitude, $longitude){
+    global $pdo;
+    $sql = "INSERT INTO cities (city_name, longitude, lattitude) VALUES (:city, :longitude, :lattitude)";
+    $query = $pdo->prepare($sql);
+    $query->bindParam(':city', $city);
+    $query->bindParam(':longitude', $longitude);
+    $query->bindParam(':lattitude', $lattitude);
+    $query->execute();
+
+
 }
 //
 //if (isset($_POST['register_button'])){
