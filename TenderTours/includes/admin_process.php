@@ -35,7 +35,7 @@ require_once 'functions.php';
             $_SESSION['permission'] = $permission;
             $_SESSION['email'] = $user_email;
             $_SESSION['address'] = $address;
-            header("Location: ../admin/index.php");
+            header("Location: ../admin_pages/index.php");
         } else {
             echo '<h3>Please write again your username and password</h3>';
         }

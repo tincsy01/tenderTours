@@ -52,8 +52,10 @@ if (empty($address)) {
 if (empty($description)) {
     redirection('../add_organizations.php?r=4');
 }
-if (!existsOrganization($username)) {
+if (!existsOrganization($name)) {
     $code = createCode(40);
+    var_dump($name, $city, $username, $email, $address,$description, $phone, $reg_expire, $code   );die();
+
     $org_id = registerOrganization( $name, $city, $username, $email, $password, $phone, $address, $description,  $code);
     if (sendData($username, $email, $code)) {
         redirection("../add_organizations.php?r=3");

@@ -35,8 +35,8 @@
 
 <!-- ======= Header ======= -->
 <?php
-require 'header.php';
-require 'sidebar.php';
+require '../admin_includes/header.php';
+require '../admin_includes/sidebar.php';
 ?>
 <main id="main" class="main">
 
@@ -688,7 +688,7 @@ require 'sidebar.php';
 
 <!-- ======= Footer ======= -->
 <?php
-require 'footer.php';
+require '../admin_includes/footer.php';
 ?>
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

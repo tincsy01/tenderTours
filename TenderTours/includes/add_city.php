@@ -2,7 +2,7 @@
 require 'db_config.php';
 require 'config.php';
 require 'functions.php';
-
+$referer = $_SERVER['HTTP_REFERER'];
 if (isset($_POST['city'])){
     $city = trim($_POST["city"]);
 }
@@ -13,11 +13,15 @@ if (isset($_POST['longitude'])){
     $longitude = trim($_POST["longitude"]);
 }
 if (!empty($city) OR !empty($lattitude) OR !empty($longitude)){
-    $city_id = addCity($city, $lattitude, $longitude);
-    redirection('../add_city.php?r=12');
-
+    if(!existCity($city)){
+        $city_id = addCity($city, $lattitude, $longitude);
+        redirection('../admin_pages/add_city.php?r=12');
+    }
+    else{
+        redirection('../admin_pages/add_city.php?r=13');
+    }
 }
 else{
-    redirection('../add_city.php?r=4');
+    redirection('../admin_pages/add_city.php?r=4');
 
 }

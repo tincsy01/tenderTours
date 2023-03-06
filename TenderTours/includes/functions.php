@@ -47,21 +47,39 @@ function existsUser($username)
 
     //$result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
 
+    if ($row_count > 0){
+        return true;
+
+    }
+    else{
+        return false;
+    }
+
+}
+
+function existCity($city){
+    global $pdo;
+
+    $sql = $pdo->query("SELECT city_name FROM cities
+            WHERE city_name = '$city' ");
+
+    $sql->execute();
+    $row_count = $sql->fetchColumn();
+
     if ($row_count > 0)
         return true;
     else
         return false;
 }
 
-
-function existsOrganization($username)
+function existsOrganization($name)
 {
     global $pdo;
 
 //    $sql = "SELECT user_id FROM users
 //            WHERE username = '$username' AND (reg_expire>now() OR active ='1')";
-    $sql = "SELECT username FROM organizations
-            WHERE username = '$username'";
+    $sql = "SELECT org_name FROM organizations
+            WHERE org_name = '$name'";
     $query = $pdo->prepare($sql);
 //    $result = $query->fetch();
 
@@ -276,6 +294,7 @@ function registerOrganization($name, $city, $username,$email, $password, $phone,
         $query->bindParam(':code', $code, PDO::PARAM_STR);
 
         $query->execute();
+
         //var_dump($name, $city,$city_id, $username, $email,$passwordHashed, $address,$description, $phone, $reg_expire, $code   );die();
     }
 }
@@ -290,6 +309,8 @@ function addCity($city, $lattitude, $longitude){
 
 
 }
+
+// cityListing()
 //
 //if (isset($_POST['register_button'])){
 //    if (isset($_POST['name']) and !empty($_POST['name']) and

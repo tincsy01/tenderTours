@@ -37,7 +37,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="index.php">
+            <a class="nav-link " href="../admin_pages/index.php">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -49,7 +49,7 @@
             </a>
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="add_organizations.php">
+                    <a href="../admin_pages/add_organizations.php">
                         <i class="bi bi-circle"></i><span>Add organizations</span>
                     </a>
                 </li>

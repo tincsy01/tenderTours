@@ -32,10 +32,12 @@
 
 <!-- ======= Header ======= -->
 <?php
-require 'header.php';
-require 'sidebar.php';
-require '../includes/db_config.php';
+require '../admin_includes/header.php';
+require '../admin_includes/sidebar.php';
 require '../includes/config.php';
+require '../includes/db_config.php';
+$pdo = connectDatabase($dsn, $pdoOptions);
+//global $pdo;
 ?>
 <main id="main" class="main">
 
@@ -56,40 +58,80 @@ require '../includes/config.php';
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Add a new city</h5>
+                        <h5 class="card-title">Add a new city organisation</h5>
 
                         <!-- General Form Elements -->
-                        <form method="post" action="../includes/add_city.php">
+                        <form method="post" action="../includes/add_organization.php">
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-2 col-form-label">Organisation name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="name">
+                                </div>
+                            </div>
                             <div class="row mb-3">
                                 <label for="inputText" class="col-sm-2 col-form-label">City</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="city">
+                                    <?php
+                                    $query = $pdo->prepare("SELECT city_id, city_name FROM cities WHERE organization_name = ''");
+                                    $query->execute();
+                                    $results = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    ?>
+                                    <select name="city_dropdawn">
+                                        <?php foreach ($results as $row): ?>
+                                            <option value="<?php echo $row['city_id']; ?>" name="<?php echo $row['city_name']; ?>"><?php echo $row['city_name']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+<!--                                    <input type="text" class="form-control" name="city">-->
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Longitude</label>
+                                <label for="inputText" class="col-sm-2 col-form-label">Username</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="longitude">
+                                    <input type="text" class="form-control" name="username">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Lattitude</label>
+                                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="lattitude">
+                                    <input type="email" class="form-control" name="email">
                                 </div>
                             </div>
-
                             <div class="row mb-3">
-                                <!--                                <label class="col-sm-2 col-form-label">Submit</label>-->
+                                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" name="password">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputNumber" class="col-sm-2 col-form-label">Phone</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="phone">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-2 col-form-label">Address</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="address">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-2 col-form-label">From organization</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" style="height: 100px" name="description"></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+<!--                                <label class="col-sm-2 col-form-label">Submit</label>-->
                                 <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary" name="add_button">Submit</button>
                                 </div>
                             </div>
                             <?php
                             // index.php?r=1
-                             $r = 0;
+                            $r = 0;
 
                             if (isset($_GET["r"]) and is_numeric($_GET['r'])) {
+                                $r = (int)$_GET["r"];
 
                                 if (array_key_exists($r, $messages)) {
                                     echo '
@@ -101,8 +143,7 @@ require '../includes/config.php';
                                 </div>
                                 ';
                                 }
-                            }      $r = (int)$_GET["r"];
-
+                            }
                             ?>
                         </form><!-- End -->
 
@@ -117,7 +158,7 @@ require '../includes/config.php';
 
 <!-- ======= Footer ======= -->
 <?php
-require 'footer.php';
+require '../admin_includes/footer.php';
 ?>
 
 
@@ -135,4 +176,3 @@ require 'footer.php';
 </body>
 
 </html>
-
