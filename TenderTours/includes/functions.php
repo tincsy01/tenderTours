@@ -320,14 +320,30 @@ function checkUserLogin($username, $password){
 
     $query = $pdo->prepare($sql);
     $query->bindParam(':username', $username, PDO::PARAM_STR);
+//    $query->bindParam(':permission', $permission, PDO::PARAM_INT);
     $query->execute();
 
     $data =  [];
-
     if ($query->rowCount() > 0) {
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
             $data['user_id'] = (int)$row['user_id'];
             $registeredPassword = $row['password'];
+            $permission = $row['permission'];
+        }
+
+        if (!password_verify($password, $registeredPassword)) {
+            $data = [];
+        }
+    }
+    else{
+        $sql = "SELECT org_id, password FROM organizations WHERE username = :username AND permission = 3";
+        $query = $pdo->prepare($sql);
+        $query->bindParam(':username', $username, PDO::PARAM_STR);
+        $query->execute();
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $data['user_id'] = (int)$row['org_id'];
+            $registeredPassword = $row['password'];
+            $permission = $row['permission'];
         }
 
         if (!password_verify($password, $registeredPassword)) {
