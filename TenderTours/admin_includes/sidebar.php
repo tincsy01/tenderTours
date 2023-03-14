@@ -54,7 +54,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../../Admin/Admin/components-accordion.html">
+                    <a href="../admin_pages/organization_listing.php">
                         <i class="bi bi-circle"></i><span>Organizations</span>
                     </a>
                 </li>
@@ -66,12 +66,12 @@
             </a>
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="../../Admin/Admin/components-badges.html">
+                    <a href="../admin_pages/add_city.php">
                         <i class="bi bi-circle"></i><span>Add a new city</span>
                     </a>
                 </li>
                 <li>
-                    <a href="../../Admin/Admin/components-breadcrumbs.html">
+                    <a href="../admin_pages/city_listing.php">
                         <i class="bi bi-circle"></i><span>Cities</span>
                     </a>
                 </li>
@@ -141,6 +141,17 @@
     </ul>
 
 </aside><!-- End Sidebar-->
-
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<script src="../../Admin/Admin/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="../../Admin/Admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../Admin/Admin/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="../../Admin/Admin/assets/vendor/echarts/echarts.min.js"></script>
+<script src="../../Admin/Admin/assets/vendor/quill/quill.min.js"></script>
+<script src="../../Admin/Admin/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="../../Admin/Admin/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="../../Admin/Admin/assets/vendor/php-email-form/validate.js"></script>
+<script src="../../Admin/Admin/assets/js/main.js"></script>
+<!-- Template Main JS File -->
+<script src="../../Admin/Admin/assets/js/main.js"></script>
 </body>
 </html>

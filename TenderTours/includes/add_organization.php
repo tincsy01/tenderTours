@@ -7,7 +7,7 @@ if(isset($_POST['name'])) {
     $name = trim($_POST["name"]);
 }
 if (isset($_POST['city'])) {
-    $city = trim($_POST["city"]);
+    $city = $_POST["city"];
 }
 if(isset($_POST['username'])) {
     $username = trim($_POST["username"]);
@@ -27,7 +27,7 @@ if (isset($_POST['address'])) {
 if (isset($_POST['description'])) {
     $description = trim($_POST["description"]);
 }
-
+//var_dump($name, $city, $username, $email,$address,$description, $phone);die();
 if (empty($name)) {
     redirection('../add_organizations.php?r=4');
 }
@@ -54,7 +54,7 @@ if (empty($description)) {
 }
 if (!existsOrganization($name)) {
     $code = createCode(40);
-    var_dump($name, $city, $username, $email, $address,$description, $phone, $reg_expire, $code   );die();
+    //var_dump($name, $city, $username, $email, $address,$description, $phone, $reg_expire, $code   );die();
 
     $org_id = registerOrganization( $name, $city, $username, $email, $password, $phone, $address, $description,  $code);
     if (sendData($username, $email, $code)) {

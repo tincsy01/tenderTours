@@ -48,7 +48,7 @@ require_once '../includes/db_config.php';
         <div class="row">
             <div class="col-lg-12">
                 <div class="top-text header-text">
-                    <h6>Login</h6>
+                    <h6>Register now</h6>
                     <!--                    <h2>Find Tours Places &amp; Things</h2>-->
                 </div>
             </div>

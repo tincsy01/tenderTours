@@ -27,18 +27,20 @@
 
 <body>
 <!-- ***** Preloader Start ***** -->
-<div id="js-preloader" class="js-preloader">
-    <div class="preloader-inner">
-        <span class="dot"></span>
-        <div class="dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-</div>
+<!--<div id="js-preloader" class="js-preloader">-->
+<!--    <div class="preloader-inner">-->
+<!--        <span class="dot"></span>-->
+<!--        <div class="dots">-->
+<!--            <span></span>-->
+<!--            <span></span>-->
+<!--            <span></span>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <?php
-require_once 'header.php';
+require_once '../includes/header.php';
+require_once '../includes/config.php';
+require_once '../includes/db_config.php';
 ?>
 <div class="main-banner">
     <div class="container">
@@ -50,56 +52,68 @@ require_once 'header.php';
                 </div>
             </div>
             <div class="col-lg-12">
-                <form id="login-form" name="login" method="post" role="login" action="#">
+                <form id="login-form" name="login" method="post" role="login" action="../includes/process.php">
                     <div class="row">
-                        <!--                        <div class="col-lg-3 align-self-center">-->
-                        <!--                            <fieldset>-->
-                        <!--                                <select name="area" class="form-select" aria-label="Area" id="chooseCategory" onchange="this.form.click()">-->
-                        <!--                                    <option selected>All Areas</option>-->
-                        <!--                                    <option value="New Village">New Village</option>-->
-                        <!--                                    <option value="Old Town">Old Town</option>-->
-                        <!--                                    <option value="Modern City">Modern City</option>-->
-                        <!--                                </select>-->
-                        <!--                            </fieldset>-->
-                        <!--                        </div>-->
                         <div class="col-lg-8 align-self-center">
                             <fieldset>
-                                <input type="text" name="username" class="searchText" placeholder="Enter username" autocomplete="on" required>
+                                <input type="text" name="loginUsername" class="searchText" placeholder="Enter username" autocomplete="on" required>
 <!--                                <input type="password" name="address" class="searchText" placeholder="Enter password" autocomplete="on" required>-->
                             </fieldset>
                             <fieldset>
-                                <input type="password" name="password" class="searchText" placeholder="Enter password" autocomplete="on" required>
+                                <input type="password" name="loginPassword" class="searchText" placeholder="Enter password" autocomplete="on" required>
                             </fieldset>
+                            <?php
+                            // index.php?r=1
+                            $r = 0;
+
+                            if (isset($_GET["r"]) and is_numeric($_GET['r'])) {
+                                $r = (int)$_GET["r"];
+
+                                if (array_key_exists($r, $messages)) {
+                                    echo '
+                    <div class="alert alert-info alert-dismissible fade show m-3 col-lg-8 align-self-center" role="alert">
+                        '.$messages[$r].'
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    ';
+                                }
+                            }
+                            ?>
                         </div>
 
                         <div class="col-lg-3">
                             <fieldset>
-                                <button class="main-button"><i class="bi bi-send"></i> Login Now</button>
+                                <input type="hidden" name="action" value="login">
+                                <button class="main-button" type="submit"><i class="bi bi-send"></i> Login Now</button>
                             </fieldset>
+
+                            <fieldset>
+                                <h6>If you don't have an account yet, register:</h6>
+                                <!--<input type="button" href="register.php" class="bi bi-send">-->
+                                <button class="main-button col-" type="submit" onclick="location.href='register.php'"><i class="bi bi-send"></i> Register Now</button>
+                            </fieldset>
+
                         </div>
-
-
-
-<!--                        <h6>If you don't have an account yet, register:</h6>-->
-<!--                        <button class="main-button col-"><i class="bi bi-send" href="register.php"></i> Register Now</button>-->
                     </div>
                 </form>
-                <div class="col-lg-3 center">
-                    <fieldset>
-                        <h6>If you don't have an account yet, register:</h6>
+<!--                <div class="col-lg-3 center">-->
+<!--                    <fieldset>-->
+<!--                        <h6>If you don't have an account yet, register:</h6>-->
 <!--                        <input type="button" href="register.php" class="bi bi-send">-->
-                        <button class="main-button col-" type="submit"><a href="register.php"></a><i class="bi bi-send"></i> Register Now</button>
-                    </fieldset>
-                </div>
+<!--                        <button class="main-button col-" type="submit"><a href="register.php"></a><i class="bi bi-send"></i> Register Now</button>-->
+<!--                    </fieldset>-->
+<!--                </div>-->
 
             </div>
-            </div>
+
         </div>
     </div>
 </div>
 
 <?php
-require_once 'footer.php';
+require_once '../includes/footer.php';
 ?>
 
 <!-- Scripts -->

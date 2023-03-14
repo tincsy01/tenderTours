@@ -76,9 +76,9 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                     $query->execute();
                                     $results = $query->fetchAll(PDO::FETCH_ASSOC);
                                     ?>
-                                    <select name="city_dropdawn">
+                                    <select name="city">
                                         <?php foreach ($results as $row): ?>
-                                            <option value="<?php echo $row['city_id']; ?>" name="<?php echo $row['city_name']; ?>"><?php echo $row['city_name']; ?></option>
+                                            <option value="<?php echo $row['city_name']; ?>" name="city"><?php echo $row['city_name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
 <!--                                    <input type="text" class="form-control" name="city">-->
@@ -172,7 +172,7 @@ require '../admin_includes/footer.php';
 <script src="../../Admin/Admin/assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="../../Admin/Admin/assets/vendor/php-email-form/validate.js"></script>
 <script src="../../Admin/Admin/assets/js/main.js"></script>
-
-</body>
+<!-- Template Main JS File -->
+<script src="../../Admin/Admin/assets/js/main.js"></script></body>
 
 </html>

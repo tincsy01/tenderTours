@@ -14,29 +14,34 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
 
     switch ($action) {
         case "login":
+            $username = trim($_POST["loginUsername"]);
+            $password = trim($_POST["loginPassword"]);
+//
 
-//            $username = trim($_POST["username"]);
-//            $password = trim($_POST["password"]);
-//
-//            if (!empty($username) AND !empty($password)) {
-//                $data = checkUserLogin($username, $password);
-//
-//                if ($data AND is_int($data['id_user'])) {
+            if (!empty($username) AND !empty($password)) {
+
+                $data = checkUserLogin($username, $password);
+                //var_dump($username, $password);die();
+
+            }
+
+                if ($data AND is_int($data['user_id'])) {
 //                    // session_regenerate_id();
-//                    $_SESSION['username'] = $username;
-//                    $_SESSION['id_user'] = $data['id_user'];
-//                    redirection('menu.php');
-//                } else {
-//                    redirection('register.php?l=1');
-//                }
+                    $_SESSION['username'] = $username;
+                    $_SESSION['user_id'] = $data['user_id'];
+                    redirection('../pages/index.php');
+                }
+              else {
+                    redirection('login.php?l=1');
+                }
 //
 //            } else {
 //                redirection('register.php?l=1');
-//            }
-//            break;
+            //
+            break;
 
 
-        case "register" :
+        case "register":
 
             if(isset($_POST['username'])) {
                 $username = trim($_POST["username"]);
@@ -104,7 +109,8 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
     }
 
 } else {
-    redirection('../pages/register.php');
+    echo 'nem men bele';
+    //redirection('../pages/register.php');
 }
 
 

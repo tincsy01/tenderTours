@@ -262,25 +262,28 @@ function registerOrganization($name, $city, $username,$email, $password, $phone,
         isset($_POST['description']) AND !empty($_POST['description']) AND isset($_POST['address']) AND !empty($_POST['address'])) {
 
 
-        $sql1 = "INSERT INTO cities(organization_name, city_name) VALUES(:org_name, :city_name)";
+        $sql1 = "UPDATE cities SET organization_name = :org_name WHERE city_name = :city_name";
         $query = $pdo->prepare($sql1);
 
         $query->bindParam(':org_name', $name, PDO::PARAM_STR);
         $query->bindParam(':city_name', $city, PDO::PARAM_STR);
         $query->execute();
 
+        $sql2 = "SELECT city_id FROM cities WHERE city_name = '$city'";
+        $query = $pdo->prepare($sql2);
+        $city_id = $query->execute();
+       // $query->execute();
 
-
-        $sql2 = "INSERT INTO organizations(org_name, city_id, username, email, password, phone, address, description, code, reg_expire) VALUES
+        $sql3 = "INSERT INTO organizations(org_name, city_id, username, email, password, phone, address, description, code, reg_expire) VALUES
                             (:org_name, :city_id,  :username, :email, :password, :phone, :address , :description, :code, :reg_expire)";
 
         $passwordHashed = password_hash($password, PASSWORD_BCRYPT);
         $active = 0;
         $datetime = new DateTime('tomorrow');
         $reg_expire= $datetime->format('Y-m-d H:i:s');
-        $city_id = $pdo->lastInsertId();
+        //$city_id = $pdo->lastInsertId();
 
-        $query = $pdo->prepare($sql2);
+        $query = $pdo->prepare($sql3);
         $query->bindParam(':org_name', $name, PDO::PARAM_STR);
         $query->bindParam(':city_id', $city_id, PDO::PARAM_STR);
         $query->bindParam(':username', $username, PDO::PARAM_STR);
@@ -310,6 +313,30 @@ function addCity($city, $lattitude, $longitude){
 
 }
 
+function checkUserLogin($username, $password){
+    global $pdo;
+
+    $sql = "SELECT user_id, password FROM users WHERE username = :username AND permission = 2";
+
+    $query = $pdo->prepare($sql);
+    $query->bindParam(':username', $username, PDO::PARAM_STR);
+    $query->execute();
+
+    $data =  [];
+
+    if ($query->rowCount() > 0) {
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $data['user_id'] = (int)$row['user_id'];
+            $registeredPassword = $row['password'];
+        }
+
+        if (!password_verify($password, $registeredPassword)) {
+            $data = [];
+        }
+    }
+    return $data;
+
+}
 // cityListing()
 //
 //if (isset($_POST['register_button'])){
