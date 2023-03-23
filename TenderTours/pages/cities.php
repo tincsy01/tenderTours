@@ -27,18 +27,18 @@
 
 <body>
 <!-- ***** Preloader Start ***** -->
-<div id="js-preloader" class="js-preloader">
-    <div class="preloader-inner">
-        <span class="dot"></span>
-        <div class="dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-</div>
+<!--<div id="js-preloader" class="js-preloader">-->
+<!--    <div class="preloader-inner">-->
+<!--        <span class="dot"></span>-->
+<!--        <div class="dots">-->
+<!--            <span></span>-->
+<!--            <span></span>-->
+<!--            <span></span>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <?php
-include 'header.php';
+include '../includes/header.php';
 ?>
 <div class="main-banner">
     <div class="recent-listing">
@@ -237,7 +237,7 @@ include 'header.php';
     </div>
 
 <?php
-require_once 'footer.php';
+require_once '../includes/footer.php';
 ?>
 
 <!-- Scripts -->

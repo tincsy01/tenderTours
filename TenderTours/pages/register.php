@@ -40,7 +40,7 @@
 <?php
 require_once '../includes/header.php';
 require_once '../includes/config.php';
-require_once '../includes/db_config.php';
+require_once '../includes/db_config.php'; 
 //require_once '../includes/functions.php'
 ?>
 <div class="main-banner">

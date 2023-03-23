@@ -2,6 +2,9 @@
 require_once 'config.php';
 require_once 'db_config.php';
 require_once 'functions.php';
+
+session_start();
+
 //require '../vendor/autoload.php';
 
 $pdo = connectDatabase($dsn, $pdoOptions);

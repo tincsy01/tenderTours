@@ -1,3 +1,6 @@
+<?php
+//session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,20 +30,24 @@
 
 <body>
 <!-- ***** Preloader Start *****-->
-<div id="js-preloader" class="js-preloader">
-    <div class="preloader-inner">
-        <span class="dot"></span>
-        <div class="dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-</div>
+<!--<div id="js-preloader" class="js-preloader">-->
+<!--    <div class="preloader-inner">-->
+<!--        <span class="dot"></span>-->
+<!--        <div class="dots">-->
+<!--            <span></span>-->
+<!--            <span></span>-->
+<!--            <span></span>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <!-- ***** Preloader End *****-->
 
 <?php
 include '../includes/header.php';
+require_once '../includes/config.php';
+require_once '../includes/db_config.php';
+//var_dump($_SESSION['permission']);
+//gettype($_SESSION['permission']);die();
 ?>
 <div class="main-banner">
     <div class="container">
