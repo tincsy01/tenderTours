@@ -1,7 +1,6 @@
 <?php
 function connectDatabase(string $dsn, array $pdoOptions): PDO
 {
-
     try {
         $pdo = new PDO($dsn, PARAMS['USER'], PARAMS['PASS'], $pdoOptions);
 

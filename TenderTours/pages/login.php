@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,23 +23,9 @@ session_start();
     <link rel="stylesheet" href="../assets/css/templatemo-plot-listing.css">
     <link rel="stylesheet" href="../assets/css/animated.css">
     <link rel="stylesheet" href="../assets/css/owl.css">
-    <!--
-    https://templatemo.com/tm-564-plot-listing
-    -->
 </head>
 
 <body>
-<!-- ***** Preloader Start ***** -->
-<!--<div id="js-preloader" class="js-preloader">-->
-<!--    <div class="preloader-inner">-->
-<!--        <span class="dot"></span>-->
-<!--        <div class="dots">-->
-<!--            <span></span>-->
-<!--            <span></span>-->
-<!--            <span></span>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 <?php
 require_once '../includes/header.php';
 require_once '../includes/config.php';
@@ -51,7 +37,6 @@ require_once '../includes/db_config.php';
             <div class="col-lg-12">
                 <div class="top-text header-text">
                     <h6>Login</h6>
-<!--                    <h2>Find Tours Places &amp; Things</h2>-->
                 </div>
             </div>
             <div class="col-lg-12">

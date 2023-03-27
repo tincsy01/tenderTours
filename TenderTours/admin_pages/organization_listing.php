@@ -68,7 +68,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                                 <th>Active</th>
                                                 <th>Update</th>
                                                 <th>Delete</th>
-                                                
                                             </tr>
                                         </thead>
                                         <tbody>';

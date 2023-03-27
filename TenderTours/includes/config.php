@@ -17,7 +17,7 @@ $pdoOptions = [
     PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
-$actions = ['login', 'register', 'forget'];
+$actions = ['login', 'register', 'forget', 'make_attraction'];
 
 $messages = [
     0 => 'No direct access!',
@@ -33,5 +33,7 @@ $messages = [
     10 => 'Something went wrong with mail server. We will try to send email later!',
     11 => 'Your account is already activated!',
     12 => 'The city is added.',
-    13 => 'City with this name already exists.'
+    13 => 'City with this name already exists.',
+    14 => 'Attraction with this location and name already exists.',
+    15 => 'The attraction is added.',
 ];

@@ -1,6 +1,6 @@
 <?php
 session_start();
-//?>
+?>
 
 <!-- ***** Header Area Start ***** -->
 <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
@@ -19,12 +19,13 @@ session_start();
                         if($_SESSION['permission']  == 3){
                             //var_dump($_SESSION);
                             echo '<li><a href="../pages/make_attractions.php">Attractions</a></li>';
+                            echo '<li><a href="../pages/logout.php">Log Out</a></li>';
                         }
                         elseif ($_SESSION['permission'] == 2 ){
                             //var_dump($_SESSION);
                             echo '<li><a href="../pages/favourites.php">Favourites</a></li>';
                             echo '<li><a href="../pages/mytours.php">My Tours</a></li>';
-
+                            echo '<li><a href="../pages/logout.php">Log Out</a></li>';
                         }
                         else{
                             //var_dump($_SESSION);

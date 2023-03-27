@@ -94,6 +94,51 @@ function existsOrganization($name)
         return false;
 
 }
+
+/** Letezo latvanyossag kiszurese
+ * @param $city
+ * @param $attraction
+ * @param $longitude
+ * @param $lattitude
+ * @return bool
+ */
+function existAtrraction($city, $attraction, $longitude, $lattitude): bool
+{
+    global $pdo;
+
+    $sql = "SELECT name, longitude, lattitude, city_id FROM attractions WHERE name = '$attraction' AND longitude = '$longitude'
+            AND lattitude = '$lattitude' AND city_id = $city";
+    $query = $pdo->prepare($sql);
+    $query->execute();
+    $row_count = $query->fetchColumn();
+    if ($row_count > 0)
+        return true;
+    else
+        return false;
+
+}
+
+/**Latvanyossag hozzaadasa
+ * @param $city
+ * @param $attraction
+ * @param $longitude
+ * @param $lattitude
+ * @return void
+ */
+function insertAttraction($city, $attraction, $longitude, $lattitude, $org_id){
+    global $pdo;
+    $sql = "INSERT INTO attractions (name, lattitude, longitude, city_id, org_id) VALUES (:name, :lattitude, :longitude, :city_id, :org_id)";
+   // $org_id = $_SESSION['user_id'];
+    $query = $pdo->prepare($sql);
+    $query->bindParam(':name', $attraction, PDO::PARAM_STR);
+    $query->bindParam(':lattitude', $lattitude, PDO::PARAM_STR);
+    $query->bindParam(':longitude', $longitude, PDO::PARAM_STR);
+    $query->bindParam(':city_id', $city, PDO::PARAM_STR);
+    $query->bindParam(':org_id', $org_id, PDO::PARAM_STR);
+
+    $query->execute();
+}
+
 /**
  * Kod letrehozo fuggveny
  *
@@ -161,18 +206,6 @@ function registerUser($username, $password, $name, $address, $email, $code)
     $query->bindParam(':reg_expire', $reg_expire, PDO::PARAM_STR);
     $query->bindParam(':active', $active, PDO::PARAM_STR);
     $query->bindParam(':code', $code, PDO::PARAM_STR);
-
-
- /*   $name = $_POST['name'];
-    $email = $_POST['email'];
-    $passwordHashed = password_hash($password, PASSWORD_BCRYPT);
-    $username = $_POST['username'];
-    $address = $_POST['address'];
-    $active = 0;
-    $datetime = new DateTime('tomorrow');
-    $reg_expire= $datetime->format('Y-m-d H:i:s');
-    //$reg_expire =  //mktime("Today + 1 day");
-    $code = $_GET['code'];*/
 
     $query->execute();
     //var_dump("ok");

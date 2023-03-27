@@ -3,7 +3,7 @@ require_once 'config.php';
 require_once 'db_config.php';
 require_once 'functions.php';
 
-session_start();
+//session_start();
 
 //require '../vendor/autoload.php';
 
@@ -29,10 +29,13 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             }
 
                 if ($data AND is_int($data['user_id'])) {
-//                    // session_regenerate_id();
                     $_SESSION['username'] = $username;
                     $_SESSION['user_id'] = $data['user_id'];
-                    $_SESSION['permission'] = $data['permission'];
+                    if (array_key_exists('permission', $data)) {
+                        $_SESSION['permission'] = $data['permission'];
+                    }
+                    //$_SESSION['permission'] = $data['permission'];
+
                     redirection('../pages/index.php');
                 }
               else {
@@ -102,13 +105,41 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             }
 
             break;
+        case "make_attraction":
+            $org_id = $_SESSION['user_id'];
+            if(isset($_POST['attraction'])){
+                $attraction = trim($_POST['attraction']);
+            }
+            if(isset($_POST['city_id'])){
+                $city = trim($_POST['city_id']);
+            }
+            if(isset($_POST['longitude'])){
+                $longitude = trim($_POST['longitude']);
+            }
+            if(isset($_POST['lattitude'])){
+                $lattitude = trim($_POST['lattitude']);
+            }
+            if(empty($_POST['attraction']) OR empty($_POST['city_id']) OR empty($_POST['longitude']) OR empty($_POST['lattitude'])){
 
+                redirection('../pages/make_attraction.php?r=4');
+            }
+            else{
+                if(!existAtrraction($city, $attraction, $longitude, $lattitude)) {
+                    $attraction_id= insertAttraction($city, $attraction, $longitude, $lattitude, $org_id);
+                    redirection('../pages/make_attraction.php?r=15');
+
+                }
+                else{
+                    redirection('../pages/make_attraction.php?r=14');
+                }
+            }
+            break;
         case "forget" :
             // To do
             break;
 
         default:
-            redirection('../pages/register.php?l=0');
+            redirection('../pages/index.php');
             break;
     }
 
