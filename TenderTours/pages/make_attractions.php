@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,12 +15,14 @@
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../vendor/twbs/icons" rel="stylesheet">
+    <script src="../vendor/jquery/jquery.min.js"></script>
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="../assets/css/fontawesome.css">
     <link rel="stylesheet" href="../assets/css/templatemo-plot-listing.css">
     <link rel="stylesheet" href="../assets/css/animated.css">
     <link rel="stylesheet" href="../assets/css/owl.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 
 </head>
 <body>
@@ -31,6 +32,45 @@ require_once '../includes/config.php';
 require_once '../includes/db_config.php';
 $pdo = connectDatabase($dsn, $pdoOptions);
 ?>
+<script>
+    $(document).ready(function () {
+       $("#update_button").click(function (){
+           $('input[name="name"]').val($(this).attr('name-data'));
+           $('input[name="longitude"]').val($(this).attr('longitude-data'));
+           $('input[name="lattitude"]').val($(this).attr('lattitude-data'));
+           $('#update_save').attr('attraction-data', $(this).attr('attraction_id'))
+           $('#update_window').css({
+               display: "block"
+           });
+           $('.backdrop').css({
+               display: "block"
+           });
+       });
+        $('.close').click(function (){
+            $('.modal').css({
+                display: "none"
+            });
+            $('.backdrop').css({
+                display: "none"
+            });
+        });
+        $('#update_save').click(function (){
+            $.post("../includes/functionalits.php", {
+                attraction_id: $(this).attr('attraction-data'),
+                name: $('.update_input_name').val(),
+                longitude: $('.update_input_longitude').val(),
+                lattitude: $('.update_input_lattitude ').val(),
+                update: "1"
+            }, function (data){
+                if (data.success) {
+                    location.reload();
+            } else {
+                    alert(data.msg);
+            }
+            }, 'json');
+        });
+    });
+</script>
 <div class="main-banner">
     <div class="container">
         <div class="row">
@@ -110,17 +150,18 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                 <form id="search-form" name="make_attraction" method="post" action="../includes/process.php" role="make_attraction">
                     <div class="row">
                         <?php
-                        $sql = "SELECT name, longitude, lattitude, num_of_visitors, popularity_rating FROM attractions WHERE org_id = :org_id";
+                        $sql = "SELECT attraction_id, name, longitude, lattitude, num_of_visitors, popularity_rating FROM attractions WHERE org_id = :org_id";
                         $org_id = $_SESSION['user_id'];
                         $query = $pdo->prepare($sql);
                         $query->bindParam(':org_id', $org_id);
                         $query->execute();
                         $attractions = $query->fetchAll();
+
 //                        var_dump($attractions);die();
                         $table = ' <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
+                            <!--  <th scope="col">#</th> -->
                                 <th scope="col">Name of attraction</th>
                                 <th scope="col">Longitude</th>
                                 <th scope="col">Lattitude</th>
@@ -138,8 +179,16 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                             <td>' . $attraction['lattitude'] . '</td>
                                             <td>' . $attraction['num_of_visitors'] . '</td>
                                             <td>' . $attraction['popularity_rating'] . '</td>
-                                            <td><i class="bi bi-pencil"></i></td>
-                                            <td><i class="bi bi-trash3"></i></td>
+                                            <td><button attraction-data="'.$attraction['attraction_id'].'" 
+                                            name-data="'.$attraction['name'].'"
+                                            longitude-data="'.$attraction['longitude'].'" 
+                                            lattitude-data="'.$attraction['lattitude'].'"
+                                            id="update_button"><i class="bi bi-pencil"></i></button></td>
+                                            
+                                            <td><button attraction-data="'.$attraction['attraction_id'].'"
+                                            name-data="'.$attraction['name'].'"
+                                            longitude-data="'.$attraction['longitude'].'" 
+                                            lattitude-data="'.$attraction['lattitude'].'"><i class="bi bi-trash3"></i></button></td>
                                         </tr>';
                         }
                         $table .= '
@@ -148,27 +197,51 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                             ';
                         echo $table;
                         ?>
+                    </div>
+                    <div class="backdrop"></div>
+                    <div id="update_window" class="modal">
+                        <div class="close">x</div>
+                        <h3>Update Attraction</h3>
+                        <div class="col-lg-8 align-self-center">
+                            <fieldset>
+                                <input type="text" id="update_attraction" name="attraction" class="searchText update_input_name" placeholder="Attraction name" autocomplete="on" required>
+                            </fieldset>
+                            <div class="col-lg-8 align-self-center">
+                                <fieldset>
+                                    <input type="text" id="update_longitude" name="longitude" class="searchText update_input_longitude" placeholder="Longitude"  required>
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-8 align-self-center">
+                                <fieldset>
+                                    <input type="text" id="update_lattitude" name="lattitude" class="searchText update_input_lattitude" placeholder="Lattitude" required>
+                                </fieldset>
+                            </div>
 
+                            <div class="col-lg-3">
+                                <fieldset>
+                                    <input type="hidden" name="action" value="update_attraction">
+                                    <button id="update_save" class="main-button" type="submit"><i class="fa fa-search"></i>Update Now</button>
+                                </fieldset>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
-
     </div>
 </div>
-
-
 <?php
 require_once '../includes/footer.php';
 ?>
 
 <!-- Scripts -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!--<script src="../vendor/jquery/jquery.min.js"></script>-->
 <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/owl-carousel.js"></script>
 <script src="../assets/js/animation.js"></script>
 <script src="../assets/js/imagesloaded.js"></script>
 <script src="../assets/js/custom.js"></script>
+<!--<script src="../vendor/jquery/jquery.min.js"></script>-->
 
 </body>
 

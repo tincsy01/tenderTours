@@ -134,6 +134,8 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
                 }
             }
             break;
+        case "update_attraction":
+            break;
         case "forget" :
             // To do
             break;
