@@ -389,3 +389,32 @@ function checkUserLogin($username, $password){
     return $data;
 
 }
+
+/*Modositas a latvanyossagokra*/
+/**
+ * @param $attraction_id
+ * @param $name
+ * @param $longitude
+ * @param $lattitude
+ * @return void
+ */
+function updateAttraction($attraction_id, $name, $longitude, $lattitude){
+    global $pdo;
+    $sql = "UPDATE attractions SET name = :name, longitude = :longitude, lattitude = :lattitude 
+                   WHERE attraction_id = :attraction_id ";
+    $query = $pdo->prepare($sql);
+    $query->bindValue(':name', $name);
+    $query->bindValue(':longitude', $longitude);
+    $query->bindValue(':lattitude', $lattitude);
+    $query->bindValue(':attraction_id', $attraction_id);
+    $query->execute();
+    //return json_encode(['success'=> true, 'msg'=> 'Updated successfully']);
+}
+
+function deleteAttraction($attraction_id){
+    global $pdo;
+    $sql = "DELETE * FROM attractions WHERE attraction_id = :attraction_id";
+    $query = $pdo->prepare($sql);
+    $query->bindValue(':attraction_id', $attraction_id);
+    $query->execute();
+}

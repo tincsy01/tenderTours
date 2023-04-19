@@ -46,8 +46,6 @@
 include '../includes/header.php';
 require_once '../includes/config.php';
 require_once '../includes/db_config.php';
-//var_dump($_SESSION['permission']);
-//gettype($_SESSION['permission']);die();
 ?>
 <div class="main-banner">
     <div class="container">
@@ -79,8 +77,6 @@ require_once '../includes/db_config.php';
                 <ul class="categories">
                     <li><a href="cities.php"><span class="icon"><img src="../assets/images/search-icon-01.png" alt="Home"></span> Cities</a></li>
                     <li><a href="#"><span class="icon"><img src="../assets/images/search-icon-02.png" alt="Food"></span> Restaurants</a></li>
-<!--                    <li><a href="#"><span class="icon"><img src="assets/images/search-icon-03.png" alt="Vehicle"></span> Cars</a></li>-->
-<!--                    <li><a href="#"><span class="icon"><img src="assets/images/search-icon-04.png" alt="Shopping"></span> Shopping</a></li>-->
                     <li><a href="#"><span class="icon"><img src="../assets/images/search-icon-05.png" alt="Travel"></span> Tours</a></li>
                 </ul>
             </div>

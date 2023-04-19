@@ -17,7 +17,7 @@ $pdoOptions = [
     PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
-$actions = ['login', 'register', 'forget', 'make_attraction'];
+$actions = ['login', 'register', 'forget', 'make_attraction', 'update_attraction', 'delete_attraction'];
 
 $messages = [
     0 => 'No direct access!',

@@ -34,11 +34,13 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 ?>
 <script>
     $(document).ready(function () {
-       $("#update_button").click(function (){
-           $('input[name="name"]').val($(this).attr('name-data'));
+        $(".update_button").click(function (){
+           $('input[name="attraction_name"]').val($(this).attr('name-data'));
            $('input[name="longitude"]').val($(this).attr('longitude-data'));
            $('input[name="lattitude"]').val($(this).attr('lattitude-data'));
-           $('#update_save').attr('attraction-data', $(this).attr('attraction_id'))
+           //$('#update_save').attr('attraction-data', $(this).attr('attraction-data'))
+           $('input[name="attraction_id"]').val($(this).attr('attraction-data'))
+
            $('#update_window').css({
                display: "block"
            });
@@ -54,19 +56,28 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                 display: "none"
             });
         });
-        $('#update_save').click(function (){
-            $.post("../includes/functionalits.php", {
-                attraction_id: $(this).attr('attraction-data'),
+        $('.update_save').click(function (){
+            $.post("../includes/process.php", {
+                attraction_id: $('.update_input_id').val(),
                 name: $('.update_input_name').val(),
                 longitude: $('.update_input_longitude').val(),
                 lattitude: $('.update_input_lattitude ').val(),
-                update: "1"
+                action: 'update_attraction',
             }, function (data){
                 if (data.success) {
                     location.reload();
-            } else {
+                    alert(data.msg);
+                } else {
                     alert(data.msg);
             }
+            }, 'json');
+        });
+        $(".delete").click(function (){
+            $.post("../includes/process.php", {
+                attraction_id: $('.update_input_id').val(),
+                action: 'delete_attraction',
+            }, function (data){
+                location.reload();
             }, 'json');
         });
     });
@@ -146,19 +157,46 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                     <h2>List of your attractions</h2>
                 </div>
             </div>
-            <div class="col-lg-12">
-                <form id="search-form" name="make_attraction" method="post" action="../includes/process.php" role="make_attraction">
-                    <div class="row">
-                        <?php
-                        $sql = "SELECT attraction_id, name, longitude, lattitude, num_of_visitors, popularity_rating FROM attractions WHERE org_id = :org_id";
-                        $org_id = $_SESSION['user_id'];
-                        $query = $pdo->prepare($sql);
-                        $query->bindParam(':org_id', $org_id);
-                        $query->execute();
-                        $attractions = $query->fetchAll();
 
-//                        var_dump($attractions);die();
-                        $table = ' <table class="table">
+            <div class="col-lg-12">
+                <form id="search-form" name="update_attraction" method="post" role="update_attraction">
+<!--                   <div id="search-form" name="update_attraction" role="update_attraction">-->
+                       <div class="backdrop"></div>
+                       <div id="update_window" class="modal">
+                           <div class="close">x</div>
+                           <h3>Update Attraction</h3>
+                           <div class="col-lg-8 align-self-center">
+                               <fieldset>
+                                   <input type="text" id="update_attraction" name="attraction_name" class="searchText update_input_name" placeholder="Attraction name" autocomplete="on" required>
+                               </fieldset>
+                               <div class="col-lg-8 align-self-center">
+                                   <fieldset>
+                                       <input type="text" id="update_longitude" name="longitude" class="searchText update_input_longitude" placeholder="Longitude"  required>
+                                   </fieldset>
+                               </div>
+                               <div class="col-lg-8 align-self-center">
+                                   <fieldset>
+                                       <input type="text" id="update_lattitude" name="lattitude" class="searchText update_input_lattitude" placeholder="Lattitude" required>
+                                   </fieldset>
+                               </div>
+                               <div class="col-lg-3">
+                                   <fieldset>
+
+                                       <button class="main-button update_save" type="submit"><i class="fa fa-search"></i>Update Now</button>
+                                   </fieldset>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <?php
+                           $sql = "SELECT attraction_id, name, longitude, lattitude, num_of_visitors, popularity_rating FROM attractions WHERE org_id = :org_id";
+                           $org_id = $_SESSION['user_id'];
+                           $query = $pdo->prepare($sql);
+                           $query->bindParam(':org_id', $org_id);
+                           $query->execute();
+                           $attractions = $query->fetchAll();
+
+                           $table = ' <table class="table">
                             <thead>
                             <tr>
                             <!--  <th scope="col">#</th> -->
@@ -172,59 +210,41 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                             </tr>
                             </thead>
                             <tbody>';
-                        foreach ($attractions as $attraction) {
-                            $table .= '<tr scope="row">
+                           foreach ($attractions as $attraction) {
+                               $table .= '<tr scope="row">
                                             <td>' . $attraction['name'] . '</td>
                                             <td>' . $attraction['longitude'] . '</td>
                                             <td>' . $attraction['lattitude'] . '</td>
                                             <td>' . $attraction['num_of_visitors'] . '</td>
-                                            <td>' . $attraction['popularity_rating'] . '</td>
-                                            <td><button attraction-data="'.$attraction['attraction_id'].'" 
+                                            <td>' . $attraction['popularity'] . '</td>
+                                            <input type="hidden" name="action" value="update_attraction">
+                                            <td><button type="button" attraction-data="'.$attraction['attraction_id'].'" 
                                             name-data="'.$attraction['name'].'"
                                             longitude-data="'.$attraction['longitude'].'" 
                                             lattitude-data="'.$attraction['lattitude'].'"
-                                            id="update_button"><i class="bi bi-pencil"></i></button></td>
-                                            
+                                            class="update_button"><i class="bi bi-pencil"></i></button></td>
+                                            <input type="hidden" name="attraction_id" class="update_input_id" value="'.$attraction['attraction_id'].' />
+
+                                            <input type="hidden" name="action" value="delete_attraction">
+
                                             <td><button attraction-data="'.$attraction['attraction_id'].'"
-                                            name-data="'.$attraction['name'].'"
-                                            longitude-data="'.$attraction['longitude'].'" 
-                                            lattitude-data="'.$attraction['lattitude'].'"><i class="bi bi-trash3"></i></button></td>
+                                             class="delete">
+                                            <i class="bi bi-trash3"></i></button></td>
                                         </tr>';
-                        }
-                        $table .= '
+                               //var_dump($attraction['attraction_id'],$attraction['name']);
+
+                           }
+
+                           $table .= '
                                 </tbody>
                                 </table>
                             ';
-                        echo $table;
-                        ?>
-                    </div>
-                    <div class="backdrop"></div>
-                    <div id="update_window" class="modal">
-                        <div class="close">x</div>
-                        <h3>Update Attraction</h3>
-                        <div class="col-lg-8 align-self-center">
-                            <fieldset>
-                                <input type="text" id="update_attraction" name="attraction" class="searchText update_input_name" placeholder="Attraction name" autocomplete="on" required>
-                            </fieldset>
-                            <div class="col-lg-8 align-self-center">
-                                <fieldset>
-                                    <input type="text" id="update_longitude" name="longitude" class="searchText update_input_longitude" placeholder="Longitude"  required>
-                                </fieldset>
-                            </div>
-                            <div class="col-lg-8 align-self-center">
-                                <fieldset>
-                                    <input type="text" id="update_lattitude" name="lattitude" class="searchText update_input_lattitude" placeholder="Lattitude" required>
-                                </fieldset>
-                            </div>
+                           echo $table;
+                           ?>
+                       </div>
+<!--                   </div>-->
 
-                            <div class="col-lg-3">
-                                <fieldset>
-                                    <input type="hidden" name="action" value="update_attraction">
-                                    <button id="update_save" class="main-button" type="submit"><i class="fa fa-search"></i>Update Now</button>
-                                </fieldset>
-                            </div>
-                        </div>
-                    </div>
+                   <!-- itt volt-->
                 </form>
             </div>
         </div>

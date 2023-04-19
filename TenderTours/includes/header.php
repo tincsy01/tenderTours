@@ -20,6 +20,7 @@ session_start();
                             //var_dump($_SESSION);
                             echo '<li><a href="../pages/make_attractions.php">Attractions</a></li>';
                             echo '<li><a href="../pages/logout.php">Log Out</a></li>';
+                            echo '<li><a href="../pages/statistic.php">Statistics</a></li>';
                         }
                         elseif ($_SESSION['permission'] == 2 ){
                             //var_dump($_SESSION);
@@ -30,11 +31,12 @@ session_start();
                         else{
                             //var_dump($_SESSION);
                             echo '<li><a href="../pages/login.php">LogIn</a></li>';
+                            echo '<li><a href="../pages/cities.php">Cities</a></li>';
 
                         }
 
                         ?>
-                        <li><a href="../pages/cities.php">Cities</a></li>
+
 
                         <li><a href="../contact.html">Contact Us</a></li>
                         <li><div class="main-white-button"><a href="#"><i class="fa fa-plus"></i> Add Your Tours</a></div></li>

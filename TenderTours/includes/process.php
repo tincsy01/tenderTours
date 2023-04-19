@@ -11,6 +11,36 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 $referer = $_SERVER['HTTP_REFERER'];
 $action = $_POST["action"];
 
+if(isset($_POST['search'])){
+    $attractionName = isset($_GET['attraction_name']) ? $_GET['attraction_name'] : '';
+    $popularityRating = isset($_GET['popularity_rating']) ? $_GET['popularity_rating'] : '';
+    $numOfVisitors = isset($_GET['num_of_visitors']) ? $_GET['num_of_visitors'] : '';
+
+
+// Keresési lekérdezés összeállítása
+    $sql = "SELECT name, popularity_rating, num_of_visitors FROM attractions WHERE 1=1";
+    $params = array();
+    if (!empty($attractionName)) {
+        $sql .= " OR name LIKE :attractionName";
+        $params['attractionName'] = "%$attractionName%";
+    }
+    if (!empty($popularityRating)) {
+        $sql .= " OR popularity_rating LIKE :popularityRating";
+        $params['popularityRating'] = "%$popularityRating%";
+    }
+    if (!empty($numOfVisitors)) {
+        $sql .= " OR num_of_visitors LIKE :numOfVisitors";
+        $params['numOfVisitors'] = "%$numOfVisitors%";
+    }
+
+    $query = $dbh->prepare($sql);
+    $query->execute($params);
+
+// Eredmények visszaadása JSON formátumban
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($results);
+}
+
 
 if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) === false) {
 
@@ -135,6 +165,28 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             }
             break;
         case "update_attraction":
+            //var_dump("Akarmi",$_POST['name'], $_POST['attraction_id'], $_POST['lattitude'], $_POST['longitude']);die();
+
+            $attraction_id = $_POST['attraction_id'];
+            if(isset($_POST['name'])){
+                $name = $_POST['name'];
+            }
+            if(isset($_POST['longitude'])){
+                $longitude = $_POST['longitude'];
+            }
+            if(isset($_POST['lattitude'])){
+                $lattitude = $_POST['lattitude'];
+            }
+            $data = updateAttraction($attraction_id, $name, $longitude, $lattitude);
+            echo json_encode(['success'=> true, 'msg'=> 'Updated successfully']);
+            break;
+        case "delete_attraction":
+            //var_dump($_POST['attraction_id']);die();
+            $attraction_id = $_POST['attraction_id'];
+            if(isset($attraction_id)){
+                //$attraction_id = $_POST['attraction_id'];
+                $data = deleteAttraction($attraction_id);
+            }
             break;
         case "forget" :
             // To do
