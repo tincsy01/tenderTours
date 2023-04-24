@@ -98,13 +98,13 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                 <input type="text" id="attraction" name="attraction" class="searchText" placeholder="Attraction name" autocomplete="on" required>
                             </fieldset>
                         </div>
-                        <select name="city_id" >
+                        <select name="category_id" >
                             <?php
-                            $sql = "SELECT city_id, city_name FROM cities";
+                            $sql = "SELECT category_id, category FROM categories";
                             $query = $pdo->query($sql);
                             $cities = $query->fetchAll();?>
                             <?php foreach ($cities as  $city){ ?>
-                                <option class="searchText" value="<?php echo $city['city_id'];?>" name="city_id"><?php echo $city['city_name']?></option>';
+                                <option class="searchText" value="<?php echo $city['category_id'];?>" name="city_id"><?php echo $city['category']?></option>';
                             <?php }?>
                         </select>
 
@@ -118,7 +118,15 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                 <input type="text" id="lattitude" name="lattitude" class="searchText" placeholder="Lattitude" required>
                             </fieldset>
                         </div>
-
+                        <div class="col-lg-8 align-self-center">
+                            <fieldset>
+                                <input type="text" id="address" name="address" class="searchText" placeholder="Address" required>
+                            </fieldset>
+                        </div>
+                        <div class="col-lg-8 align-self-center">
+                            <textarea name="description" id="description" class="searchText" cols="30" rows="5" placeholder="Description">
+                            </textarea>
+                        </div>
                         <div class="col-lg-3">
                             <fieldset>
                                 <input type="hidden" name="action" value="make_attraction">
@@ -189,7 +197,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                        </div>
                        <div class="row">
                            <?php
-                           $sql = "SELECT attraction_id, name, longitude, lattitude, num_of_visitors, popularity_rating FROM attractions WHERE org_id = :org_id";
+                           $sql = "SELECT attraction_id, name, longitude, lattitude, num_of_visitors, popular FROM attractions WHERE org_id = :org_id";
                            $org_id = $_SESSION['user_id'];
                            $query = $pdo->prepare($sql);
                            $query->bindParam(':org_id', $org_id);
@@ -216,7 +224,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                             <td>' . $attraction['longitude'] . '</td>
                                             <td>' . $attraction['lattitude'] . '</td>
                                             <td>' . $attraction['num_of_visitors'] . '</td>
-                                            <td>' . $attraction['popularity'] . '</td>
+                                            <td>' . $attraction['popular'] . '</td>
                                             <input type="hidden" name="action" value="update_attraction">
                                             <td><button type="button" attraction-data="'.$attraction['attraction_id'].'" 
                                             name-data="'.$attraction['name'].'"

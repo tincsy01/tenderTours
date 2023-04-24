@@ -1,4 +1,111 @@
-
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <title>Bootstrap Table Example</title>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--    <!-- Add Bootstrap CSS -->-->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+<!--</head>-->
+<!--<body>-->
+<!---->
+<!--<div class="container">-->
+<!--    <h2>Bootstrap Table Example</h2>-->
+<!--    <p>Live Search:</p>-->
+<!--    <input class="form-control" id="myInput" type="text" placeholder="Search..">-->
+<!--    <br>-->
+<!--    <p>Sort by category:</p>-->
+<!--    <select class="form-control" id="category">-->
+<!--        <option value="">All</option>-->
+<!--        <option value="fruit">Fruit</option>-->
+<!--        <option value="vegetable">Vegetable</option>-->
+<!--        <option value="meat">Meat</option>-->
+<!--    </select>-->
+<!--    <br>-->
+<!--    <table class="table table-bordered">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Product Name</th>-->
+<!--            <th>Category</th>-->
+<!--            <th>Price</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody id="myTable">-->
+<!--        <tr>-->
+<!--            <td>Apple</td>-->
+<!--            <td>Fruit</td>-->
+<!--            <td>$0.99</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Orange</td>-->
+<!--            <td>Fruit</td>-->
+<!--            <td>$0.79</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Banana</td>-->
+<!--            <td>Fruit</td>-->
+<!--            <td>$0.59</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Carrot</td>-->
+<!--            <td>Vegetable</td>-->
+<!--            <td>$0.49</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Broccoli</td>-->
+<!--            <td>Vegetable</td>-->
+<!--            <td>$1.49</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Chicken</td>-->
+<!--            <td>Meat</td>-->
+<!--            <td>$2.99</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Beef</td>-->
+<!--            <td>Meat</td>-->
+<!--            <td>$4.99</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+<!---->
+<!--<!-- Add jQuery -->-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!---->
+<!--<!-- Add Bootstrap JS -->-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<!---->
+<!--<script>-->
+<!--    $(document).ready(function(){-->
+<!--        // Live Search-->
+<!--        $("#myInput").on("keyup", function() {-->
+<!--            var value = $(this).val().toLowerCase();-->
+<!--            $("#myTable tr").filter(function() {-->
+<!--                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);-->
+<!--            });-->
+<!--        });-->
+<!---->
+<!--        // Sort by category-->
+<!--        $("#category").on("change", function() {-->
+<!--            var value = $(this).val().toLowerCase();-->
+<!--            $("#myTable tr").filter(function() {-->
+<!--                if (value == "") {-->
+<!--                    $(this).toggle(true);-->
+<!--                } else {-->
+<!--                    return $(this).children("td:nth-child(2)").text().toLowerCase().indexOf(value) > -1;-->
+<!--                }-->
+<!--            }).toggle();-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+<!---->
+<!--</body>-->
+<!--</html>-->
+<?php
+session_start();
+?>
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,6 +124,8 @@
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../vendor/twbs/bootstrap-icons/icons" rel="stylesheet">
     <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="../assets/css/fontawesome.css">
@@ -125,11 +234,13 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 <?php
 require_once '../includes/footer.php';
 ?>
+
 <!-- Scripts -->
 <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/owl-carousel.js"></script>
 <script src="../assets/js/animation.js"></script>
 <script src="../assets/js/imagesloaded.js"></script>
 <script src="../assets/js/custom.js"></script>
+<!--<script src="../assets/js/script.js"></script>-->
 </body>
 </html>

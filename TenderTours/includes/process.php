@@ -11,35 +11,35 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 $referer = $_SERVER['HTTP_REFERER'];
 $action = $_POST["action"];
 
-if(isset($_POST['search'])){
-    $attractionName = isset($_GET['attraction_name']) ? $_GET['attraction_name'] : '';
-    $popularityRating = isset($_GET['popularity_rating']) ? $_GET['popularity_rating'] : '';
-    $numOfVisitors = isset($_GET['num_of_visitors']) ? $_GET['num_of_visitors'] : '';
-
-
-// Keresési lekérdezés összeállítása
-    $sql = "SELECT name, popularity_rating, num_of_visitors FROM attractions WHERE 1=1";
-    $params = array();
-    if (!empty($attractionName)) {
-        $sql .= " OR name LIKE :attractionName";
-        $params['attractionName'] = "%$attractionName%";
-    }
-    if (!empty($popularityRating)) {
-        $sql .= " OR popularity_rating LIKE :popularityRating";
-        $params['popularityRating'] = "%$popularityRating%";
-    }
-    if (!empty($numOfVisitors)) {
-        $sql .= " OR num_of_visitors LIKE :numOfVisitors";
-        $params['numOfVisitors'] = "%$numOfVisitors%";
-    }
-
-    $query = $dbh->prepare($sql);
-    $query->execute($params);
-
-// Eredmények visszaadása JSON formátumban
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode($results);
-}
+//if(isset($_POST['search'])){
+//    $attractionName = isset($_GET['attraction_name']) ? $_GET['attraction_name'] : '';
+//    $popularityRating = isset($_GET['popularity_rating']) ? $_GET['popularity_rating'] : '';
+//    $numOfVisitors = isset($_GET['num_of_visitors']) ? $_GET['num_of_visitors'] : '';
+//
+//
+//// Keresési lekérdezés összeállítása
+//    $sql = "SELECT name, popularity_rating, num_of_visitors FROM attractions WHERE 1=1";
+//    $params = array();
+//    if (!empty($attractionName)) {
+//        $sql .= " OR name LIKE :attractionName";
+//        $params['attractionName'] = "%$attractionName%";
+//    }
+//    if (!empty($popularityRating)) {
+//        $sql .= " OR popularity_rating LIKE :popularityRating";
+//        $params['popularityRating'] = "%$popularityRating%";
+//    }
+//    if (!empty($numOfVisitors)) {
+//        $sql .= " OR num_of_visitors LIKE :numOfVisitors";
+//        $params['numOfVisitors'] = "%$numOfVisitors%";
+//    }
+//
+//    $query = $dbh->prepare($sql);
+//    $query->execute($params);
+//
+//// Eredmények visszaadása JSON formátumban
+//    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//    echo json_encode($results);
+//}
 
 
 if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) === false) {
@@ -140,8 +140,8 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             if(isset($_POST['attraction'])){
                 $attraction = trim($_POST['attraction']);
             }
-            if(isset($_POST['city_id'])){
-                $city = trim($_POST['city_id']);
+            if(isset($_POST['category_id'])){
+                $category = trim($_POST['category_id']);
             }
             if(isset($_POST['longitude'])){
                 $longitude = trim($_POST['longitude']);
@@ -149,13 +149,20 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             if(isset($_POST['lattitude'])){
                 $lattitude = trim($_POST['lattitude']);
             }
-            if(empty($_POST['attraction']) OR empty($_POST['city_id']) OR empty($_POST['longitude']) OR empty($_POST['lattitude'])){
+            if(isset($_POST['description'])){
+                $description = trim($_POST['description']);
+            }
+            if(isset($_POST['address'])){
+                $address = trim($_POST['address']);
+            }
+
+            if(empty($_POST['attraction']) OR empty($_POST['category_id']) OR empty($_POST['longitude']) OR empty($_POST['lattitude']) OR empty($_POST['description']) OR empty($_POST['address'])){
 
                 redirection('../pages/make_attraction.php?r=4');
             }
             else{
-                if(!existAtrraction($city, $attraction, $longitude, $lattitude)) {
-                    $attraction_id= insertAttraction($city, $attraction, $longitude, $lattitude, $org_id);
+                if(!existAtrraction($category, $attraction, $longitude, $lattitude)) {
+                    $attraction_id= insertAttraction($category, $attraction, $longitude, $lattitude, $org_id, $description, $address);
                     redirection('../pages/make_attraction.php?r=15');
 
                 }

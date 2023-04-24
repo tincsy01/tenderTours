@@ -118,25 +118,34 @@ function existAtrraction($city, $attraction, $longitude, $lattitude): bool
 
 }
 
-/**Latvanyossag hozzaadasa
- * @param $city
+
+/**
+ * @param $category
  * @param $attraction
  * @param $longitude
  * @param $lattitude
+ * @param $org_id
  * @return void
  */
-function insertAttraction($city, $attraction, $longitude, $lattitude, $org_id){
+function insertAttraction($category, $attraction, $longitude, $lattitude, $org_id, $description, $address){
     global $pdo;
-    $sql = "INSERT INTO attractions (name, lattitude, longitude, city_id, org_id) VALUES (:name, :lattitude, :longitude, :city_id, :org_id)";
-   // $org_id = $_SESSION['user_id'];
-    $query = $pdo->prepare($sql);
-    $query->bindParam(':name', $attraction, PDO::PARAM_STR);
-    $query->bindParam(':lattitude', $lattitude, PDO::PARAM_STR);
-    $query->bindParam(':longitude', $longitude, PDO::PARAM_STR);
-    $query->bindParam(':city_id', $city, PDO::PARAM_STR);
-    $query->bindParam(':org_id', $org_id, PDO::PARAM_STR);
+    $sql1 = "SELECT city_id FROM organizations  WHERE org_id = :org_id";
+    $query1 = $pdo->prepare($sql1);
+    $query1->bindParam(':org_id', $org_id, PDO::PARAM_STR);
+    $query1->execute();
+    $city_id = $query1->fetch(PDO::FETCH_ASSOC)['city_id'];
 
-    $query->execute();
+    $sql2 = "INSERT INTO attractions (name, lattitude, longitude, category_id, org_id, city_id, description, address) VALUES (:name, :lattitude, :longitude, :category_id, :org_id, :city_id, :description, :address)";
+    $query2 = $pdo->prepare($sql2);
+    $query2->bindParam(':name', $attraction, PDO::PARAM_STR);
+    $query2->bindParam(':lattitude', $lattitude, PDO::PARAM_STR);
+    $query2->bindParam(':longitude', $longitude, PDO::PARAM_STR);
+    $query2->bindParam(':category_id', $category, PDO::PARAM_STR);
+    $query2->bindParam(':description', $description, PDO::PARAM_STR);
+    $query2->bindParam(':address', $address, PDO::PARAM_STR);
+    $query2->bindParam(':org_id', $org_id, PDO::PARAM_STR);
+    $query2->bindParam(':city_id', $city_id, PDO::PARAM_INT);
+    $query2->execute();
 }
 
 /**
