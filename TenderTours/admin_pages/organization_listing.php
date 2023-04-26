@@ -26,10 +26,50 @@
     <link href="../../Admin/Admin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../../Admin/Admin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
     <link href="../../Admin/Admin/assets/css/style.css" rel="stylesheet">
+
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
 </head>
 
 <body>
-
+<script>
+    $(document).ready(function () {
+        $(".updateBtn").click(function (){
+            $('input[name="org_name"]').val($(this).attr('name-data'));
+            $('select[name="banning"]').val($(this).attr('status-data'));
+            $('#update_window').css({
+                display: "block"
+            });
+            $('.backdrop').css({
+                display: "block"
+            });
+        });
+        $('.close').click(function (){
+            $('.modal').css({
+                display: "none"
+            });
+            $('.backdrop').css({
+                display: "none"
+            });
+        });
+        $('.update_save').click(function (){
+            $.post("../includes/process.php", {
+                org_id: $('.update_input_id').val(),
+                name: $('.org_name').val(),
+                banning: $('.banning').val(),
+                visible: $('.visibility').val(),
+                action: 'update_organization_admin',
+            }, function (data){
+                if (data.success) {
+                    location.reload();
+                    alert(data.msg);
+                } else {
+                    alert(data.msg);
+                }
+            }, 'json');
+        });
+    });
+</script>
 <!-- ======= Header ======= -->
 <?php
 require '../admin_includes/header.php';
@@ -56,8 +96,39 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">List of organization</h5>
+                        <div class="backdrop"></div>
+                        <div id="update_window" class="modal">
+                            <div class="close">x</div>
+                            <h3>Update Organization</h3>
+                            <div class="col-lg-9 align-self-center">
+                                <fieldset>
+                                    <input type="text" id="update_name" name="org_name" class="searchText org_name" placeholder="Organization name" autocomplete="on" required>
+                                </fieldset>
+                                <div class="col-lg-4">
+                                    <p>Banning user</p>
+                                    <select name="banning" id="banning" class="banning">
+                                        <option value="1">Not banned</option>
+                                        <option value="0">Banned</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4">
+                                    <p>Visibility</p>
+                                    <select name="visibility" id="visibility" class="visibility">
+                                        <option value="1">Visible</option>
+                                        <option value="0">Not visible</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4">
+                                    <fieldset>
+                                        <input type="hidden" name="action" value="update_organization_admin">
+                                        <button class="main-button update_save" type="submit"><i class="fa fa-search"></i>Update Now</button>
+                                    </fieldset>
+                                </div>
+
+                            </div>
+                        </div>
                         <?php
-                        $sql = "SELECT organizations.org_name, cities.city_name,organizations.active, organizations.city_id FROM organizations INNER JOIN cities  ON organizations.city_id = cities.city_id ";
+                        $sql = "SELECT organizations.org_id ,organizations.org_name, cities.city_name,organizations.active, organizations.status, organizations.city_id FROM organizations INNER JOIN cities  ON organizations.city_id = cities.city_id ";
                         $query = $pdo->query($sql);
                         $results = $query->fetchAll(PDO::FETCH_ASSOC);
                         $table = '<table>
@@ -76,12 +147,15 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                     <tr>
                                         <td>' . $row['org_name'] . '</td>
                                         <td>' . $row['city_name'] . '</td>
-                                      
+                                        
                                         <td>' . $row['active'] . '</td>
-                                        <td><button type="button" class="btn btn-outline-success col-2 updateBtn" 
-                            city-data="'.$row['city_id'].'"><i class="bi bi-pencil"></i></button></td>
+                                        
+                                        <td><button type="button" class="btn btn-outline-success update_input_id col-2 updateBtn" value="'.$row['org_id'].'"
+                            city-data="'.$row['city_name'].'" name-data="'.$row['org_name'].'" id-data="'.$row['org_id'].'" 
+                            status-data="'.$row['status'].'"><i class="bi bi-pencil"></i></button></td>
+                                        
                                         <td><button type="button" class="btn btn-outline-danger col-2 updateBtn" 
-                            city-data="'.$row['city_id'].'"><i class="bi bi-trash"></i></button></td>
+                            id-data="'.$row['org_id'].'><i class="bi bi-trash"></i></button></td>
                                     </tr>
                                     
                                 ';

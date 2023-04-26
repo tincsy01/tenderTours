@@ -427,3 +427,15 @@ function deleteAttraction($attraction_id){
     $query->bindValue(':attraction_id', $attraction_id);
     $query->execute();
 }
+function updateOrganization($org_id,$name,$banning, $visible){
+    global $pdo;
+    $sql = "UPDATE organizations SET org_name = :name, active = :banning, status = :visible WHERE org_id = :org_id ";
+    $query = $pdo->prepare($sql);
+    $query->bindValue(':name', $name);
+    $query->bindValue(':banning', $banning);
+    $query->bindValue(':visible', $visible);
+    $query->bindValue(':org_id', $org_id);
+    $query->execute();
+    return json_encode(['success'=> true, 'msg'=> 'Updated successfully']);
+
+}

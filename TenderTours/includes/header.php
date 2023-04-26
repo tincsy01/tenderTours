@@ -16,29 +16,31 @@ session_start();
                     <ul class="nav">
                         <li><a href="../pages/index.php" class="active">Home</a></li>
                         <?php
-                        if($_SESSION['permission']  == 3){
-                            //var_dump($_SESSION);
-                            echo '<li><a href="../pages/make_attractions.php">Attractions</a></li>';
-                            echo '<li><a href="../pages/logout.php">Log Out</a></li>';
-                            echo '<li><a href="../pages/statistic.php">Statistics</a></li>';
-                        }
-                        elseif ($_SESSION['permission'] == 2 ){
-                            //var_dump($_SESSION);
-                            echo '<li><a href="../pages/favourites.php">Favourites</a></li>';
-                            echo '<li><a href="../pages/mytours.php">My Tours</a></li>';
-                            echo '<li><a href="../pages/logout.php">Log Out</a></li>';
+                        if(isset($_SESSION['permission'])){
+                            switch ($_SESSION['permission']){
+                                case 2:
+                                    echo '<li><a href="../pages/favourites.php">Favourites</a></li>';
+                                    echo '<li><a href="../pages/mytours.php">My Tours</a></li>';
+                                    echo '<li><a href="../pages/logout.php">Log Out</a></li>';
+                                    break;
+                                case 3:
+                                    echo '<li><a href="../pages/make_attractions.php">Attractions</a></li>';
+                                    echo '<li><a href="../pages/statistic.php">Statistics</a></li>';
+                                    echo '<li><a href="../pages/logout.php">Log Out</a></li>';
+                                    break;
+                                default:
+//                                    echo '<li><a href="../pages/login.php">LogIn</a></li>';
+//                                    echo '<li><a href="../pages/cities.php">Cities</a></li>';
+
+                            }
                         }
                         else{
-                            //var_dump($_SESSION);
-                            echo '<li><a href="../pages/login.php">LogIn</a></li>';
-                            echo '<li><a href="../pages/cities.php">Cities</a></li>';
-
+                            echo '  <li><a href="../pages/login.php">LogIn</a></li>
+                                    <li><a href="../pages/cities.php">Cities</a></li>
+                                    <li><a href="../contact.html">Contact Us</a></li>';
                         }
-
                         ?>
 
-
-                        <li><a href="../contact.html">Contact Us</a></li>
                         <li><div class="main-white-button"><a href="#"><i class="fa fa-plus"></i> Add Your Tours</a></div></li>
                     </ul>
                     <a class='menu-trigger'>

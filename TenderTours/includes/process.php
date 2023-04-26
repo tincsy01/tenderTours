@@ -10,42 +10,13 @@ require_once 'functions.php';
 $pdo = connectDatabase($dsn, $pdoOptions);
 $referer = $_SERVER['HTTP_REFERER'];
 $action = $_POST["action"];
-
-//if(isset($_POST['search'])){
-//    $attractionName = isset($_GET['attraction_name']) ? $_GET['attraction_name'] : '';
-//    $popularityRating = isset($_GET['popularity_rating']) ? $_GET['popularity_rating'] : '';
-//    $numOfVisitors = isset($_GET['num_of_visitors']) ? $_GET['num_of_visitors'] : '';
-//
-//
-//// Keresési lekérdezés összeállítása
-//    $sql = "SELECT name, popularity_rating, num_of_visitors FROM attractions WHERE 1=1";
-//    $params = array();
-//    if (!empty($attractionName)) {
-//        $sql .= " OR name LIKE :attractionName";
-//        $params['attractionName'] = "%$attractionName%";
-//    }
-//    if (!empty($popularityRating)) {
-//        $sql .= " OR popularity_rating LIKE :popularityRating";
-//        $params['popularityRating'] = "%$popularityRating%";
-//    }
-//    if (!empty($numOfVisitors)) {
-//        $sql .= " OR num_of_visitors LIKE :numOfVisitors";
-//        $params['numOfVisitors'] = "%$numOfVisitors%";
-//    }
-//
-//    $query = $dbh->prepare($sql);
-//    $query->execute($params);
-//
-//// Eredmények visszaadása JSON formátumban
-//    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//    echo json_encode($results);
-//}
-
+//var_dump($action);die();
 
 if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) === false) {
 
-
+    //var_dump($action);die();
     switch ($action) {
+
         case "login":
             $username = trim($_POST["loginUsername"]);
             $password = trim($_POST["loginPassword"]);
@@ -187,6 +158,7 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             $data = updateAttraction($attraction_id, $name, $longitude, $lattitude);
             echo json_encode(['success'=> true, 'msg'=> 'Updated successfully']);
             break;
+
         case "delete_attraction":
             //var_dump($_POST['attraction_id']);die();
             $attraction_id = $_POST['attraction_id'];
@@ -195,6 +167,21 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
                 $data = deleteAttraction($attraction_id);
             }
             break;
+        case "update_organization_admin":
+
+            $org_id = $_POST['org_id'];
+            if(isset($_POST['name'])){
+                $name = $_POST['name'];
+            }
+            if(isset($_POST['banning'])){
+                $banning = $_POST['banning'];
+            }
+            if(isset($_POST['visible'])){
+                $visible = $_POST['visible'];
+            }
+            $data = updateOrganization($org_id,$name,$banning, $visible );
+            break;
+
         case "forget" :
             // To do
             break;
@@ -205,6 +192,9 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
     }
 
 } else {
-    echo 'nem men bele';
+    echo 'nem megy bele';
+    //var_dump($action);
+    //var_dump($_POST['action'],$_POST['name'],$_POST['banning'], $_POST['visible'] );die();
+
     //redirection('../pages/register.php');
 }
