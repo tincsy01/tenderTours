@@ -125,9 +125,12 @@ function existAtrraction($city, $attraction, $longitude, $lattitude): bool
  * @param $longitude
  * @param $lattitude
  * @param $org_id
+ * @param $description
+ * @param $address
+ * @param $newFileName
  * @return void
  */
-function insertAttraction($category, $attraction, $longitude, $lattitude, $org_id, $description, $address){
+function insertAttraction($category, $attraction, $longitude, $lattitude, $org_id, $description, $address, $newFileName){
     global $pdo;
     $sql1 = "SELECT city_id FROM organizations  WHERE org_id = :org_id";
     $query1 = $pdo->prepare($sql1);
@@ -135,7 +138,7 @@ function insertAttraction($category, $attraction, $longitude, $lattitude, $org_i
     $query1->execute();
     $city_id = $query1->fetch(PDO::FETCH_ASSOC)['city_id'];
 
-    $sql2 = "INSERT INTO attractions (name, lattitude, longitude, category_id, org_id, city_id, description, address) VALUES (:name, :lattitude, :longitude, :category_id, :org_id, :city_id, :description, :address)";
+    $sql2 = "INSERT INTO attractions (name, lattitude, longitude, category_id, org_id, city_id, description, address, image) VALUES (:name, :lattitude, :longitude, :category_id, :org_id, :city_id, :description, :address, :image)";
     $query2 = $pdo->prepare($sql2);
     $query2->bindParam(':name', $attraction, PDO::PARAM_STR);
     $query2->bindParam(':lattitude', $lattitude, PDO::PARAM_STR);
@@ -145,7 +148,22 @@ function insertAttraction($category, $attraction, $longitude, $lattitude, $org_i
     $query2->bindParam(':address', $address, PDO::PARAM_STR);
     $query2->bindParam(':org_id', $org_id, PDO::PARAM_STR);
     $query2->bindParam(':city_id', $city_id, PDO::PARAM_INT);
+    $query2->bindParam(':image', $newFileName, PDO::PARAM_STR);
     $query2->execute();
+
+//
+//    $sql2 = "INSERT INTO attractions (name, lattitude, longitude, category_id, org_id, city_id, description, address, image) VALUES (:name, :lattitude, :longitude, :category_id, :org_id, :city_id, :description, :address, :image)";
+//    $query2 = $pdo->prepare($sql2);
+//    $query2->bindParam(':name', $attraction, PDO::PARAM_STR);
+//    $query2->bindParam(':lattitude', $lattitude, PDO::PARAM_STR);
+//    $query2->bindParam(':longitude', $longitude, PDO::PARAM_STR);
+//    $query2->bindParam(':category_id', $category, PDO::PARAM_STR);
+//    $query2->bindParam(':description', $description, PDO::PARAM_STR);
+//    $query2->bindParam(':address', $address, PDO::PARAM_STR);
+//    $query2->bindParam(':org_id', $org_id, PDO::PARAM_STR);
+//    $query2->bindParam(':city_id', $city_id, PDO::PARAM_INT);
+//    $query2->bindParam(':image', $newFileName, PDO::PARAM_STR);
+//    $query2->execute();
 }
 
 /**
@@ -436,6 +454,6 @@ function updateOrganization($org_id,$name,$banning, $visible){
     $query->bindValue(':visible', $visible);
     $query->bindValue(':org_id', $org_id);
     $query->execute();
-    return json_encode(['success'=> true, 'msg'=> 'Updated successfully']);
+     return json_encode(['success'=> true, 'msg'=> 'Updated successfully']);
 
 }

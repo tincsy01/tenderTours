@@ -36,4 +36,5 @@ $messages = [
     13 => 'City with this name already exists.',
     14 => 'Attraction with this location and name already exists.',
     15 => 'The attraction is added.',
+    16 => 'Something went wrong during image upload. Please try again.',
 ];

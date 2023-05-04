@@ -1399,3 +1399,26 @@ input:focus ~ .highlight {
   width: fit-content;
   background-color: #FFFFFF;
 }
+
+/*attraction listazas*/
+.attractionOnly{
+  background-color: #FFFFFF;
+  margin: 0 auto;
+}
+/*@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Libre+Baskerville&display=swap');*/
+
+.attraction-name{
+  /*font-family: "Nunito", sans-serif;*/
+  font-family: "Baskerville Old Face", sans-serif;
+  font-style: italic;
+  font-size: 25px;
+}
+.attraction-description{
+  font-family: "Baskerville Old Face", sans-serif;
+  font-style: italic;
+  background-color: #643A6B;
+  color: #FFFFFF;
+  font-size: 18px;
+  padding: 15px;
+  border-radius: 5px;
+}

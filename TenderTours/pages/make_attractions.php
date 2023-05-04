@@ -91,7 +91,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                 </div>
             </div>
             <div class="col-lg-12">
-                <form id="search-form" name="make_attraction" method="post" action="../includes/process.php" role="make_attraction">
+                <form id="search-form" name="make_attraction" method="post" action="../includes/process.php" role="make_attraction" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-8 align-self-center">
                             <fieldset>
@@ -118,6 +118,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                 <input type="text" id="lattitude" name="lattitude" class="searchText" placeholder="Lattitude" required>
                             </fieldset>
                         </div>
+
                         <div class="col-lg-8 align-self-center">
                             <fieldset>
                                 <input type="text" id="address" name="address" class="searchText" placeholder="Address" required>
@@ -126,6 +127,14 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                         <div class="col-lg-8 align-self-center">
                             <textarea name="description" id="description" class="searchText" cols="30" rows="5" placeholder="Description">
                             </textarea>
+                        </div>
+                        <div class="col-lg-8 align-self-center">
+                            <fieldset>
+                                <input type="file" id="image" name="image" placeholder="image" accept="image/jpeg">
+                                <div id="imageHelp">
+                                    Upload only JPG images!
+                                </div>
+                            </fieldset>
                         </div>
                         <div class="col-lg-3">
                             <fieldset>
@@ -220,7 +229,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                             <tbody>';
                            foreach ($attractions as $attraction) {
                                $table .= '<tr scope="row">
-                                            <td>' . $attraction['name'] . '</td>
+                                            <td><a href="attraction.php?attraction_id='.$attraction['attraction_id'].'">' . $attraction['name'] . '</a></td>
                                             <td>' . $attraction['longitude'] . '</td>
                                             <td>' . $attraction['lattitude'] . '</td>
                                             <td>' . $attraction['num_of_visitors'] . '</td>
