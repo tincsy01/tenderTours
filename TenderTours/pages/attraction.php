@@ -75,9 +75,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
             map: map
         });
     }
-    function getImage(){
-
-    }
 </script>
 <div class="main-banner">
     <div class="container">

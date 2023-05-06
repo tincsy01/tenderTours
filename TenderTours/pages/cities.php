@@ -9,7 +9,9 @@
     <meta name="author" content="">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+    <title>TenderTours</title>
     <title>TenderTours</title>
 
     <!-- Bootstrap core CSS -->
@@ -26,20 +28,49 @@
 </head>
 
 <body>
-<!-- ***** Preloader Start ***** -->
-<!--<div id="js-preloader" class="js-preloader">-->
-<!--    <div class="preloader-inner">-->
-<!--        <span class="dot"></span>-->
-<!--        <div class="dots">-->
-<!--            <span></span>-->
-<!--            <span></span>-->
-<!--            <span></span>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+
 <?php
 include '../includes/header.php';
+require_once '../includes/config.php';
+require_once '../includes/db_config.php';
+$pdo = connectDatabase($dsn, $pdoOptions);
 ?>
+<script>
+
+    function getCities() {
+        $.ajax({
+            url: "../ajax/get_cities.php",
+            method: "GET",
+            dataType: "json" // Itt jelezzük, hogy JSON formátumban várjuk a választ
+        }).done(function (data) {
+            insertCities(data);
+        }).fail(function (err) {
+            console.log("error");
+        });
+    }
+    function insertCities(cities) {
+        const cityContainer = document.querySelector('.city-container');
+        var listing = document.getElementById("listing");
+        for (var i = 0; i < cities.length; i++) {
+        var city = cities[i];
+        var item = document.createElement("div");
+        item.classList.add("listing-item");
+        item.innerHTML = `
+                <div class="left-image">
+                    <a href="#"><img src="../images/cities/${city.image}" alt="City image" ></a>
+                </div>
+                <div class="right-content align-self-center">
+                    <a href="#"><h4>${city.city_name}</h4></a>
+                    <div class="main-white-button">
+                        <a href="../contact.html"><i class="fa fa-eye"></i> View Now</a>
+                    </div>
+                </div>`;
+        listing.appendChild(item);
+        }
+    }
+    getCities();
+</script>
+
 <div class="main-banner">
     <div class="recent-listing">
         <div class="container">
@@ -54,88 +85,32 @@ include '../includes/header.php';
                     <div class="owl-carousel owl-listing">
                         <div class="item">
                             <div class="row">
+
                                 <div class="col-lg-12">
-                                    <div class="listing-item">
-                                        <div class="left-image">
-                                            <a href="#"><img src="../budapest.jpg" alt=""></a>
-                                        </div>
-                                        <div class="right-content align-self-center">
-                                            <a href="#"><h4>Budapest</h4></a>
+                                    <div id="listing">
+
+                                    </div>
+<!--                                    <div class="listing-item">-->
+
+<!--                                        <div class="left-image">-->
+<!--                                            <a href="#"><img src="../budapest.jpg" alt=""></a>-->
+<!--                                        </div>-->
+<!--                                        <div class="right-content align-self-center">-->
+<!--                                            <a href="#"><h4>Budapest</h4></a>-->
                                             <!--                                        <h6>by: Sale Agent</h6>-->
-                                            <ul class="rate">
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li>(18) Reviews</li>
-                                            </ul>
-                                            <!--                                        <span class="price"><div class="icon"><img src="budapest.jpg" alt=""></div> $450 - $950 / month with taxes</span>-->
-                                            <!--                                        <span class="details">Details: <em>2760 sq ft</em></span>-->
-                                            <!--                                        <ul class="info">-->
-                                            <!--                                            <li><img src="assets/images/listing-icon-02.png" alt=""> 4 Bedrooms</li>-->
-                                            <!--                                            <li><img src="assets/images/listing-icon-03.png" alt=""> 4 Bathrooms</li>-->
-                                            <!--                                        </ul>-->
-                                            <div class="main-white-button">
-                                                <a href="../contact.html"><i class="fa fa-eye"></i> View Now</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="listing-item">
-                                        <div class="left-image">
-                                            <a href="#"><img src="../subotica.jpg" alt=""></a>
-                                        </div>
-                                        <div class="right-content align-self-center">
-                                            <a href="#"><h4>Subotica</h4></a>
-                                            <!--                                        <h6>by: Top Sale Agent</h6>-->
-                                            <ul class="rate">
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li>(24) Reviews</li>
-                                            </ul>
-                                            <!--                                        <span class="price"><div class="icon"><img src="assets/images/listing-icon-01.png" alt=""></div> $1,400 - $3,500 / month with taxes</span>-->
-                                            <!--                                        <span class="details">Details: <em>3650 sq ft</em></span>-->
-                                            <!--                                        <ul class="info">-->
-                                            <!--                                            <li><img src="assets/images/listing-icon-02.png" alt=""> 4 Bedrooms</li>-->
-                                            <!--                                            <li><img src="assets/images/listing-icon-03.png" alt=""> 3 Bathrooms</li>-->
-                                            <!--                                        </ul>-->
-                                            <div class="main-white-button">
-                                                <a href="../contact.html"><i class="fa fa-eye"></i> View Now</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="listing-item">
-                                        <div class="left-image">
-                                            <a href="#"><img src="../london.jpg" alt=""></a>
-                                        </div>
-                                        <div class="right-content align-self-center">
-                                            <a href="#"><h4>London</h4></a>
-                                            <!--                                        <h6>by: Best Property</h6>-->
-                                            <ul class="rate">
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li>(36) Reviews</li>
-                                            </ul>
-                                            <!--                                        <span class="price"><div class="icon"><img src="assets/images/listing-icon-01.png" alt=""></div> $1,500 - $3,600 / month with taxes</span>-->
-                                            <!--                                        <span class="details">Details: <em>5500 sq ft</em></span>-->
-                                            <!--                                        <ul class="info">-->
-                                            <!--                                            <li><img src="assets/images/listing-icon-02.png" alt=""> 4 Bedrooms</li>-->
-                                            <!--                                            <li><img src="assets/images/listing-icon-03.png" alt=""> 3 Bathrooms</li>-->
-                                            <!--                                        </ul>-->
-                                            <div class="main-white-button">
-                                                <a href="../contact.html"><i class="fa fa-eye"></i> View Now</a>
-                                            </div>
-                                        </div>
+<!--                                            <ul class="rate">-->
+<!--                                                <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                <li>(18) Reviews</li>-->
+<!--                                            </ul>-->
+<!--                                            <div class="main-white-button">-->
+<!--                                                <a href="../contact.html"><i class="fa fa-eye"></i> View Now</a>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
                                     </div>
                                 </div>
                             </div>
@@ -158,8 +133,6 @@ require_once '../includes/footer.php';
 <script src="../assets/js/animation.js"></script>
 <script src="../assets/js/imagesloaded.js"></script>
 <script src="../assets/js/custom.js"></script>
-
 </body>
-
 </html>
 
