@@ -75,6 +75,9 @@ $pdo = connectDatabase($dsn, $pdoOptions);
             map: map
         });
     }
+    function getImage(){
+
+    }
 </script>
 <div class="main-banner">
     <div class="container">
@@ -84,12 +87,22 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 <!--                    <h2>List of your attractions</h2>-->
 <!--                </div>-->
 <!--            </div>-->
-            <div id="map" style="height: 400px;" class="col-lg-4 col-sm-4 col-xs-4"></div>
 
+            <div class="attractionImage col-lg-4 col-sm-4 col-xs-4">
+                <?php
+                $attraction_id = $_GET['attraction_id'];
+                $sql = "SELECT image FROM attractions WHERE attraction_id = :attraction_id";
+                $query = $pdo->prepare($sql);
+                $query->bindValue(':attraction_id', $attraction_id);
+                $query->execute();
+                $image = $query->fetchColumn();
+                ?>
+                <img src="../images/attractions/<?php echo $image; ?>" alt="Attraction image">
+            </div>
             <div id="attraction" class="col-lg-6 col-sm-6 col-xs-6">
                 <?php
                 if(isset($_GET['attraction_id'])){
-                    $attraction_id = $_GET['attraction_id'];
+//                    $attraction_id = $_GET['attraction_id'];
                     $sql = "SELECT attraction_id, image, popular, address, description, name, longitude, lattitude  FROM attractions WHERE attraction_id = :attraction_id";
                     $query = $pdo->prepare($sql);
                     $query->bindValue(':attraction_id', $attraction_id);
@@ -104,7 +117,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                 ?>
 
             </div>
-<!--            <div id="map" style="height: 400px"></div>-->
+            <div id="map" style="height: 400px;" class="col-lg-4 col-sm-4 col-xs-4"></div>
 
         </div>
     </div>

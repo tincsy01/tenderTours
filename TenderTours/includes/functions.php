@@ -151,19 +151,7 @@ function insertAttraction($category, $attraction, $longitude, $lattitude, $org_i
     $query2->bindParam(':image', $newFileName, PDO::PARAM_STR);
     $query2->execute();
 
-//
-//    $sql2 = "INSERT INTO attractions (name, lattitude, longitude, category_id, org_id, city_id, description, address, image) VALUES (:name, :lattitude, :longitude, :category_id, :org_id, :city_id, :description, :address, :image)";
-//    $query2 = $pdo->prepare($sql2);
-//    $query2->bindParam(':name', $attraction, PDO::PARAM_STR);
-//    $query2->bindParam(':lattitude', $lattitude, PDO::PARAM_STR);
-//    $query2->bindParam(':longitude', $longitude, PDO::PARAM_STR);
-//    $query2->bindParam(':category_id', $category, PDO::PARAM_STR);
-//    $query2->bindParam(':description', $description, PDO::PARAM_STR);
-//    $query2->bindParam(':address', $address, PDO::PARAM_STR);
-//    $query2->bindParam(':org_id', $org_id, PDO::PARAM_STR);
-//    $query2->bindParam(':city_id', $city_id, PDO::PARAM_INT);
-//    $query2->bindParam(':image', $newFileName, PDO::PARAM_STR);
-//    $query2->execute();
+
 }
 
 /**
@@ -321,53 +309,87 @@ function registerOrganization($name, $city, $username,$email, $password, $phone,
         isset($_POST['password']) AND !empty($_POST['password']) AND isset($_POST['phone']) AND !empty($_POST['phone']) AND
         isset($_POST['description']) AND !empty($_POST['description']) AND isset($_POST['address']) AND !empty($_POST['address'])) {
 
-
         $sql1 = "UPDATE cities SET organization_name = :org_name WHERE city_name = :city_name";
-        $query = $pdo->prepare($sql1);
+        $query1 = $pdo->prepare($sql1); // másik változó nevet használunk
 
-        $query->bindParam(':org_name', $name, PDO::PARAM_STR);
-        $query->bindParam(':city_name', $city, PDO::PARAM_STR);
-        $query->execute();
+        $query1->bindParam(':org_name', $name, PDO::PARAM_STR);
+        $query1->bindParam(':city_name', $city, PDO::PARAM_STR);
+        $query1->execute();
 
+// a city_id lekérdezésekor nincs szükség prepare-re, elég a query-t futtatni
         $sql2 = "SELECT city_id FROM cities WHERE city_name = '$city'";
-        $query = $pdo->prepare($sql2);
-        $city_id = $query->execute();
-       // $query->execute();
+        $query2 = $pdo->query($sql2);
+        $city_id = $query2->fetchColumn(); // a city_id-nek egyetlen értéket adunk át, ezért fetchColumn-t használunk
 
         $sql3 = "INSERT INTO organizations(org_name, city_id, username, email, password, phone, address, description, code, reg_expire) VALUES
-                            (:org_name, :city_id,  :username, :email, :password, :phone, :address , :description, :code, :reg_expire)";
+                (:org_name, :city_id,  :username, :email, :password, :phone, :address , :description, :code, :reg_expire)";
 
         $passwordHashed = password_hash($password, PASSWORD_BCRYPT);
         $active = 0;
         $datetime = new DateTime('tomorrow');
         $reg_expire= $datetime->format('Y-m-d H:i:s');
-        //$city_id = $pdo->lastInsertId();
 
-        $query = $pdo->prepare($sql3);
-        $query->bindParam(':org_name', $name, PDO::PARAM_STR);
-        $query->bindParam(':city_id', $city_id, PDO::PARAM_STR);
-        $query->bindParam(':username', $username, PDO::PARAM_STR);
-        $query->bindParam(':email', $email, PDO::PARAM_STR);
-        $query->bindParam(':password', $passwordHashed, PDO::PARAM_STR);
-        $query->bindParam(':address', $address, PDO::PARAM_STR);
-        $query->bindParam(':description', $description, PDO::PARAM_STR);
-        $query->bindParam(':phone', $phone, PDO::PARAM_STR);
-        $query->bindParam(':reg_expire', $reg_expire, PDO::PARAM_STR);
-        //$query->bindParam(':active', $active, PDO::PARAM_STR);
-        $query->bindParam(':code', $code, PDO::PARAM_STR);
+        $query3 = $pdo->prepare($sql3);
+        $query3->bindParam(':org_name', $name, PDO::PARAM_STR);
+        $query3->bindParam(':city_id', $city_id, PDO::PARAM_INT); // a city_id egy integer érték, ezért PARAM_INT
+        $query3->bindParam(':username', $username, PDO::PARAM_STR);
+        $query3->bindParam(':email', $email, PDO::PARAM_STR);
+        $query3->bindParam(':password', $passwordHashed, PDO::PARAM_STR);
+        $query3->bindParam(':address', $address, PDO::PARAM_STR);
+        $query3->bindParam(':description', $description, PDO::PARAM_STR);
+        $query3->bindParam(':phone', $phone, PDO::PARAM_STR);
+        $query3->bindParam(':reg_expire', $reg_expire, PDO::PARAM_STR);
+        $query3->bindParam(':code', $code, PDO::PARAM_STR);
 
-        $query->execute();
+        $query3->execute();
+//        $sql1 = "UPDATE cities SET organization_name = :org_name WHERE city_name = :city_name";
+//        $query = $pdo->prepare($sql1);
+//
+//        $query->bindParam(':org_name', $name, PDO::PARAM_STR);
+//        $query->bindParam(':city_name', $city, PDO::PARAM_STR);
+//        $query->execute();
+
+
+//        $sql2 = "SELECT city_id FROM cities WHERE city_name = '$city'";
+//        $query = $pdo->prepare($sql2);
+//        $city_id = $query->execute();
+//        $query->execute();
+
+//        $sql3 = "INSERT INTO organizations(org_name, city_id, username, email, password, phone, address, description, code, reg_expire) VALUES
+//                            (:org_name, :city_id,  :username, :email, :password, :phone, :address , :description, :code, :reg_expire)";
+//
+//        $passwordHashed = password_hash($password, PASSWORD_BCRYPT);
+//        $active = 0;
+//        $datetime = new DateTime('tomorrow');
+//        $reg_expire= $datetime->format('Y-m-d H:i:s');
+//        $city_id = $pdo->lastInsertId();
+//
+//        $query = $pdo->prepare($sql3);
+//        $query->bindParam(':org_name', $name, PDO::PARAM_STR);
+//        $query->bindParam(':city_id', $city_id, PDO::PARAM_STR);
+//        $query->bindParam(':username', $username, PDO::PARAM_STR);
+//        $query->bindParam(':email', $email, PDO::PARAM_STR);
+//        $query->bindParam(':password', $passwordHashed, PDO::PARAM_STR);
+//        $query->bindParam(':address', $address, PDO::PARAM_STR);
+//        $query->bindParam(':description', $description, PDO::PARAM_STR);
+//        $query->bindParam(':phone', $phone, PDO::PARAM_STR);
+//        $query->bindParam(':reg_expire', $reg_expire, PDO::PARAM_STR);
+        //$query->bindParam(':active', $active, PDO::PARAM_STR); mar eleve kommentelve volt
+//        $query->bindParam(':code', $code, PDO::PARAM_STR);
+//
+//        $query->execute();
 
         //var_dump($name, $city,$city_id, $username, $email,$passwordHashed, $address,$description, $phone, $reg_expire, $code   );die();
     }
 }
-function addCity($city, $lattitude, $longitude){
+function addCity($city, $lattitude, $longitude, $newFileName){
     global $pdo;
-    $sql = "INSERT INTO cities (city_name, longitude, lattitude) VALUES (:city, :longitude, :lattitude)";
+    $sql = "INSERT INTO cities (city_name, longitude, lattitude, image) VALUES (:city, :longitude, :lattitude, :image)";
     $query = $pdo->prepare($sql);
     $query->bindParam(':city', $city);
     $query->bindParam(':longitude', $longitude);
     $query->bindParam(':lattitude', $lattitude);
+    $query->bindParam(':image', $newFileName);
     $query->execute();
 
 

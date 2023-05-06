@@ -45,7 +45,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
         <h1>Form Elements</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../../Admin/Admin/index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                 <li class="breadcrumb-item">Forms</li>
                 <li class="breadcrumb-item active">Elements</li>
             </ol>
@@ -63,13 +63,13 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                         <!-- General Form Elements -->
                         <form method="post" action="../includes/add_organization.php">
                             <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Organisation name</label>
+<!--                                <label for="inputText" class="col-sm-2 col-form-label">Organisation name</label>-->
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="name">
+                                    <input type="text" class="form-control" name="name" placeholder="Organisation name">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">City</label>
+<!--                                <label for="inputText" class="col-sm-2 col-form-label">City</label>-->
                                 <div class="col-sm-10">
                                     <?php
                                     $query = $pdo->prepare("SELECT city_id, city_name FROM cities WHERE organization_name = ''");
@@ -85,39 +85,39 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Username</label>
+<!--                                <label for="inputText" class="col-sm-2 col-form-label">Username</label>-->
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="username">
+                                    <input type="text" class="form-control" name="username" placeholder="Username">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+<!--                                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>-->
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" name="email">
+                                    <input type="email" class="form-control" name="email" placeholder="Email">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+<!--                                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>-->
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control" name="password">
+                                    <input type="password" class="form-control" name="password" placeholder="Password">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputNumber" class="col-sm-2 col-form-label">Phone</label>
+<!--                                <label for="inputNumber" class="col-sm-2 col-form-label">Phone</label>-->
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="phone">
+                                    <input type="text" class="form-control" name="phone" placeholder="Phone">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Address</label>
+<!--                                <label for="inputText" class="col-sm-2 col-form-label">Address</label>-->
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="address">
+                                    <input type="text" class="form-control" name="address" placeholder="Address">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">From organization</label>
+<!--                                <label for="inputText" class="col-sm-2 col-form-label">From organization</label>-->
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" style="height: 100px" name="description"></textarea>
+                                    <textarea class="form-control" style="height: 100px" name="description" placeholder="From organization"></textarea>
                                 </div>
                             </div>
                             <div class="row mb-3">

@@ -95,37 +95,40 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                     <div class="row">
                         <div class="col-lg-8 align-self-center">
                             <fieldset>
-                                <input type="text" id="attraction" name="attraction" class="searchText" placeholder="Attraction name" autocomplete="on" required>
+                                <input type="text" id="attraction" name="attraction" class="form-control" placeholder="Attraction name" autocomplete="on" required>
                             </fieldset>
                         </div>
-                        <select name="category_id" >
-                            <?php
-                            $sql = "SELECT category_id, category FROM categories";
-                            $query = $pdo->query($sql);
-                            $cities = $query->fetchAll();?>
-                            <?php foreach ($cities as  $city){ ?>
-                                <option class="searchText" value="<?php echo $city['category_id'];?>" name="city_id"><?php echo $city['category']?></option>';
-                            <?php }?>
-                        </select>
+                        <div class="col-lg-8 align-self-center">
+                            <select name="category_id" class="form-select col-lg-8">
+                                <?php
+                                $sql = "SELECT category_id, category FROM categories";
+                                $query = $pdo->query($sql);
+                                $cities = $query->fetchAll();?>
+                                <?php foreach ($cities as  $city){ ?>
+                                    <option class="searchText" value="<?php echo $city['category_id'];?>" name="city_id"><?php echo $city['category']?></option>';
+                                <?php }?>
+                            </select>
+                        </div>
+
 
                         <div class="col-lg-8 align-self-center">
                             <fieldset>
-                                <input type="text" id="longitude" name="longitude" class="searchText" placeholder="Longitude"  required>
+                                <input type="text" id="longitude" name="longitude" class="form-control" placeholder="Longitude"  required>
                             </fieldset>
                         </div>
                         <div class="col-lg-8 align-self-center">
                             <fieldset>
-                                <input type="text" id="lattitude" name="lattitude" class="searchText" placeholder="Lattitude" required>
+                                <input type="text" id="lattitude" name="lattitude" class="form-control" placeholder="Lattitude" required>
                             </fieldset>
                         </div>
 
                         <div class="col-lg-8 align-self-center">
                             <fieldset>
-                                <input type="text" id="address" name="address" class="searchText" placeholder="Address" required>
+                                <input type="text" id="address" name="address" class="form-control" placeholder="Address" required>
                             </fieldset>
                         </div>
                         <div class="col-lg-8 align-self-center">
-                            <textarea name="description" id="description" class="searchText" cols="30" rows="5" placeholder="Description">
+                            <textarea name="description" id="description" class="form-control" cols="30" rows="5" placeholder="Description">
                             </textarea>
                         </div>
                         <div class="col-lg-8 align-self-center">

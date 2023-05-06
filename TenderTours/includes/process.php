@@ -3,18 +3,12 @@ require_once 'config.php';
 require_once 'db_config.php';
 require_once 'functions.php';
 
-//session_start();
-
-//require '../vendor/autoload.php';
-
 $pdo = connectDatabase($dsn, $pdoOptions);
 $referer = $_SERVER['HTTP_REFERER'];
 $action = $_POST["action"];
-//var_dump($action);die();
 
 if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) === false) {
 
-    //var_dump($action);die();
     switch ($action) {
 
         case "login":
@@ -150,7 +144,7 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
                     exit();
                 }
 
-                $directory = "../attractions/";
+                $directory = "../images/attractions/";
                 $newFileName = time() . '-' . $attraction. '-' . mt_rand(10, 100) . '.' . $extension;
 
                 if (!move_uploaded_file($image['tmp_name'], $directory . $newFileName)) {
@@ -170,58 +164,7 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
                 }
             }
             break;
-//        case "make_attraction":
-//            $org_id = $_SESSION['user_id'];
-//            $image = $_FILES['image'];
-//            $newFileName = "";
-//            if(isset($_POST['attraction'])){
-//                $attraction = trim($_POST['attraction']);
-//            }
-//            if(isset($_POST['category_id'])){
-//                $category = trim($_POST['category_id']);
-//            }
-//            if(isset($_POST['longitude'])){
-//                $longitude = trim($_POST['longitude']);
-//            }
-//            if(isset($_POST['lattitude'])){
-//                $lattitude = trim($_POST['lattitude']);
-//            }
-//            if(isset($_POST['description'])){
-//                $description = trim($_POST['description']);
-//            }
-//            if(isset($_POST['address'])){
-//                $address = trim($_POST['address']);
-//            }
-//
-//            if(!empty($image['name'])){
-//                $directory = "../attractions/";
-//                $extension = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
-//                $newFileName = time() . '-' . $attraction. '-' . mt_rand(10, 100) . '.' . $extension;
-//
-//
-//                if (!move_uploaded_file($image['tmp_name'], $directory . $newFileName)) {
-//                    header("Location:make_attractions.php?r=16");
-//                    exit();
-//                }
-//            }
-//            if(empty($_POST['attraction']) OR empty($_POST['category_id']) OR empty($_POST['longitude']) OR empty($_POST['lattitude']) OR empty($_POST['description']) OR empty($_POST['address'])){
-//
-//                redirection('../pages/make_attraction.php?r=4');
-//            }
-//            else{
-//                if(!existAtrraction($category, $attraction, $longitude, $lattitude)) {
-//                    $attraction_id= insertAttraction($category, $attraction, $longitude, $lattitude, $org_id, $description, $address, $newFileName);
-//                    redirection('../pages/make_attraction.php?r=15');
-//
-//                }
-//                else{
-//                    redirection('../pages/make_attraction.php?r=14');
-//                }
-//            }
-//            break;
         case "update_attraction":
-            //var_dump("Akarmi",$_POST['name'], $_POST['attraction_id'], $_POST['lattitude'], $_POST['longitude']);die();
-
             $attraction_id = $_POST['attraction_id'];
             if(isset($_POST['name'])){
                 $name = $_POST['name'];

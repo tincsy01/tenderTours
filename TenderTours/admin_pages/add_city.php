@@ -60,26 +60,33 @@ require '../includes/db_config.php';
                         <h5 class="card-title">Add a new city</h5>
 
                         <!-- General Form Elements -->
-                        <form method="post" action="../includes/add_city.php">
+                        <form method="post" action="../includes/add_city.php" enctype="multipart/form-data">
                             <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">City</label>
+<!--                                <label for="inputText" class="col-sm-2 col-form-label">City</label>-->
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="city">
+                                    <input type="text" class="form-control" name="city" placeholder="Name of city">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Longitude</label>
+<!--                                <label for="inputText" class="col-sm-2 col-form-label">Longitude</label>-->
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="longitude">
+                                    <input type="text" class="form-control" name="longitude" placeholder="Longitude">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Lattitude</label>
+<!--                                <label for="inputText" class="col-sm-2 col-form-label">Lattitude</label>-->
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="lattitude">
+                                    <input type="text" class="form-control" name="lattitude" placeholder="Lattitude">
                                 </div>
                             </div>
-
+                            <div class="row mb-3">
+                                <fieldset>
+                                    <input type="file" id="image" name="image" placeholder="image" accept="image/jpeg">
+                                    <div id="imageHelp">
+                                        Upload only JPG images!
+                                    </div>
+                                </fieldset>
+                            </div>
                             <div class="row mb-3">
                                 <!--                                <label class="col-sm-2 col-form-label">Submit</label>-->
                                 <div class="col-sm-10">
