@@ -202,6 +202,11 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             }
             $data = updateOrganization($org_id,$name,$banning, $visible );
             break;
+        case "make_tour":
+            $city_id = $_POST['city'];
+            if(isset($_POST['attraction_ids[]'])){
+
+            }
 
         case "forget" :
             // To do

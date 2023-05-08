@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <title>Make a tour</title>
+    <title>My tours</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -20,51 +21,88 @@
     <link rel="stylesheet" href="../assets/css/templatemo-plot-listing.css">
     <link rel="stylesheet" href="../assets/css/animated.css">
     <link rel="stylesheet" href="../assets/css/owl.css">
-
+    <!--
+    https://templatemo.com/tm-564-plot-listing
+    -->
 </head>
-<body>
+<script>
+    window.addEventListener('load', function() {
+        var city = document.querySelector('#city');
+
+        // Változó az AJAX kéréshez
+        var xhr = new XMLHttpRequest();
+
+        // Azon esemény figyelése, ha a város kiválasztásra került
+        city.addEventListener('change', function() {
+            // Az aktuálisan kiválasztott város ID-ja
+            var cityId = this.value;
+
+            // Ha nem választottak ki várost, akkor nem kell semmit betölteni
+            if (!cityId) {
+                document.querySelector('#attractions').innerHTML = '';
+                return;
+            }
+
+            // AJAX kérés az ahhoz tartozó látványosságok lekérdezésére
+            xhr.open('GET', '../ajax/get_attractions.php?city_id=' + cityId);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Ha a kérés sikeres, akkor betöltjük a látványosságokat a div-be
+                    document.querySelector('#attractions').innerHTML = xhr.response;
+                } else {
+                    // Ha hiba történt, akkor hibaüzenetet jelenítünk meg
+                    console.error('Hiba történt: ' + xhr.statusText);
+                }
+            };
+            xhr.onerror = function() {
+                // Ha hiba történt, akkor hibaüzenetet jelenítünk meg
+                console.error('Hiba történt az AJAX kérés során');
+            };
+            xhr.send();
+        });
+    });
+</script>
 <?php
 include '../includes/header.php';
 require_once '../includes/config.php';
 require_once '../includes/db_config.php';
-//var_dump($_SESSION['permission']);
-//gettype($_SESSION['permission']);die();
+$pdo = connectDatabase($dsn, $pdoOptions);
 ?>
+
 <div class="main-banner">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="top-text header-text">
-                    <h6>Over 360+ City</h6>
-                    <h2>Find Tours Places &amp; Things</h2>
+                    <h2>Make tour</h2>
                 </div>
             </div>
-            <div class="col-lg-12">
-                <form id="search-form" name="gs" method="submit" role="search" action="#">
-                    <div class="row">
-                        <div class="col-lg-8 align-self-center">
-                            <fieldset>
-                                <input type="address" name="address" class="searchText" placeholder="Enter a location" autocomplete="on" required>
-                            </fieldset>
-                        </div>
+            <form id="search-form" name="make_attraction" method="post" action="../includes/process.php" role="make_tour">
+                <div class="col-lg-5 align-self-center">
+                    <label for="city">Select a city for your tour:</label>
+                    <select name="city" id="city">
+                        <option value="">-- Válassz egy várost --</option>
+                        <?php
+                        // Lekérjük az összes várost az adatbázisból
+                        $sql = "SELECT city_id, city_name FROM cities";
+                        $query = $pdo->query($sql);
+                        $cities = $query->fetchAll();
 
-                        <div class="col-lg-3">
-                            <fieldset>
-                                <button class="main-button"><i class="fa fa-search"></i> Search Now</button>
-                            </fieldset>
-                        </div>
+                        // Kilistázzuk a városokat a select mezőben
+                        foreach ($cities as $city) {
+                            echo '<option value="' . $city['city_id'] . '">' . $city['city_name'] . '</option>';
+                        }
+                        ?>
+                    </select>
+                    <div id="attractions"></div>
+                    <div class="col-lg-3">
+                        <fieldset>
+                            <input type="hidden" name="action" value="make_tour">
+                            <button class="main-button" type="submit"><i class="fa fa-search"></i>Add Now</button>
+                        </fieldset>
                     </div>
-                </form>
-            </div>
-            <div class="col-lg-10 offset-lg-1">
-                <ul class="categories">
-                    <li><a href="cities.php"><span class="icon"><img src="../assets/images/search-icon-01.png" alt="Home"></span> Cities</a></li>
-                    <li><a href="#"><span class="icon"><img src="../assets/images/search-icon-02.png" alt="Food"></span> Restaurants</a></li>
-                    <!--                    <li><a href="#"><span class="icon"><img src="assets/images/search-icon-03.png" alt="Vehicle"></span> Cars</a></li>-->
-                    <!--                    <li><a href="#"><span class="icon"><img src="assets/images/search-icon-04.png" alt="Shopping"></span> Shopping</a></li>-->
-                    <li><a href="#"><span class="icon"><img src="../assets/images/search-icon-05.png" alt="Travel"></span> Tours</a></li>
-                </ul>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -85,5 +123,4 @@ require_once '../includes/footer.php';
 </body>
 
 </html>
-
 
