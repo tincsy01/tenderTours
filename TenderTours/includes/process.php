@@ -19,22 +19,23 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             if (!empty($username) AND !empty($password)) {
 
                 $data = checkUserLogin($username, $password);
-                //var_dump($username, $password);die();
 
             }
 
-                if ($data AND is_int($data['user_id'])) {
+//                if ($data AND is_int($data['user_id'])) {
+                if (isset($data)) {
+//                    var_dump($username, $password);die();
                     $_SESSION['username'] = $username;
                     $_SESSION['user_id'] = $data['user_id'];
                     if (array_key_exists('permission', $data)) {
                         $_SESSION['permission'] = $data['permission'];
                     }
-                    //$_SESSION['permission'] = $data['permission'];
+//                    $_SESSION['permission'] = $data['permission'];
 
                     redirection('../pages/index.php');
                 }
               else {
-                    redirection('login.php?l=1');
+                    redirection('login.php?r=1');
                 }
 //
 //            } else {
