@@ -17,7 +17,8 @@ $pdoOptions = [
     PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
-$actions = ['login', 'register', 'forget', 'make_attraction', 'update_attraction', 'delete_attraction', 'update_organization_admin'];
+$actions = ['login', 'register', 'forget', 'make_attraction', 'update_attraction', 'delete_attraction', 'update_organization_admin',
+            'make_tour'];
 
 $messages = [
     0 => 'No direct access!',
@@ -37,4 +38,5 @@ $messages = [
     14 => 'Attraction with this location and name already exists.',
     15 => 'The attraction is added.',
     16 => 'Something went wrong during image upload. Please try again.',
+    17 => 'The tour is added.',
 ];

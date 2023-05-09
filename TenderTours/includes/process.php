@@ -204,9 +204,28 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             break;
         case "make_tour":
             $city_id = $_POST['city'];
-            if(isset($_POST['attraction_ids[]'])){
-
+            $date = $_POST['date'];
+            $time = $_POST['time'];
+           // var_dump( $_POST['city'], $_POST['date'],$_POST['time'], $_POST['attraction_ids']);die();
+            if(isset($_POST['attraction_ids'])){
+                $selected_attractions = array();
+                foreach ($_POST['attraction_ids'] as $value) {
+                    $selected_attractions[] = $value;
+                }
             }
+//            var_dump( $city_id, $date,$time, $selected_attractions);die();
+            if(empty($city_id) OR  empty($date) OR empty($time) OR empty($selected_attractions)){
+                //var_dump( $city_id, $date,$time, $selected_attractions);die();
+                redirection('../pages/make_tour.php?r=4');
+            }
+
+            else{
+                $data = insertTour($city_id, $selected_attractions,$date, $time);
+                redirection('../pages/make_tour.php?r=17');
+            }
+
+            //var_dump($selected_attractions); die();
+            break;
 
         case "forget" :
             // To do

@@ -479,3 +479,26 @@ function updateOrganization($org_id,$name,$banning, $visible){
      return json_encode(['success'=> true, 'msg'=> 'Updated successfully']);
 
 }
+
+function insertTour($city_id, $selected_attractions, $date, $time){
+    global $pdo;
+    $user_id = $_SESSION['user_id'];
+    $datetime = date('Y-m-d H:i:s', strtotime("$date $time"));
+    $sql1 = "INSERT INTO tours(city_id, user_id, date) VALUES (:city_id, :user_id, :date)";
+    $query1 = $pdo->prepare($sql1);
+    $query1->bindParam(':city_id', $city_id);
+    $query1->bindParam(':user_id', $user_id);
+    $query1->bindParam(':date', $datetime);
+    $query1->execute();
+
+    $tour_id = $pdo->lastInsertId();
+    foreach ($selected_attractions as $value){
+        $attraction_id = $value;
+
+        $sql2 = "INSERT INTO tour_attraction(tour_id, attraction_id) VALUES (:tour_id, :attraction_id)";
+        $query2 = $pdo->prepare($sql2);
+        $query2->bindParam(':tour_id', $tour_id);
+        $query2->bindParam(':attraction_id', $attraction_id);
+        $query2->execute();
+    }
+}

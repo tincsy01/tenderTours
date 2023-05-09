@@ -95,6 +95,11 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                         ?>
                     </select>
                     <div id="attractions"></div>
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date">
+
+                    <label for="time">Time:</label>
+                    <input type="time" id="time" name="time">
                     <div class="col-lg-3">
                         <fieldset>
                             <input type="hidden" name="action" value="make_tour">
