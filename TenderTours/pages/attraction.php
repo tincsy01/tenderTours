@@ -115,6 +115,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 
             </div>
             <div id="map" style="height: 400px;" class="col-lg-4 col-sm-4 col-xs-4"></div>
+            <div id="comments" class="col-lg-4 col-sm-4 col-xs-4"></div>
 
         </div>
     </div>

@@ -20,7 +20,7 @@ session_start();
                             switch ($_SESSION['permission']){
                                 case 2:
                                     echo '<li><a href="../pages/favourites.php">Favourites</a></li>';
-                                    echo '<li><a href="../pages/mytours.php">My Tours</a></li>';
+                                    echo '<li><a href="../pages/make_tour.php ">My Tours</a></li>';
                                     echo '<li><a href="../pages/logout.php">Log Out</a></li>';
                                     break;
                                 case 3:

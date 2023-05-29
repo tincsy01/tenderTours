@@ -32,7 +32,7 @@ require_once '../includes/config.php';
 require_once '../includes/db_config.php';
 $pdo = connectDatabase($dsn, $pdoOptions);
 ?>
-<script>
+<script >
     function getTours() {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '../ajax/get_tours.php');
