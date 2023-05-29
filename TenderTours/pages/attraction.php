@@ -24,12 +24,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Libre+Baskerville&display=swap" rel="stylesheet">
-    <!--
-    https://templatemo.com/tm-564-plot-listing
-    -->
+
 </head>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 
 <body>
@@ -75,16 +73,72 @@ $pdo = connectDatabase($dsn, $pdoOptions);
             map: map
         });
     }
+    $(document).ready(function() {
+        // Kommentek lekérdezése
+        $.ajax({
+            url: "../ajax/get_comments.php",
+            method: "GET",
+            dataType: "json",
+            data: {
+                attraction_id: <?php echo $_GET['attraction_id']; ?>
+            },
+            success: function(response) {
+                if (response.success) {
+                    var comments = response.comments;
+
+                    // Kommentek kilistázása
+                    var commentsList = '<ul>';
+                    for (var i = 0; i < comments.length; i++) {
+                        var comment = comments[i];
+                        commentsList += '<li>' + comment.text + '</li>';
+                    }
+                    commentsList += '</ul>';
+
+                    $('#comments').html(commentsList);
+                } else {
+                    console.error("Failed to load comments.");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed:", error);
+            }
+        });
+
+        // Ellenőrzés, hogy a felhasználó már volt-e az attrakciónál
+        $.ajax({
+            url: "../ajax/check_visit.php",
+            method: "GET",
+            dataType: "json",
+            data: {
+                user_id: <?php echo $_SESSION['user_id']; ?>,
+                attraction_id: <?php echo $_GET['attraction_id']; ?>
+            },
+            success: function(response) {
+                if (response.visited) {
+                    // Felhasználó már volt az attrakciónál, lehetőség a komment írására
+                    var commentForm = '<form id="comment-form" method="post" action="../ajax/add_comment.php">';
+                    commentForm += '<textarea name="comment" placeholder="Write your comment..."></textarea>';
+                    commentForm += '<input type="hidden" name="attraction_id" value="<?php echo $_GET['attraction_id']; ?>">'
+                    commentForm += '<button type="submit">Submit</button>';
+                    commentForm += '</form>';
+
+                    $('#comment-section').html(commentForm);
+                } else {
+                    // Felhasználó még nem volt az attrakciónál, nem lehet kommentet írni
+                    var notVisitedMessage = '<p>You need to visit this attraction to be able to leave a comment.</p>';
+
+                    $('#comment-section').html(notVisitedMessage);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed:", status);
+            }
+        });
+    });
 </script>
 <div class="main-banner">
     <div class="container">
         <div class="row attractionOnly col-lg-10 col-sm-8 col-xs-8">
-<!--            <div class="col-lg-12">-->
-<!--                <div class="top-text header-text">-->
-<!--                    <h2>List of your attractions</h2>-->
-<!--                </div>-->
-<!--            </div>-->
-
             <div class="attractionImage col-lg-4 col-sm-4 col-xs-4">
                 <?php
                 $attraction_id = $_GET['attraction_id'];
@@ -115,7 +169,8 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 
             </div>
             <div id="map" style="height: 400px;" class="col-lg-4 col-sm-4 col-xs-4"></div>
-            <div id="comments" class="col-lg-4 col-sm-4 col-xs-4"></div>
+            <div id="comments"></div>
+            <div id="comment-section" class="col-lg-4 col-sm-4 col-xs-4"></div>
 
         </div>
     </div>

@@ -92,7 +92,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 <?php
 require_once '../includes/footer.php';
 ?>
-<!--<script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyDdM9r54y8zfnzG36y0JMpayRCyQj1TU2o&callback=initMap"></script>-->
 
 <!-- Scripts -->
 <script src="../vendor/jquery/jquery.min.js"></script>
@@ -101,8 +100,6 @@ require_once '../includes/footer.php';
 <script src="../assets/js/animation.js"></script>
 <script src="../assets/js/imagesloaded.js"></script>
 <script src="../assets/js/custom.js"></script>
-<!--<script src="../assets/js/script.js"></script>-->
-
 </body>
 
 </html>
