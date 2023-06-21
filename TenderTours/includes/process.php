@@ -228,7 +228,21 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             break;
 
         case "forget" :
-            // To do
+            if (isset($_POST['email'])) {
+                $email = trim($_POST["email"]);
+            }
+
+            if (!existsEmail($email)) {
+                $code = createCode(40);
+//                var_dump(forgot_password($email));
+                $user_id = forgot_password($email);
+                if (sendData($email, $code)) {
+                    redirection("../pages/forgot_password.php?r=18");
+                } else {
+                    addEmailFailure($user_id);
+                    redirection("../pages/forgot_password.php?r=10");
+                }
+            }
             break;
 
         default:
@@ -238,8 +252,5 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
 
 } else {
     echo 'nem megy bele';
-    //var_dump($action);
-    //var_dump($_POST['action'],$_POST['name'],$_POST['banning'], $_POST['visible'] );die();
-
     //redirection('../pages/register.php');
 }

@@ -20,7 +20,8 @@ session_start();
                             switch ($_SESSION['permission']){
                                 case 2:
                                     echo '<li><a href="../pages/favourites.php">Favourites</a></li>';
-                                    echo '<li><a href="../pages/make_tour.php ">My Tours</a></li>';
+                                    echo '<li><a href="../pages/cities.php">Cities</a></li>';
+                                    echo '<li><a href="../pages/tours.php ">My Tours</a></li>';
                                     echo '<li><a href="../pages/logout.php">Log Out</a></li>';
                                     break;
                                 case 3:
@@ -36,12 +37,13 @@ session_start();
                         }
                         else{
                             echo '  <li><a href="../pages/login.php">LogIn</a></li>
+                                    <li><a href="../pages/register.php">Register</a></li>
                                     <li><a href="../pages/cities.php">Cities</a></li>
                                     <li><a href="../contact.html">Contact Us</a></li>';
                         }
                         ?>
 
-                        <li><div class="main-white-button"><a href="#"><i class="fa fa-plus"></i> Add Your Tours</a></div></li>
+                        <li><div class="main-white-button"><a href="../pages/make_tour.php"><i class="fa fa-plus"></i> Add Your Tours</a></div></li>
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>

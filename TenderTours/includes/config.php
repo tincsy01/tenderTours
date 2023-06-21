@@ -39,4 +39,5 @@ $messages = [
     15 => 'The attraction is added.',
     16 => 'Something went wrong during image upload. Please try again.',
     17 => 'The tour is added.',
+    18 => 'Check your email to change password!',
 ];

@@ -69,6 +69,7 @@ require_once '../includes/db_config.php';
                                 }
                             }
                             ?>
+                            <a href="forgot_password.php">Forgott your password?</a>
                         </div>
 
                         <div class="col-lg-3">

@@ -19,5 +19,15 @@ $query->execute();
 $comments = $query->fetchAll(PDO::FETCH_ASSOC);
 
 // Válasz elküldése JSON formátumban
+$response = array();
+
+if ($comments) {
+    $response['success'] = true;
+    $response['comments'] = $comments;
+} else {
+    $response['success'] = false;
+    $response['message'] = "Failed to load comments.";
+}
+
 header('Content-Type: application/json');
-echo json_encode(array('success' => true, 'comments' => $comments));
+echo json_encode($response);

@@ -60,7 +60,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                     <a href="#"><img src="../images/cities/${city.image}" alt="City image" ></a>
                 </div>
                 <div class="right-content align-self-center">
-                    <a href="#"><h4>${city.city_name}</h4></a>
+                    <a href="city_attraction.php?city_id=${city.city_id}"><h4>${city.city_name}</h4></a>
                     <div class="main-white-button">
                         <a href="../contact.html"><i class="fa fa-eye"></i> View Now</a>
                     </div>

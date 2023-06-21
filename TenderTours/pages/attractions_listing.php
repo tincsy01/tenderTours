@@ -24,6 +24,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Libre+Baskerville&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!--    <script src="../assets/js/attraction_listing.js"></script>-->
 </head>
 <body>
 <?php
@@ -34,7 +35,8 @@ require_once '../includes/db_config.php';
 $pdo = connectDatabase($dsn, $pdoOptions);
 ?>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+
 <script>
     $(document).ready(function() {
         $.ajax({

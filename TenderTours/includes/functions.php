@@ -56,7 +56,22 @@ function existsUser($username)
     }
 
 }
+function existsEmail($email)
+{
+    global $pdo;
 
+    $sql = $pdo->prepare("SELECT user_id FROM users WHERE email = :email AND (reg_expire > NOW() OR active = '0')");
+    $sql->bindParam(':email', $email);
+    $sql->execute();
+    $row_count = $sql->fetchColumn();
+
+    if ($row_count > 0) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
 function existCity($city){
     global $pdo;
 
@@ -202,10 +217,11 @@ function registerUser($username, $password, $name, $address, $email, $code)
 {
 
     global $pdo;
+    $permission = 2;
     $sql = "INSERT INTO users
-        (name, username, email, password, address, reg_expire, active, code)
+        (name, username, email, password, address, reg_expire, active, code, permission)
          VALUES
-        (:name,:username,:email, :password, :address, :reg_expire, :active, :code)";
+        (:name,:username,:email, :password, :address, :reg_expire, :active, :code, :permission)";
 
     $passwordHashed = password_hash($password, PASSWORD_BCRYPT);
     $active = 0;
@@ -221,6 +237,7 @@ function registerUser($username, $password, $name, $address, $email, $code)
     $query->bindParam(':reg_expire', $reg_expire, PDO::PARAM_STR);
     $query->bindParam(':active', $active, PDO::PARAM_STR);
     $query->bindParam(':code', $code, PDO::PARAM_STR);
+    $query->bindParam(':permission', $permission, PDO::PARAM_STR);
 
     $query->execute();
     //var_dump("ok");
@@ -230,6 +247,7 @@ function registerUser($username, $password, $name, $address, $email, $code)
 
 /**
  * Function tries to send email with activation code
+ * Regisztraciohoz
  *
  * @param $email
  * @param $code
@@ -274,7 +292,37 @@ function sendData($email, $code)
     //return mail($to, $subject, $message, $header);
 }
 
+function sendEmail($email, $subject, $message) {
+    require 'path/to/PHPMailer/PHPMailer.php';
+    require 'path/to/PHPMailer/SMTP.php';
 
+    $mail = new PHPMailer(true);
+
+    // Email küldő beállítások
+    //$mail = new PHPMailer\PHPMailer\PHPMailer();
+    $mail->isSMTP();
+    $mail->Host = 'em.stud.vts.su.ac.rs'; // Az SMTP szerver címe
+    $mail->SMTPAuth = true;
+    $mail->Username   = 'em';                     //SMTP username
+    $mail->Password   = 'h3waxBgfAQHM6dk';                               //SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = 587;
+
+    $mail->setFrom('kriszta@em.stud.vts.su.ac.rs', 'Mailer');
+    $mail->addAddress($_POST['email'], 'User');     //Add a recipient
+
+    // Email tartalmának beállítása
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
+    $mail->Body = $message;
+
+    // Email küldése
+    if ($mail->send()) {
+        return true; // Sikeres email küldés
+    } else {
+        return false; // Sikertelen email küldés
+    }
+}
 
 function addEmailFailure($user_id)
 {
@@ -500,5 +548,49 @@ function insertTour($city_id, $selected_attractions, $date, $time){
         $query2->bindParam(':tour_id', $tour_id);
         $query2->bindParam(':attraction_id', $attraction_id);
         $query2->execute();
+    }
+}
+
+function forgot_password($email){
+    global $pdo;
+
+    if (existsEmail($email)) {
+        // Generáljon egy új jelszót
+        $newPassword = generatePassword();
+
+        // Módosítsa az adatbázisban a felhasználó jelszavát
+        changePassword($email, $newPassword);
+
+        // Elküldi az új jelszót az email címre
+        if (sendPasswordResetEmail($email, $newPassword)) {
+            // Sikeresen elküldte az emailt
+            return true;
+        } else {
+            // Sikertelen volt az email küldése
+            return false;
+        }
+    } else {
+        // Az email cím nem található az adatbázisban
+        return false;
+    }
+}
+
+function sendPasswordResetEmail($email, $newPassword) {
+    // Az aktivációs kód generálása
+    $activationCode = createCode(40);
+
+    // Az új jelszó és az aktivációs kód beágyazása a linkbe
+    $resetLink = SITE . "reset_password.php?code=" . $activationCode;
+
+    // Az email küldése
+    $subject = "Change your password";
+    $message = "Click the link below to set a new password: <a href='$resetLink'>$resetLink</a>";
+
+    if (sendEmail($email, $subject, $message)) {
+        // Sikeres email küldés
+        return true;
+    } else {
+        // Sikertelen email küldés
+        return false;
     }
 }

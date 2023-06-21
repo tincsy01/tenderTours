@@ -107,6 +107,25 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                         </fieldset>
                     </div>
                 </div>
+                <?php
+                // index.php?r=1
+                $r = 0;
+
+                if (isset($_GET["r"]) and is_numeric($_GET['r'])) {
+                    $r = (int)$_GET["r"];
+
+                    if (array_key_exists($r, $messages)) {
+                        echo '
+                    <div class="alert alert-info alert-dismissible fade show m-3 col-lg-8 align-self-center" role="alert">
+                        '.$messages[$r].'
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    ';
+                    }
+                }
+                ?>
             </form>
         </div>
     </div>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../includes/config.php';
 require_once '../includes/db_config.php';
 $pdo = connectDatabase($dsn, $pdoOptions);
@@ -25,5 +26,6 @@ if ($query->execute()) {
     $response['message'] = "Failed to add comment.";
 }
 
+// Válasz elküldése JSON formátumban
 header('Content-Type: application/json');
 echo json_encode($response);
