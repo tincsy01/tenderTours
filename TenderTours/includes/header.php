@@ -23,6 +23,8 @@ session_start();
                                     echo '<li><a href="../pages/cities.php">Cities</a></li>';
                                     echo '<li><a href="../pages/tours.php ">My Tours</a></li>';
                                     echo '<li><a href="../pages/logout.php">Log Out</a></li>';
+                                    echo '<li><div class="main-white-button"><a href="../pages/make_tour.php"><i class="fa fa-plus"></i> Add Your Tours</a></div></li>';
+
                                     break;
                                 case 3:
                                     echo '<li><a href="../pages/make_attractions.php">Attractions</a></li>';
@@ -43,7 +45,7 @@ session_start();
                         }
                         ?>
 
-                        <li><div class="main-white-button"><a href="../pages/make_tour.php"><i class="fa fa-plus"></i> Add Your Tours</a></div></li>
+
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>

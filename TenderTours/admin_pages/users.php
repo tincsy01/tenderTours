@@ -53,9 +53,9 @@
         });
         $('.update_save').click(function (){
             $.post("../includes/process.php", {
-                org_id: $('.update_input_id').val(),
+                user_id: $('.update_input_id').val(),
                 banning: $('.banning').val(),
-                action: 'update_user',
+                action: 'update_user_admin',
             }, function (data){
                 if (data.success) {
                     location.reload();
@@ -108,7 +108,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                 </div>
                                 <div class="col-lg-4">
                                     <fieldset>
-                                        <input type="hidden" name="action" value="update_organization_admin">
+                                        <input type="hidden" name="action" value="update_user_admin">
                                         <button class="main-button update_save" type="submit"><i class="fa fa-search"></i>Update Now</button>
                                     </fieldset>
                                 </div>
@@ -135,7 +135,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                     <tr>
                                         <td>' . $row['name'] . '</td>
                                         <td>' . $row['username'] . '</td>
-                                       
                                         <td>' . $row['active'] . '</td>
                                         
                                         <td><button type="button" class="btn btn-outline-success update_input_id col-2 updateBtn" value="'.$row['user_id'].'"

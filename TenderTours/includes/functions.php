@@ -527,6 +527,15 @@ function updateOrganization($org_id,$name,$banning, $visible){
      return json_encode(['success'=> true, 'msg'=> 'Updated successfully']);
 
 }
+function updateUser($user_id, $banning){
+    global $pdo;
+    $sql = "UPDATE users SET active = :banning WHERE user_id = :user_id ";
+    $query = $pdo->prepare($sql);
+    $query->bindValue(':banning', $banning);
+    $query->bindValue(':user_id', $user_id);
+    $query->execute();
+    return json_encode(['success'=> true, 'msg'=> 'Updated successfully']);
+}
 
 function insertTour($city_id, $selected_attractions, $date, $time){
     global $pdo;

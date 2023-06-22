@@ -45,7 +45,6 @@ require_once '../includes/db_config.php';
                         <div class="col-lg-8 align-self-center">
                             <fieldset>
                                 <input type="text" name="loginUsername" class="searchText" placeholder="Enter username" autocomplete="on" required>
-<!--                                <input type="password" name="address" class="searchText" placeholder="Enter password" autocomplete="on" required>-->
                             </fieldset>
                             <fieldset>
                                 <input type="password" name="loginPassword" class="searchText" placeholder="Enter password" autocomplete="on" required>

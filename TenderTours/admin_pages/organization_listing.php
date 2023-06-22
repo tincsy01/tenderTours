@@ -128,7 +128,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                             </div>
                         </div>
                         <?php
-                        $sql = "SELECT organizations.org_id ,organizations.org_name, cities.city_name,organizations.active, organizations.status, organizations.city_id FROM organizations INNER JOIN cities  ON organizations.city_id = cities.city_id ";
+                        $sql = "SELECT organizations.org_id ,organizations.org_name, cities.city_name,organizations.active, organizations.status, organizations.city_id, organizations.status FROM organizations INNER JOIN cities  ON organizations.city_id = cities.city_id ";
                         $query = $pdo->query($sql);
                         $results = $query->fetchAll(PDO::FETCH_ASSOC);
                         $table = '<table>
@@ -137,6 +137,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                                 <th>Organization name</th>
                                                 <th>City</th>
                                                 <th>Active</th>
+                                                <th>Visibility</th>
                                                 <th>Update</th>
                                                 <th>Delete</th>
                                             </tr>
@@ -147,8 +148,8 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                     <tr>
                                         <td>' . $row['org_name'] . '</td>
                                         <td>' . $row['city_name'] . '</td>
-                                        
                                         <td>' . $row['active'] . '</td>
+                                        <td>' . $row['status'] . '</td>
                                         
                                         <td><button type="button" class="btn btn-outline-success update_input_id col-2 updateBtn" value="'.$row['org_id'].'"
                             city-data="'.$row['city_name'].'" name-data="'.$row['org_name'].'" id-data="'.$row['org_id'].'" 

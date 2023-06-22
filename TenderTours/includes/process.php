@@ -202,6 +202,13 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             }
             $data = updateOrganization($org_id,$name,$banning, $visible );
             break;
+        case "update_user_admin":
+            $user_id = $_POST['user_id'];
+            if(isset($_POST['banning'])){
+                $banning = $_POST['banning'];
+            }
+            $data = updateUser($user_id,$banning);
+            break;
         case "make_tour":
             $city_id = $_POST['city'];
             $date = $_POST['date'];
@@ -251,6 +258,7 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
     }
 
 } else {
+
     echo 'nem megy bele';
     //redirection('../pages/register.php');
 }
