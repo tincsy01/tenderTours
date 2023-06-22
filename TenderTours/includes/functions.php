@@ -548,6 +548,11 @@ function insertTour($city_id, $selected_attractions, $date, $time){
         $query2->bindParam(':tour_id', $tour_id);
         $query2->bindParam(':attraction_id', $attraction_id);
         $query2->execute();
+
+        $sql3 = "UPDATE attractions SET num_of_visitors = num_of_visitors + 1 WHERE attraction_id = :attraction_id";
+        $query3 = $pdo->prepare($sql3);
+        $query3->bindParam(':attraction_id', $attraction_id);
+        $query3->execute();
     }
 }
 

@@ -20,20 +20,6 @@
 
 </head>
 <body>
-<script>
-    // $(document).ready(function () {
-    //     $('#login_button').click(function (){
-    //         $.post("../includes/admin_process.php", {
-    //                 username: document.getElementById("username").value,
-    //                 password: document.getElementById("password").value,
-    //                 // log_in: "1"
-    //             },
-    //             function (data){
-    //                 alert(data);
-    //             }, 'json');
-    //     });
-    // });
-</script>
 <div class="login">
     <h1>Login</h1>
     <form action="../includes/admin_process.php" method="post">
