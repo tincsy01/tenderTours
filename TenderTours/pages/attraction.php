@@ -136,86 +136,6 @@ $user_id = $_SESSION['user_id'];
                 console.error("AJAX request failed:", error);
             }
         });
-        // $(document).ready(function() {
-        //     // Kedvencekhez adás AJAX kérése
-        //     $(document).on('click', '.addToFavourites', function() {
-        //         var attractionId = $(this).data('attraction-id');
-        //         var addButton = $(this);
-        //
-        //         $.ajax({
-        //             url: "../ajax/add_favourites.php",
-        //             method: "POST",
-        //             dataType: "json",
-        //             data: {
-        //                 attraction_id: attractionId
-        //             },
-        //             success: function(response) {
-        //                 if (response.success) {
-        //                     // Kedvencekhez adás sikeres
-        //                     addButton.hide();
-        //                     addButton.after('<div class="favourit-button"><button type="button" class="btn btn-primary deleteFromFavourites" data-attraction-id="'+attractionId+'">Delete from favourites</button></div>');
-        //                     alert(response.message);
-        //                 } else {
-        //                     console.error("Failed to add attraction to favourites:", response.message);
-        //                 }
-        //             },
-        //             error: function(xhr, status, error) {
-        //                 console.error("AJAX request failed:", error);
-        //             }
-        //         });
-        //     });
-        //
-        //     // Kedvencek törlése AJAX kérése
-        //     $(document).on('click', '.deleteFromFavourites', function() {
-        //         var attractionId = $(this).data('attraction-id');
-        //         var deleteButton = $(this);
-        //
-        //         $.ajax({
-        //             url: "../ajax/delete_favourites.php",
-        //             method: "POST",
-        //             dataType: "json",
-        //             data: {
-        //                 attraction_id: attractionId
-        //             },
-        //             success: function(response) {
-        //                 if (response.success) {
-        //                     // Kedvencek törlése sikeres
-        //                     deleteButton.parent().remove();
-        //                     alert(response.message);
-        //                 } else {
-        //                     console.error("Failed to delete attraction from favourites:", response.message);
-        //                 }
-        //             },
-        //             error: function(xhr, status, error) {
-        //                 console.error("AJAX request failed:", error);
-        //             }
-        //         });
-        //     });
-        // });
-
-
-        //$("#addToFavourites").click(function() {
-        //    var attraction_id = <?php //echo json_encode($_GET['attraction_id']); ?>//;
-        //
-        //    $.ajax({
-        //        url: "../ajax/add_favourites.php",
-        //        method: "POST",
-        //        data: {
-        //            attraction_id: attraction_id
-        //        },
-        //        dataType: "json",
-        //        success: function(response) {
-        //            if (response.success) {
-        //                alert("Added to favourites!");
-        //            } else {
-        //                alert("Failed to add to favourites.");
-        //            }
-        //        },
-        //        error: function(xhr, status, error) {
-        //            console.error("AJAX request failed:", error);
-        //        }
-        //    });
-        //});
     });
 </script>
 <div class="main-banner">
@@ -234,44 +154,7 @@ $user_id = $_SESSION['user_id'];
             </div>
             <div id="attraction" class="col-lg-6 col-sm-6 col-xs-6">
                 <?php
-//                if(isset($_GET['attraction_id'])){
-////                    $attraction_id = $_GET['attraction_id'];
-//                    $sql = "SELECT attraction_id, image, popular, address, description, name, longitude, lattitude  FROM attractions WHERE attraction_id = :attraction_id";
-//                    $query = $pdo->prepare($sql);
-//                    $query->bindValue(':attraction_id', $attraction_id);
-//                    $query->execute();
-//                    $attractions = $query->fetchAll();
-//
-//                    foreach ($attractions as $attraction){
-//                        echo '<b><div class="attraction-name">'.$attraction['name'].'</div></b>';
-//                        echo '<div class="favourit-button"><button type="button" class="btn btn-primary" id="addToFavourites">Add to favourites</button></div>';
-//                        echo '<div class="attraction-description">'.$attraction['description'].'</div>';
-//                    }
-//                }
 
-
-//                if (isset($_GET['attraction_id'])) {
-//                    $attraction_id = $_GET['attraction_id'];
-//                    $sql = "SELECT attraction_id, image, popular, address, description, name, longitude, lattitude FROM attractions WHERE attraction_id = :attraction_id";
-//                    $query = $pdo->prepare($sql);
-//                    $query->bindValue(':attraction_id', $attraction_id);
-//                    $query->execute();
-//                    $attraction = $query->fetch();
-//
-//                    echo '<b><div class="attraction-name">'.$attraction['name'].'</div></b>';
-//
-//                    // Hozzáadás gomb
-//                    echo '<div class="favourit-button">';
-//                    echo '<button type="button" class="btn btn-primary addToFavourites" data-attraction-id="'.$attraction['attraction_id'].'">Add to favourites</button>';
-//                    echo '</div>';
-//
-//                    // Törlés gomb (rejtve)
-//                    echo '<div class="favourit-button" style="display:none;">';
-//                    echo '<button type="button" class="btn btn-primary deleteFromFavourites" data-attraction-id="'.$attraction['attraction_id'].'">Delete from favourites</button>';
-//                    echo '</div>';
-//
-//                    echo '<div class="attraction-description">'.$attraction['description'].'</div>';
-//                }
 
                 if (isAttractionInFavorites($pdo, $user_id, $attraction_id)) {
                     // Az attrakció már hozzá van adva a kedvencekhez
@@ -317,7 +200,6 @@ require_once '../includes/footer.php';
 <script src="../assets/js/animation.js"></script>
 <script src="../assets/js/imagesloaded.js"></script>
 <script src="../assets/js/custom.js"></script>
-<!--<script src="../assets/js/script.js"></script>-->
 
 </body>
 

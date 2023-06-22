@@ -30,66 +30,56 @@ include '../includes/header.php';
 require_once '../includes/config.php';
 require_once '../includes/db_config.php';
 ?>
-<script>
-    $(document).ready(function() {
-    $.ajax({
-        url: "../ajax/get_favourites.php",
-        method: "GET",
-        dataType: "json",
-        success: function(response) {
-            if (response.success) {
-                var attractions = response.attractions;
 
-                // Attractions table
-                var table = '<table class="table table-striped">';
-                table += '<thead>';
-                table += '<tr>';
-                table += '<th scope="col">Name of attraction</th>';
-                table += '<th scope="col">Number of visitors</th>';
-                table += '<th scope="col">Popularity</th>';
-                table += '<th scope="col">Type</th>';
-                table += '</tr>';
-                table += '</thead>';
-                table += '<tbody>';
-
-                for (var i = 0; i < attractions.length; i++) {
-                    var attraction = attractions[i];
-                    table += '<tr>';
-                    table += '<td><a href="attraction.php?attraction_id=' + attraction.attraction_id + '">' + attraction.name + '</a></td>';
-                    table += '<td>' + attraction.num_of_visitors + '</td>';
-                    table += '<td>' + attraction.popular + '</td>';
-                    table += '<td>' + attraction.category + '</td>';
-                    table += '</tr>';
-                }
-                table += '</tbody>';
-                table += '</table>';
-
-                $('#allAttraction').html(table);
-            } else {
-                console.error("Failed to load attractions.");
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("AJAX request failed:", error);
-        }
-    });
-});
-
-</script>
 <div class="main-banner">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="top-text header-text">
-                    <h2>List of your favourits attractions</h2>
+                    <h2>List of your favourite attractions</h2>
                 </div>
             </div>
-            <div class="col-lg-10 col-sm-10 col-xs-10">
+            <div id="allAttraction" class="col-lg-10 col-sm-10 col-xs-10">
 
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function getFavourites() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '../ajax/get_favourites.php');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    var attractions = response.attractions;
+                    var attractionsList = document.getElementById('allAttraction');
+                    attractionsList.innerHTML = '';
+                    for (var i = 0; i < attractions.length; i++) {
+                        var attraction = attractions[i];
+                        var attractionElement = document.createElement('p');
+                        attractionElement.textContent = attraction.name;
+                        attractionsList.appendChild(attractionElement);
+                    }
+                } else {
+                    console.error('Error: Failed to retrieve favourite attractions.');
+                }
+            } else {
+                console.error('Error: ' + xhr.statusText);
+            }
+        };
+        xhr.onerror = function() {
+            console.error('Error: An error occurred during the request.');
+        };
+        xhr.send();
+    }
+
+    window.onload = function() {
+        getFavourites();
+    };
+</script>
 <?php
 require_once '../includes/footer.php';
 ?>
