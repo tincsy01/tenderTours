@@ -21,89 +21,48 @@
     <link rel="stylesheet" href="../assets/css/animated.css">
     <link rel="stylesheet" href="../assets/css/owl.css">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyDdM9r54y8zfnzG36y0JMpayRCyQj1TU2o&callback=initMap"></script>
-    <!--
-    https://templatemo.com/tm-564-plot-listing
-    -->
+<!--    <script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyDdM9r54y8zfnzG36y0JMpayRCyQj1TU2o&callback=initMap"></script>-->
 </head>
 <body>
 <script>
-    var markersArray = [];
-    const center = {lat: 47.4977975, lng: 19.0403225};
-    var tour_id = <?php echo json_encode($_GET['tour_id']); ?>;
-    console.log(tour_id);
+    // Létrehozzuk a térkép objektumot
     function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: center,
-            zoom: 8
-        });
-        $.ajax({
-            url: "../ajax/tour_parameters.php",
-            method: "POST",
-            data: {
-                tour_id: tour_id
-            },
-            dataType: "JSON",
-        }).done(function (data) {
-            manageMarkers(data);
-        }).fail(function (err) {
-            console.log("error");
-        });
-    }
+        // Kezdő pozíció beállítása (például Budapest)
+        var initialPosition = {lat: 47.4979, lng: 19.0402};
 
-    function manageMarkers(data) {
-        for (var i = 0; i < data.length; i++) {
-            drawMarker(data[i]);
-        }
-    }
-
-    function drawMarker(position) {
-        var marker = new google.maps.Marker({
-            position: {lat: parseFloat(position['latitude']), lng: parseFloat(position['longitude'])},
-            map: map
+        // Térkép létrehozása és megjelenítése a "map" elemen belül
+        var map = new google.maps.Map(document.getElementsByClassName('map'), {
+            center: initialPosition,
+            zoom: 12
         });
-        markersArray.push(marker);
+
+        // AJAX hívás a látványosságok lekérdezéséhez az adatbázisból
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '../ajax/tour_parameters.php', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // JSON válasz feldolgozása
+                var attractions = JSON.parse(xhr.responseText);
+                if (attractions.success) {
+                    var attractionsData = attractions.attractions;
+
+                    // Látványosságok pontjainak megjelenítése a térképen
+                    for (var i = 0; i < attractionsData.length; i++) {
+                        var attraction = attractionsData[i];
+                        var position = {lat: parseFloat(attraction.lattitude), lng: parseFloat(attraction.longitude)};
+                        var marker = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            title: attraction.name
+                        });
+                    }
+                }
+            }
+        };
+        xhr.send();
     }
 </script>
 
-
-
-<!--<script>-->
-<!--    var markers_array = [];-->
-<!--    const center = {lat: 47.4977975, lng: 19.0403225};-->
-<!--    var tour_id = --><?php //echo json_encode($_GET['tour_id']); ?>//;
-//    function initMap() {
-//        map = new google.maps.Map(document.getElementById('map'), {
-//            center: center,
-//            zoom: 8
-//        });
-//        $.ajax({
-//            url: "../ajax/tour_parameters.php",
-//            method: "POST",
-//            data: {
-//                tour_id: tour_id
-//            },
-//            dataType: "JSON",
-//        }).done(function (data) {
-//            manage_markers(data);
-//        }).fail(function (err) {
-//            console.log("error");
-//        });
-//
-//
-//    }
-//    function manage_markers(data) {
-//        for(var x in data) {
-//            draw_markers(data[x]);
-//        }
-//    }
-//    function draw_markers(positions) {
-//        new google.maps.Marker({
-//            position: {lat: parseFloat(positions['lattitude']), lng: parseFloat(positions['longitude'])},
-//            map: map
-//        });
-//    }
-//</script>
 <?php
 include '../includes/header.php';
 require_once '../includes/config.php';
@@ -120,41 +79,16 @@ $user_id = $_SESSION['user_id'];
                     <h2>Data of Tour</h2>
                 </div>
             </div>
-            <div id="map" style="height: 400px;" class="col-lg-4 col-sm-4 col-xs-4"></div>
+            <div style="height: 400px;" class="map col-lg-4 col-sm-4 col-xs-4"></div>
         </div>
     </div>
 </div>
 
-<!--<div class="main-banner">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-lg-12">-->
-<!--                <div class="top-text header-text">-->
-<!--                    <h2>Data of Tour</h2>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="tour_data col-lg-4 col-sm-4 col-xs-4">-->
-<!--                --><?php
-//                $tour_id = $_GET['tour_id'];
-//                $sql = "SELECT a.attraction_id, a.longitude, a.lattitude, t.date FROM attractions a
-//                        INNER JOIN tour_attraction ta ON a.attraction_id = ta.attraction_id INNER JOIN tours t ON t.tour_id = ta.tour_id
-//                        WHERE ta.tour_id = :tour_id";
-//                $query = $pdo->prepare($sql);
-//                $query->bindValue(':tour_id', $tour_id);
-//                $query->execute();
-//
-//                $tours = $query->fetchColumn();
 
-                ?>
-<!--            </div>-->
-<!--            <div id="map" style="height: 400px;" class="col-lg-4 col-sm-4 col-xs-4"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 <?php
 require_once '../includes/footer.php';
 ?>
-<!--<script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyDdM9r54y8zfnzG36y0JMpayRCyQj1TU2o&callback=initMap"></script>-->
+<script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyDdM9r54y8zfnzG36y0JMpayRCyQj1TU2o&callback=initMap"></script>
 
 
 <!-- Scripts -->
