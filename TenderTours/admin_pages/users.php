@@ -35,7 +35,6 @@
 <script>
     $(document).ready(function () {
         $(".updateBtn").click(function (){
-            $('input[name="org_name"]').val($(this).attr('name-data'));
             $('select[name="banning"]').val($(this).attr('status-data'));
             $('#update_window').css({
                 display: "block"
@@ -55,10 +54,8 @@
         $('.update_save').click(function (){
             $.post("../includes/process.php", {
                 org_id: $('.update_input_id').val(),
-                name: $('.org_name').val(),
                 banning: $('.banning').val(),
-                visible: $('.visibility').val(),
-                action: 'update_organization_admin',
+                action: 'update_user',
             }, function (data){
                 if (data.success) {
                     location.reload();
@@ -70,7 +67,6 @@
         });
     });
 </script>
-<!-- ======= Header ======= -->
 <?php
 require '../admin_includes/header.php';
 require '../admin_includes/sidebar.php';
@@ -79,6 +75,7 @@ require '../includes/db_config.php';
 $pdo = connectDatabase($dsn, $pdoOptions);
 
 ?>
+
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Form Elements</h1>
@@ -86,10 +83,11 @@ $pdo = connectDatabase($dsn, $pdoOptions);
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="../../Admin/Admin/index.html">Home</a></li>
                 <li class="breadcrumb-item">Forms</li>
-                <li class="breadcrumb-item active">Organization listing</li>
+                <li class="breadcrumb-item active">User's list</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
+
     <section class="section">
         <div class="row">
             <div class="col-lg-8">
@@ -99,23 +97,13 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                         <div class="backdrop"></div>
                         <div id="update_window" class="modal">
                             <div class="close">x</div>
-                            <h3>Update Organization</h3>
+                            <h3>Update user</h3>
                             <div class="col-lg-9 align-self-center">
-                                <fieldset>
-                                    <input type="text" id="update_name" name="org_name" class="searchText org_name" placeholder="Organization name" autocomplete="on" required>
-                                </fieldset>
                                 <div class="col-lg-4">
                                     <p>Banning user</p>
                                     <select name="banning" id="banning" class="banning">
                                         <option value="1">Not banned</option>
-                                        <option value="0">Banned</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-4">
-                                    <p>Visibility</p>
-                                    <select name="visibility" id="visibility" class="visibility">
-                                        <option value="1">Visible</option>
-                                        <option value="0">Not visible</option>
+                                        <option value="0">Banned</option>s
                                     </select>
                                 </div>
                                 <div class="col-lg-4">
@@ -128,43 +116,43 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                             </div>
                         </div>
                         <?php
-                        $sql = "SELECT organizations.org_id ,organizations.org_name, cities.city_name,organizations.active, organizations.status, organizations.city_id FROM organizations INNER JOIN cities  ON organizations.city_id = cities.city_id ";
+                        $sql = "SELECT name, username, user_id, active FROM users ";
                         $query = $pdo->query($sql);
                         $results = $query->fetchAll(PDO::FETCH_ASSOC);
                         $table = '<table>
                                         <thead>
                                             <tr>
-                                                <th>Organization name</th>
-                                                <th>City</th>
+                                                <th>Name</th>
+                                                <th>Username</th>
                                                 <th>Active</th>
                                                 <th>Update</th>
                                                 <th>Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>';
-                         foreach($results as $row) {
-                             $table .='
+                        foreach($results as $row) {
+                            $table .='
                                     <tr>
-                                        <td>' . $row['org_name'] . '</td>
-                                        <td>' . $row['city_name'] . '</td>
-                                        
+                                        <td>' . $row['name'] . '</td>
+                                        <td>' . $row['username'] . '</td>
+                                       
                                         <td>' . $row['active'] . '</td>
                                         
-                                        <td><button type="button" class="btn btn-outline-success update_input_id col-2 updateBtn" value="'.$row['org_id'].'"
-                            city-data="'.$row['city_name'].'" name-data="'.$row['org_name'].'" id-data="'.$row['org_id'].'" 
-                            status-data="'.$row['status'].'"><i class="bi bi-pencil"></i></button></td>
+                                        <td><button type="button" class="btn btn-outline-success update_input_id col-2 updateBtn" value="'.$row['user_id'].'"
+                             name-data="'.$row['name'].'" id-data="'.$row['user_id'].'" 
+                            ><i class="bi bi-pencil"></i></button></td>
                                         
                                         <td><button type="button" class="btn btn-outline-danger col-2 updateBtn" 
-                            id-data="'.$row['org_id'].'><i class="bi bi-trash"></i></button></td>
+                            id-data="'.$row['user_id'].'><i class="bi bi-trash"></i></button></td>
                                     </tr>
                                     
                                 ';
-                         }
-                            $table .= '
+                        }
+                        $table .= '
                                 </tbody>
                                 </table>
                             ';
-                            echo $table;
+                        echo $table;
                         ?>
 
                     </div>
@@ -173,10 +161,10 @@ $pdo = connectDatabase($dsn, $pdoOptions);
         </div>
     </section>
 </main>
-<?php
-require '../admin_includes/footer.php';
-?>
-?>
+
+
+
+
 <!-- Vendor JS Files -->
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

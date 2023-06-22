@@ -87,7 +87,7 @@
             </a>
         </li><!-- End Profile Page Nav -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="../../Admin/Admin/users-profile.html">
+            <a class="nav-link collapsed" href="../admin_pages/users.php">
                 <i class="bi bi-person"></i>
                 <span>Users</span>
             </a>
