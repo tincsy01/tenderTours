@@ -15,7 +15,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../vendor/twbs/bootstrap-icons/icons" rel="stylesheet">
+<!--    <link href="../vendor/twbs/bootstrap-icons/icons" rel="stylesheet">-->
     <script src="../vendor/jquery/jquery.min.js"></script>
 
     <!-- Additional CSS Files -->
@@ -27,7 +27,6 @@
 
 </head>
 <script>
-
     $(document).ready(function() {
 
         // Live Search
@@ -38,18 +37,33 @@
             });
         });
 
+        // $("#type_dropdown").on("change", function() {
+        //     var value = $(this).val().toLowerCase();
+        //     $("#statisticTable tbody tr").filter(function() {
+        //     // $(".statisticTable tr").filter(function() {
+        //         if (value == "") {
+        //             $(this).toggle(true);
+        //         } else {
+        //             return $(this).children("td:nth-child(4)").text().toLowerCase() == value;
+        //         }
+        //     }).toggle();
+        // });
         $("#type_dropdown").on("change", function() {
-            var value = $(this).val().toLowerCase();
-            $(".statisticTable tr").filter(function() {
-                if (value == "") {
-                    $(this).toggle(true);
+            var selectedCategory = $(this).val();
+            $("#statisticTable tbody tr").each(function() {
+                var rowCategory = $(this).find("td:nth-child(4)").text();
+                if (selectedCategory === "" || rowCategory.toLowerCase() === selectedCategory.toLowerCase()) {
+                    $(this).show();
                 } else {
-                    return $(this).children("td:nth-child(4)").text().toLowerCase() == value;
+                    $(this).hide();
                 }
-            }).toggle();
-        });
+            });
+        }).change();
+
     });
 
+
+</script>
 
 </script>
 <body>
@@ -68,13 +82,78 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                 </div>
             </div>
             <form action="" method="post" id="search-form" class="statisticTable">
-                <p>Live Search:</p>
+<!--            --><?php
+//            // Kategória lekérdezés
+//            $sql = "SELECT category_id, category FROM categories ORDER BY category ASC";
+//            $query = $pdo->prepare($sql);
+//            $query->execute();
+//            $categories = $query->fetchAll();
+//
+//            // Atrakciók lekérdezése
+//            $sql = "SELECT a.attraction_id, a.name, a.longitude, a.lattitude, a.num_of_visitors, a.popular, c.category
+//        FROM attractions a INNER JOIN categories c ON c.category_id = a.category_id WHERE a.org_id = :org_id";
+//            $org_id = $_SESSION['user_id'];
+//            $query = $pdo->prepare($sql);
+//            $query->bindParam(':org_id', $org_id);
+//            $query->execute();
+//            $attractions = $query->fetchAll();
+//            ?>
+<!---->
+<!--            <!-- Select lista -->-->
+<!--            <p>Select category</p>-->
+<!--            <select name="type" id="type_dropdown" class="form-control">-->
+<!--                <option value="">---Select---</option>-->
+<!--                --><?php //foreach ($categories as $category): ?>
+<!--                    <option value="--><?php //echo $category['category_id']; ?><!--">--><?php //echo $category['category']; ?><!--</option>-->
+<!--                --><?php //endforeach; ?>
+<!--            </select>-->
+<!---->
+<!--            <!-- Táblázat -->-->
+<!--            <table class="table" id="statisticTable">-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                    <th scope="col">Name of attraction</th>-->
+<!--                    <th scope="col">Number of visitors</th>-->
+<!--                    <th scope="col">Popularity</th>-->
+<!--                    <th scope="col">Type</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                --><?php //foreach ($attractions as $attraction): ?>
+<!--                    <tr>-->
+<!--                        <td>--><?php //echo $attraction['name']; ?><!--</td>-->
+<!--                        <td>--><?php //echo $attraction['num_of_visitors']; ?><!--</td>-->
+<!--                        <td>--><?php //echo $attraction['popular']; ?><!--</td>-->
+<!--                        <td>--><?php //echo $attraction['category']; ?><!--</td>-->
+<!--                    </tr>-->
+<!--                --><?php //endforeach; ?>
+<!--                </tbody>-->
+<!--            </table>-->
+<!---->
+<!--            <script>-->
+<!--                $(document).ready(function() {-->
+<!--                    $("#type_dropdown").on("change", function() {-->
+<!--                        var selectedCategory = $(this).val();-->
+<!--                        $("#statisticTable tbody tr").each(function() {-->
+<!--                            var rowCategory = $(this).find("td:nth-child(4)").text();-->
+<!--                            if (selectedCategory === "" || rowCategory === selectedCategory) {-->
+<!--                                $(this).show();-->
+<!--                            } else {-->
+<!--                                $(this).hide();-->
+<!--                            }-->
+<!--                        });-->
+<!--                    }).change(); // Azonnal végrehajtjuk a szűrést a kezdő kategória alapján-->
+<!--                });-->
+<!--            </script>-->
+
+
+                            <p>Live Search:</p>
                 <input class="form-control" id="myInput" type="text" placeholder="Search..">
                 <p>Select category</p>
-                <select name="type" class="form-control" id="type_dropdown" class="category">
+                <select name="type" class="form-control category" id="type_dropdown">
                     <option>---Select---</option>
                     <?php
-                    $sql = "SELECT category_id, category FROM categories";
+                    $sql = "SELECT category_id, category FROM categories ORDER BY category ASC";
                     $query = $pdo->prepare($sql);
                     $query->execute();
                     $categories = $query->fetchAll();
@@ -85,7 +164,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                 </select>
 
                 <?php
-                $sql = "SELECT a.attraction_id, a.name, a.longitude, a.lattitude, a.num_of_visitors, a.popular, c.category 
+                $sql = "SELECT a.attraction_id, a.name, a.longitude, a.lattitude, a.num_of_visitors, a.popular, c.category
                     FROM attractions a INNER JOIN categories c ON c.category_id = a.category_id  WHERE a.org_id = :org_id";
                 $org_id = $_SESSION['user_id'];
                 $query = $pdo->prepare($sql);
