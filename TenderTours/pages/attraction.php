@@ -136,6 +136,59 @@ $user_id = $_SESSION['user_id'];
                 console.error("AJAX request failed:", error);
             }
         });
+
+        // Kedvencek kezelése
+        $('.addToFavourites').on('click', function() {
+            var attractionId = $(this).data('attraction-id');
+
+            $.ajax({
+                url: "../ajax/add_favourites.php",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    attraction_id: attractionId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Sikeresen hozzáadva a kedvencekhez
+                        $('.addToFavourites').hide();
+                        $('.deleteFromFavourites').show();
+                    } else {
+                        // Hiba történt a hozzáadás során
+                        console.error(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX request failed:", error);
+                }
+            });
+        });
+
+        $('.deleteFromFavourites').on('click', function() {
+            var attractionId = $(this).data('attraction-id');
+
+            $.ajax({
+                url: "../ajax/delete_favourites.php",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    attraction_id: attractionId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Sikeresen törölve a kedvencek közül
+                        $('.addToFavourites').show();
+                        $('.deleteFromFavourites').hide();
+                    } else {
+                        // Hiba történt a törlés során
+                        console.error(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX request failed:", error);
+                }
+            });
+        });
     });
 </script>
 <div class="main-banner">
@@ -154,8 +207,6 @@ $user_id = $_SESSION['user_id'];
             </div>
             <div id="attraction" class="col-lg-6 col-sm-6 col-xs-6">
                 <?php
-
-
                 if (isAttractionInFavorites($pdo, $user_id, $attraction_id)) {
                     // Az attrakció már hozzá van adva a kedvencekhez
                     echo '<div class="attraction-name">' . getAttractionName($pdo, $attraction_id) . '</div>';
@@ -175,16 +226,12 @@ $user_id = $_SESSION['user_id'];
                     echo '<button type="button" class="btn btn-primary deleteFromFavourites" data-attraction-id="' . $attraction_id . '">Delete from favourites</button>';
                     echo '</div>';
                 }
-
                 echo '<div class="attraction-description">' . getAttractionDescription($pdo, $attraction_id) . '</div>';
-
                 ?>
-
             </div>
             <div id="map" style="height: 400px;" class="col-lg-4 col-sm-4 col-xs-4"></div>
             <div id="comments"></div>
             <div id="comment-section" class="col-lg-4 col-sm-4 col-xs-4"></div>
-
         </div>
     </div>
 </div>

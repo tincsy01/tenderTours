@@ -23,24 +23,9 @@
     <link rel="stylesheet" href="../assets/css/templatemo-plot-listing.css">
     <link rel="stylesheet" href="../assets/css/animated.css">
     <link rel="stylesheet" href="../assets/css/owl.css">
-    <!--
-    https://templatemo.com/tm-564-plot-listing
-    -->
 </head>
 
 <body>
-<!-- ***** Preloader Start *****-->
-<!--<div id="js-preloader" class="js-preloader">-->
-<!--    <div class="preloader-inner">-->
-<!--        <span class="dot"></span>-->
-<!--        <div class="dots">-->
-<!--            <span></span>-->
-<!--            <span></span>-->
-<!--            <span></span>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<!-- ***** Preloader End *****-->
 
 <?php
 include '../includes/header.php';
@@ -56,23 +41,23 @@ require_once '../includes/db_config.php';
                     <h2>Find Tours Places &amp; Things</h2>
                 </div>
             </div>
-            <div class="col-lg-12">
-                <form id="search-form" name="gs" method="submit" role="search" action="#">
-                    <div class="row">
-                        <div class="col-lg-8 align-self-center">
-                            <fieldset>
-                                <input type="address" name="address" class="searchText" placeholder="Enter a location" autocomplete="on" required>
-                            </fieldset>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <fieldset>
-                                <button class="main-button"><i class="fa fa-search"></i> Search Now</button>
-                            </fieldset>
-                        </div>
-                    </div>
-                </form>
-            </div>
+<!--            <div class="col-lg-12">-->
+<!--                <form id="search-form" name="gs" method="submit" role="search" action="#">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-lg-8 align-self-center">-->
+<!--                            <fieldset>-->
+<!--                                <input type="address" name="address" class="searchText" placeholder="Enter a location" autocomplete="on" required>-->
+<!--                            </fieldset>-->
+<!--                        </div>-->
+<!---->
+<!--                        <div class="col-lg-3">-->
+<!--                            <fieldset>-->
+<!--                                <button class="main-button"><i class="fa fa-search"></i> Search Now</button>-->
+<!--                            </fieldset>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
             <div class="col-lg-10 offset-lg-1">
                 <ul class="categories">
                     <li><a href="cities.php"><span class="icon"><img src="../assets/images/search-icon-01.png" alt="Home"></span> Cities</a></li>

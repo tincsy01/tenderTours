@@ -30,22 +30,6 @@ include '../includes/header.php';
 require_once '../includes/config.php';
 require_once '../includes/db_config.php';
 ?>
-
-<div class="main-banner">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="top-text header-text">
-                    <h2>List of your favourite attractions</h2>
-                </div>
-            </div>
-            <div id="allAttraction" class="col-lg-10 col-sm-10 col-xs-10">
-
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
     function getFavourites() {
         var xhr = new XMLHttpRequest();
@@ -60,7 +44,10 @@ require_once '../includes/db_config.php';
                     for (var i = 0; i < attractions.length; i++) {
                         var attraction = attractions[i];
                         var attractionElement = document.createElement('p');
-                        attractionElement.textContent = attraction.name;
+                        var attractionLink = document.createElement('a');
+                        attractionLink.textContent = attraction.name;
+                        attractionLink.href = 'attraction.php?attraction_id=' + attraction.attraction_id;
+                        attractionElement.appendChild(attractionLink);
                         attractionsList.appendChild(attractionElement);
                     }
                 } else {
@@ -80,6 +67,21 @@ require_once '../includes/db_config.php';
         getFavourites();
     };
 </script>
+<div class="main-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="top-text header-text">
+                    <h2>List of your favourite attractions</h2>
+                </div>
+            </div>
+            <div id="allAttraction" class="col-lg-10 col-sm-10 col-xs-10">
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php
 require_once '../includes/footer.php';
 ?>
