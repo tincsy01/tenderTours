@@ -432,12 +432,14 @@ function registerOrganization($name, $city, $username,$email, $password, $phone,
 }
 function addCity($city, $lattitude, $longitude, $newFileName){
     global $pdo;
-    $sql = "INSERT INTO cities (city_name, longitude, lattitude, image) VALUES (:city, :longitude, :lattitude, :image)";
+    $checked = 1;
+    $sql = "INSERT INTO cities (city_name, longitude, lattitude, image, checked) VALUES (:city, :longitude, :lattitude, :image, :checked)";
     $query = $pdo->prepare($sql);
     $query->bindParam(':city', $city);
     $query->bindParam(':longitude', $longitude);
     $query->bindParam(':lattitude', $lattitude);
     $query->bindParam(':image', $newFileName);
+    $query->bindParam(':checked', $checked);
     $query->execute();
 
 
@@ -510,12 +512,29 @@ function updateAttraction($attraction_id, $name, $longitude, $lattitude){
 
 function deleteAttraction($attraction_id){
     global $pdo;
-    $sql = "DELETE * FROM attractions WHERE attraction_id = :attraction_id";
+    $sql = "DELETE * FROM attractions WHERE attraction_id = :attraction_id ";
     $query = $pdo->prepare($sql);
     $query->bindValue(':attraction_id', $attraction_id);
     $query->execute();
+    return json_encode(['success' => true, 'msg' => 'Deleted successfully']);
+
 }
-function updateOrganization($org_id,$name,$banning, $visible){
+function deleteOrganization($org_id){
+    global $pdo;
+    $sql1 = "DELETE FROM organizations WHERE org_id = :org_id ";
+    $query = $pdo->prepare($sql1);
+    $query->bindValue(':org_id', $org_id);
+    $query->execute();
+
+    $sql2 = "DELETE FROM attractions WHERE org_id = :org_id";
+    $query = $pdo->prepare($sql2);
+    $query->bindValue(':org_id', $org_id);
+    $query->execute();
+
+    return json_encode(['success' => true, 'msg' => 'Deleted successfully']);
+
+}
+function updateOrganization($org_id, $name, $banning, $visible) {
     global $pdo;
     $sql = "UPDATE organizations SET org_name = :name, active = :banning, status = :visible WHERE org_id = :org_id ";
     $query = $pdo->prepare($sql);
@@ -524,8 +543,7 @@ function updateOrganization($org_id,$name,$banning, $visible){
     $query->bindValue(':visible', $visible);
     $query->bindValue(':org_id', $org_id);
     $query->execute();
-     return json_encode(['success'=> true, 'msg'=> 'Updated successfully']);
-
+    return json_encode(['success' => true, 'msg' => 'Updated successfully']);
 }
 function updateUser($user_id, $banning){
     global $pdo;

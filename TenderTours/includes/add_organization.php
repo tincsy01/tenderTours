@@ -58,12 +58,12 @@ if (!existsOrganization($name)) {
 
     $org_id = registerOrganization( $name, $city, $username, $email, $password, $phone, $address, $description,  $code);
     if (sendData($username, $email, $code)) {
-        redirection("../add_organizations.php?r=3");
+        redirection("../admin_pages/add_organizations.php?r=3");
     } else {
         //addEmailFailure($user_id);
-        redirection("../add_organizations.php?r=10");
+        redirection("../admin_pages/add_organizations.php?r=10");
     }
 
 } else {
-    redirection('../add_organizations.php?r=2');
+    redirection('../admin_pages/add_organizations.php?r=2');
 }

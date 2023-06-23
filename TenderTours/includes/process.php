@@ -128,20 +128,20 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
                 // Check if uploaded file is an image
                 $image_info = getimagesize($image['tmp_name']);
                 if (!$image_info) {
-                    header("Location:make_attractions.php?r=16");
+                    header("Location:../pages/make_attractions.php?r=16");
                     exit();
                 }
                 // Valid image format
                 $valid_formats = ["jpg", "jpeg", "png", "gif"];
                 $extension = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
                 if (!in_array($extension, $valid_formats)) {
-                    header("Location:make_attractions.php?r=16");
+                    header("Location:../pages/make_attractions.php?r=16");
                     exit();
                 }
                 // Valid image size
                 $max_size = 1024*1024; // 1MB
                 if ($image['size'] > $max_size) {
-                    header("Location:make_attractions.php?r=16");
+                    header("Location:../pages/make_attractions.php?r=16");
                     exit();
                 }
 
@@ -149,7 +149,7 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
                 $newFileName = time() . '-' . $attraction. '-' . mt_rand(10, 100) . '.' . $extension;
 
                 if (!move_uploaded_file($image['tmp_name'], $directory . $newFileName)) {
-                    header("Location:make_attractions.php?r=16");
+                    header("Location:../pages/make_attractions.php?r=16");
                     exit();
                 }
             }
@@ -186,6 +186,13 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             if(isset($attraction_id)){
                 //$attraction_id = $_POST['attraction_id'];
                 $data = deleteAttraction($attraction_id);
+            }
+            break;
+        case "delete_organization_admin":
+
+            $org_id = $_POST['org_id'];
+            if(isset($org_id)){
+                $data = deleteOrganization($org_id);
             }
             break;
         case "update_organization_admin":

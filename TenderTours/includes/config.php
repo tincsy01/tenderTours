@@ -18,7 +18,7 @@ $pdoOptions = [
 ];
 
 $actions = ['login', 'register', 'forget', 'make_attraction', 'update_attraction', 'delete_attraction', 'update_organization_admin',
-            'make_tour', 'update_user_admin'];
+            'make_tour', 'update_user_admin', 'delete_organization_admin'];
 
 $messages = [
     0 => 'No direct access!',

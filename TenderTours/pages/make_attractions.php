@@ -80,6 +80,20 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                 location.reload();
             }, 'json');
         });
+        // $(".delete").click(function (){ modositott
+        //     var attraction_id = $(this).attr('attraction-data');
+        //     $.post("../includes/process.php", {
+        //         attraction_id: attraction_id,
+        //         action: 'delete_attraction',
+        //     }, function (data){
+        //         if (data.success) {
+        //             location.reload();
+        //             alert(data.msg);
+        //         } else {
+        //             alert(data.msg);
+        //         }
+        //     }, 'json');
+        // });
     });
 </script>
 <div class="main-banner">
@@ -101,7 +115,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                         <div class="col-lg-8 align-self-center">
                             <select name="category_id" class="form-select col-lg-8">
                                 <?php
-                                $sql = "SELECT category_id, category FROM categories";
+                                $sql = "SELECT category_id, category FROM categories ORDER BY category ASC";
                                 $query = $pdo->query($sql);
                                 $cities = $query->fetchAll();?>
                                 <?php foreach ($cities as  $city){ ?>
@@ -244,14 +258,11 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                             lattitude-data="'.$attraction['lattitude'].'"
                                             class="update_button"><i class="bi bi-pencil"></i></button></td>
                                             <input type="hidden" name="attraction_id" class="update_input_id" value="'.$attraction['attraction_id'].' />
-
                                             <input type="hidden" name="action" value="delete_attraction">
-
                                             <td><button attraction-data="'.$attraction['attraction_id'].'"
                                              class="delete">
                                             <i class="bi bi-trash3"></i></button></td>
                                         </tr>';
-                               //var_dump($attraction['attraction_id'],$attraction['name']);
 
                            }
 
@@ -262,9 +273,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                            echo $table;
                            ?>
                        </div>
-<!--                   </div>-->
-
-                   <!-- itt volt-->
                 </form>
             </div>
         </div>
