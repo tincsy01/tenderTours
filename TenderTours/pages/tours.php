@@ -61,9 +61,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                     var tourId = document.createElement('p');
                     tourId.textContent = 'Tour ID: ' + tour.tour_id;
                     tourElement.appendChild(tourId);
-                    var userId = document.createElement('p');
-                    userId.textContent = 'User ID: ' + tour.user_id;
-                    tourElement.appendChild(userId);
                     var date = document.createElement('p');
                     date.textContent = 'Date and time: ' + tour.date;
                     tourElement.appendChild(date);
@@ -94,98 +91,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
     window.onload = function() {
         getTours();
     };
-    // function initMap() {
-    //     // Kezdő pozíció beállítása (például Budapest)
-    //     var initialPosition = {lat: 47.4979, lng: 19.0402};
-    //
-    //     // Térkép létrehozása és megjelenítése a "map" elemen belül
-    //     var map = new google.maps.Map(document.getElementsByClassName('map'), {
-    //         center: initialPosition,
-    //         zoom: 12
-    //     });
-    //
-    //     // AJAX hívás a látványosságok lekérdezéséhez az adatbázisból
-    //     var xhr = new XMLHttpRequest();
-    //     // xhr.open('GET', '../ajax/tour_parameters.php', true);
-    //     xhr.open('GET', '../ajax/tour_parameters.php?id=' + tour_id, true);
-    //     xhr.onload = function () {
-    //         if (xhr.status === 200) {
-    //             // JSON válasz feldolgozása
-    //             var attractions = JSON.parse(xhr.responseText);
-    //             if (attractions.success) {
-    //                 var attractionsData = attractions.attractions;
-    //
-    //                 // Látványosságok pontjainak megjelenítése a térképen
-    //                 for (var i = 0; i < attractionsData.length; i++) {
-    //                     var attraction = attractionsData[i];
-    //                     var position = {lat: parseFloat(attraction.latitude), lng: parseFloat(attraction.longitude)};
-    //                     var marker = new google.maps.Marker({
-    //                         position: position,
-    //                         map: map,
-    //                         title: attraction.name
-    //                     });
-    //                 }
-    //             }
-    //         }
-    //     };
-    //     xhr.send();
-    // }
-
-    // function getTours() {
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.open('GET', '../ajax/get_tours.php');
-    //     xhr.onload = function() {
-    //         if (xhr.status === 200) {
-    //             var tours = JSON.parse(xhr.responseText);
-    //             var toursList = document.querySelector('.tours-list');
-    //             toursList.innerHTML = '';
-    //             for (var i = 0; i < tours.length; i++) {
-    //                 var tour = tours[i];
-    //                 var tourElement = document.createElement('div');
-    //                 tourElement.setAttribute('class', 'tour');
-    //                 var cityHeader = document.createElement('h2');
-    //                 cityHeader.textContent = tour.city_name;
-    //                 tourElement.appendChild(cityHeader);
-    //                 var tourId = document.createElement('p');
-    //                 tourId.textContent = 'Tour ID: ' + tour.tour_id;
-    //                 tourElement.appendChild(tourId);
-    //                 var userId = document.createElement('p');
-    //                 userId.textContent = 'User ID: ' + tour.user_id;
-    //                 tourElement.appendChild(userId);
-    //                 var date = document.createElement('p');
-    //                 date.textContent = 'Date and time: ' + tour.date;
-    //                 tourElement.appendChild(date);
-    //                 var attractionsHeader = document.createElement('p');
-    //                 attractionsHeader.textContent = 'Attractions:';
-    //                 tourElement.appendChild(attractionsHeader);
-    //                 var attractionsList = document.createElement('ul');
-    //                 var attractions = tour.attractions;
-    //                 for (var j = 0; j < attractions.length; j++) {
-    //                     var attraction = attractions[j];
-    //                     var attractionItem = document.createElement('li');
-    //                     attractionItem.textContent = attraction.name;
-    //                     attractionsList.appendChild(attractionItem);
-    //                 }
-    //                 tourElement.appendChild(attractionsList);
-    //                 toursList.appendChild(tourElement);
-    //             }
-    //         } else {
-    //             console.error('Hiba történt: ' + xhr.statusText);
-    //         }
-    //     };
-    //     xhr.onerror = function() {
-    //         console.error('Hiba történt az AJAX kérés során');
-    //     };
-    //     xhr.send();
-    // }
-    //
-    // window.onload = function() {
-    //     getTours();
-    // };
-
-
-
-
 </script>
 
 <div class="main-banner">

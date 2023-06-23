@@ -5,7 +5,7 @@ require_once '../includes/config.php';
 require_once '../includes/db_config.php';
 $pdo = connectDatabase($dsn, $pdoOptions);
 
-$sql = "SELECT c.city_name, t.tour_id, t.user_id, ta.attraction_id, a.name, c.city_id, t.date
+$sql = "SELECT c.city_name, t.tour_id, ta.attraction_id, a.name, c.city_id, t.date
         FROM tours t 
         INNER JOIN tour_attraction ta ON t.tour_id = ta.tour_id 
         INNER JOIN attractions a ON a.attraction_id = ta.attraction_id 
@@ -24,7 +24,6 @@ foreach ($tours as $tour) {
     if (!isset($groupedTours[$tour['tour_id']])) {
         $groupedTours[$tour['tour_id']] = array(
             'tour_id' => $tour['tour_id'],
-            'user_id' => $tour['user_id'],
             'city_id' => $tour['city_id'],
             'city_name' => $tour['city_name'],
             'attractions' => array(),

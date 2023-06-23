@@ -34,29 +34,30 @@
 <body>
 <script>
     $(document).ready(function () {
-        $(".updateBtn").click(function (){
-            $('select[name="banning"]').val($(this).attr('status-data'));
-            $('#update_window').css({
-                display: "block"
-            });
-            $('.backdrop').css({
-                display: "block"
-            });
+        $(".updateBtn").click(function () {
+            var userId = $(this).attr('value');
+            var userName = $(this).attr('name-data');
+            var banningStatus = $(this).attr('status-data');
+            $('select[name="banning"]').val(banningStatus);
+            $('.update_input_id').val(userId);
+            $('#update_window').css({ display: "block" });
+            $('.backdrop').css({ display: "block" });
         });
-        $('.close').click(function (){
-            $('.modal').css({
-                display: "none"
-            });
-            $('.backdrop').css({
-                display: "none"
-            });
+
+        $('.close').click(function () {
+            $('.modal').css({ display: "none" });
+            $('.backdrop').css({ display: "none" });
         });
-        $('.update_save').click(function (){
+
+        $('.update_save').click(function () {
+            var userId = $('.update_input_id').val();
+            var banningStatus = $('.banning').val();
+
             $.post("../includes/process.php", {
-                user_id: $('.update_input_id').val(),
-                banning: $('.banning').val(),
+                user_id: userId,
+                banning: banningStatus,
                 action: 'update_user_admin',
-            }, function (data){
+            }, function (data) {
                 if (data.success) {
                     location.reload();
                     alert(data.msg);
@@ -126,7 +127,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                                 <th>Username</th>
                                                 <th>Active</th>
                                                 <th>Update</th>
-                                                <th>Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>';
@@ -136,13 +136,9 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                         <td>' . $row['name'] . '</td>
                                         <td>' . $row['username'] . '</td>
                                         <td>' . $row['active'] . '</td>
-                                        
                                         <td><button type="button" class="btn btn-outline-success update_input_id col-2 updateBtn" value="'.$row['user_id'].'"
                              name-data="'.$row['name'].'" id-data="'.$row['user_id'].'" 
                             ><i class="bi bi-pencil"></i></button></td>
-                                        
-                                        <td><button type="button" class="btn btn-outline-danger col-2 updateBtn" 
-                            id-data="'.$row['user_id'].'><i class="bi bi-trash"></i></button></td>
                                     </tr>
                                     
                                 ';

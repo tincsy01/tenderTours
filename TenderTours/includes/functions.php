@@ -531,6 +531,11 @@ function deleteOrganization($org_id){
     $query->bindValue(':org_id', $org_id);
     $query->execute();
 
+    $sql2 = "DELETE organization_name FROM cities WHERE org_id = :org_id";
+    $query = $pdo->prepare($sql2);
+    $query->bindValue(':org_id', $org_id);
+    $query->execute();
+
     return json_encode(['success' => true, 'msg' => 'Deleted successfully']);
 
 }

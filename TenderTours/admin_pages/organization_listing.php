@@ -304,7 +304,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                 city-data="'.$row['city_name'].'"
                                 name-data="'.$row['org_name'].'"
                                 id-data="'.$row['org_id'].'" 
-                                status-data="'.$row['status'].'"
+                                status-data="'.$row['active'].'"
                                 visibility-data="'.$row['status'].'"><i class="bi bi-pencil"></i></button></td>
                     <td><button type="button" class="btn btn-outline-danger col-2 deleteBtn" 
                                 id-data="'.$row['org_id'].'"><i class="bi bi-trash"></i></button></td>
