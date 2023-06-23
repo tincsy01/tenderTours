@@ -38,8 +38,7 @@
 
         // AJAX hívás a látványosságok lekérdezéséhez az adatbázisból
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '../ajax/tour_parameters.php', true);
-        xhr.onload = function () {
+        xhr.open('GET', '../ajax/tour_parameters.php?id=' + tour_id, true);        xhr.onload = function () {
             if (xhr.status === 200) {
                 // JSON válasz feldolgozása
                 var attractions = JSON.parse(xhr.responseText);

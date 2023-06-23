@@ -94,41 +94,42 @@ $pdo = connectDatabase($dsn, $pdoOptions);
     window.onload = function() {
         getTours();
     };
-    function initMap() {
-        // Kezdő pozíció beállítása (például Budapest)
-        var initialPosition = {lat: 47.4979, lng: 19.0402};
-
-        // Térkép létrehozása és megjelenítése a "map" elemen belül
-        var map = new google.maps.Map(document.getElementsByClassName('map'), {
-            center: initialPosition,
-            zoom: 12
-        });
-
-        // AJAX hívás a látványosságok lekérdezéséhez az adatbázisból
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '../ajax/tour_parameters.php', true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                // JSON válasz feldolgozása
-                var attractions = JSON.parse(xhr.responseText);
-                if (attractions.success) {
-                    var attractionsData = attractions.attractions;
-
-                    // Látványosságok pontjainak megjelenítése a térképen
-                    for (var i = 0; i < attractionsData.length; i++) {
-                        var attraction = attractionsData[i];
-                        var position = {lat: parseFloat(attraction.latitude), lng: parseFloat(attraction.longitude)};
-                        var marker = new google.maps.Marker({
-                            position: position,
-                            map: map,
-                            title: attraction.name
-                        });
-                    }
-                }
-            }
-        };
-        xhr.send();
-    }
+    // function initMap() {
+    //     // Kezdő pozíció beállítása (például Budapest)
+    //     var initialPosition = {lat: 47.4979, lng: 19.0402};
+    //
+    //     // Térkép létrehozása és megjelenítése a "map" elemen belül
+    //     var map = new google.maps.Map(document.getElementsByClassName('map'), {
+    //         center: initialPosition,
+    //         zoom: 12
+    //     });
+    //
+    //     // AJAX hívás a látványosságok lekérdezéséhez az adatbázisból
+    //     var xhr = new XMLHttpRequest();
+    //     // xhr.open('GET', '../ajax/tour_parameters.php', true);
+    //     xhr.open('GET', '../ajax/tour_parameters.php?id=' + tour_id, true);
+    //     xhr.onload = function () {
+    //         if (xhr.status === 200) {
+    //             // JSON válasz feldolgozása
+    //             var attractions = JSON.parse(xhr.responseText);
+    //             if (attractions.success) {
+    //                 var attractionsData = attractions.attractions;
+    //
+    //                 // Látványosságok pontjainak megjelenítése a térképen
+    //                 for (var i = 0; i < attractionsData.length; i++) {
+    //                     var attraction = attractionsData[i];
+    //                     var position = {lat: parseFloat(attraction.latitude), lng: parseFloat(attraction.longitude)};
+    //                     var marker = new google.maps.Marker({
+    //                         position: position,
+    //                         map: map,
+    //                         title: attraction.name
+    //                     });
+    //                 }
+    //             }
+    //         }
+    //     };
+    //     xhr.send();
+    // }
 
     // function getTours() {
     //     var xhr = new XMLHttpRequest();
@@ -203,8 +204,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 require_once '../includes/footer.php';
 ?>
 <script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyDdM9r54y8zfnzG36y0JMpayRCyQj1TU2o&callback=initMap"></script>
-
-
 <!-- Scripts -->
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
