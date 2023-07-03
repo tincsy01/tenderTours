@@ -12,7 +12,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <title>TenderTours</title>
-    <title>TenderTours</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -22,9 +21,6 @@
     <link rel="stylesheet" href="../assets/css/templatemo-plot-listing.css">
     <link rel="stylesheet" href="../assets/css/animated.css">
     <link rel="stylesheet" href="../assets/css/owl.css">
-    <!--
-    https://templatemo.com/tm-564-plot-listing
-    -->
 </head>
 
 <body>
@@ -35,6 +31,42 @@ require_once '../includes/config.php';
 require_once '../includes/db_config.php';
 $pdo = connectDatabase($dsn, $pdoOptions);
 ?>
+<!--<script>-->
+<!--    function getCities() {-->
+<!--        $.ajax({-->
+<!--            url: "../ajax/get_cities.php",-->
+<!--            method: "GET",-->
+<!--            dataType: "json"-->
+<!--        }).done(function (data) {-->
+<!--            insertCities(data);-->
+<!--        }).fail(function (err) {-->
+<!--            console.log("error");-->
+<!--        });-->
+<!--    }-->
+<!---->
+<!--    function insertCities(cities) {-->
+<!--        const cityContainer = document.querySelector('.city-container');-->
+<!--        var listing = document.getElementById("listing");-->
+<!--        for (var i = 0; i < cities.length; i++) {-->
+<!--            var city = cities[i];-->
+<!--            var item = document.createElement("div");-->
+<!--            item.classList.add("listing-item");-->
+<!--            item.innerHTML = `-->
+<!--                    <div class="left-image">-->
+<!--                        <a href="#"><img src="../images/cities/${city.image}" alt="City image"></a>-->
+<!--                    </div>-->
+<!--                    <div class="right-content align-self-center">-->
+<!--                        <a href="city_attraction.php?city_id=${city.city_id}"><h4>${city.city_name}</h4></a>-->
+<!--                        <div class="main-white-button">-->
+<!--                            <a href="../contact.html"><i class="fa fa-eye"></i> View Now</a>-->
+<!--                        </div>-->
+<!--                    </div>`;-->
+<!--            listing.appendChild(item);-->
+<!--        }-->
+<!--    }-->
+<!---->
+<!--    getCities();-->
+<!--</script>-->
 <script>
 
     function getCities() {
@@ -127,12 +159,15 @@ require_once '../includes/footer.php';
 ?>
 
 <!-- Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/owl-carousel.js"></script>
 <script src="../assets/js/animation.js"></script>
 <script src="../assets/js/imagesloaded.js"></script>
 <script src="../assets/js/custom.js"></script>
+
 </body>
 </html>
 

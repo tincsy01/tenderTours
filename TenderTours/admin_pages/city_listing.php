@@ -83,9 +83,9 @@ $pdo = connectDatabase($dsn, $pdoOptions);
         <h1>Form Elements</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../../Admin/Admin/index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                 <li class="breadcrumb-item">Forms</li>
-                <li class="breadcrumb-item active">Organization listing</li>
+                <li class="breadcrumb-item active">City listing</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -94,7 +94,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">List of organization</h5>
+                        <h5 class="card-title">List of cities</h5>
                         <div class="backdrop"></div>
                         <div id="update_window" class="modal">
                             <div class="close">x</div>
@@ -173,7 +173,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 </main>
 <?php
 require '../admin_includes/footer.php';
-?>
 ?>
 <!-- Vendor JS Files -->
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
