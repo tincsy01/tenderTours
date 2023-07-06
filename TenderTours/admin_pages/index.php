@@ -93,7 +93,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                     dataType: 'json',
                                     success: function(response) {
                                         if (response.success) {
-                                            var data = response.data;
+                                            var data = response.ata;
 
                                             // Adatok feldolgozása
                                             var labels = [];

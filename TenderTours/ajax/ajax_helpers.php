@@ -3,6 +3,7 @@ require_once '../includes/config.php';
 require_once '../includes/db_config.php';
 $pdo = connectDatabase($dsn, $pdoOptions);
 
+
 function isAttractionInFavorites($pdo, $user_id, $attraction_id) {
     $sql = "SELECT * FROM favourites WHERE user_id = :user_id AND attraction_id = :attraction_id";
     $query = $pdo->prepare($sql);

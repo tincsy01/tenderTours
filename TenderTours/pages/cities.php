@@ -31,54 +31,20 @@ require_once '../includes/config.php';
 require_once '../includes/db_config.php';
 $pdo = connectDatabase($dsn, $pdoOptions);
 ?>
-<!--<script>-->
-<!--    function getCities() {-->
-<!--        $.ajax({-->
-<!--            url: "../ajax/get_cities.php",-->
-<!--            method: "GET",-->
-<!--            dataType: "json"-->
-<!--        }).done(function (data) {-->
-<!--            insertCities(data);-->
-<!--        }).fail(function (err) {-->
-<!--            console.log("error");-->
-<!--        });-->
-<!--    }-->
-<!---->
-<!--    function insertCities(cities) {-->
-<!--        const cityContainer = document.querySelector('.city-container');-->
-<!--        var listing = document.getElementById("listing");-->
-<!--        for (var i = 0; i < cities.length; i++) {-->
-<!--            var city = cities[i];-->
-<!--            var item = document.createElement("div");-->
-<!--            item.classList.add("listing-item");-->
-<!--            item.innerHTML = `-->
-<!--                    <div class="left-image">-->
-<!--                        <a href="#"><img src="../images/cities/${city.image}" alt="City image"></a>-->
-<!--                    </div>-->
-<!--                    <div class="right-content align-self-center">-->
-<!--                        <a href="city_attraction.php?city_id=${city.city_id}"><h4>${city.city_name}</h4></a>-->
-<!--                        <div class="main-white-button">-->
-<!--                            <a href="../contact.html"><i class="fa fa-eye"></i> View Now</a>-->
-<!--                        </div>-->
-<!--                    </div>`;-->
-<!--            listing.appendChild(item);-->
-<!--        }-->
-<!--    }-->
-<!---->
-<!--    getCities();-->
-<!--</script>-->
 <script>
 
     function getCities() {
         $.ajax({
             url: "../ajax/get_cities.php",
             method: "GET",
-            dataType: "json" // Itt jelezzük, hogy JSON formátumban várjuk a választ
+            dataType: "json"
         }).done(function (data) {
             insertCities(data);
         }).fail(function (err) {
             console.log("error");
         });
+        // window.location.reload();
+
     }
     function insertCities(cities) {
         const cityContainer = document.querySelector('.city-container');
@@ -100,7 +66,12 @@ $pdo = connectDatabase($dsn, $pdoOptions);
         listing.appendChild(item);
         }
     }
-    getCities();
+    // $(document).ready(function() {
+    //     getCities();
+    //
+    //
+    // });
+     getCities();
 </script>
 
 <div class="main-banner">

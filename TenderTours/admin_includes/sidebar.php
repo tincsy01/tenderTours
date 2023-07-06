@@ -25,7 +25,6 @@
     <link href="../../Admin/Admin/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../../Admin/Admin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../../Admin/Admin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
     <!-- Template Main CSS File -->
     <link href="../assets/css/style.css" rel="stylesheet">
 
@@ -33,9 +32,7 @@
 
 <body>
 <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
-
         <li class="nav-item">
             <a class="nav-link " href="../admin_pages/index.php">
                 <i class="bi bi-grid"></i>
@@ -54,7 +51,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../admin_pages/organization_listing.php">
+                    <a href="../admin_pages/organization_listing_test.php">
                         <i class="bi bi-circle"></i><span>Organizations</span>
                     </a>
                 </li>

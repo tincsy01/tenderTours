@@ -7,11 +7,9 @@ if (!isset($_SESSION['user_id'])) {
     die("User is not logged in");
 }
 
-// Ellenőrizzük, hogy az attraction_id megléte
 if (!isset($_GET['attraction_id'])) {
     die("Missing attraction ID");
 }
-
 $user_id = $_SESSION['user_id'];
 $attraction_id = $_GET['attraction_id'];
 

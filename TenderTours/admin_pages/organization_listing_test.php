@@ -81,48 +81,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
         }).fail(function(err) {
             console.log("Error:", err);
         });
-
-        // $(document).on('click', '.updateBtn', function() {
-        //     var orgId = $(this).attr('id-data');
-        //     var cityName = $(this).attr('city-data');
-        //     var orgName = $(this).attr('name-data');
-        //     var status = $(this).attr('status-data');
-        //
-        //     $('input[name="org_name"]').val(orgName);
-        //     $('select[name="banning"]').val(status);
-        //     $('select[name="visibility"]').val(status);
-        //
-        //     $('#update_window').css({
-        //         display: "block"
-        //     });
-        //     $('.backdrop').css({
-        //         display: "block"
-        //     });
-        //
-        //     $('.update_save').click(function() {
-        //         var newOrgName = $('input[name="org_name"]').val();
-        //         var newBanning = $('select[name="banning"]').val();
-        //         var newVisibility = $('select[name="visibility"]').val();
-        //
-        //         $.post("../includes/process.php", {
-        //
-        //             org_id: orgId,
-        //             name: newOrgName,
-        //             banning: newBanning,
-        //             visible: newVisibility,
-        //             action: 'update_organization_admin',
-        //         }, function(data) {
-        //             if (data.success) {
-        //                 location.reload();
-        //                 alert(data.msg);
-        //             } else {
-        //                 alert(data.msg);
-        //             }
-        //         }, 'json');
-        //         window.location.reload();
-        //     });
-        //
-        // });
         $(document).on('click', '.updateBtn', function() {
             var orgId = $(this).attr('id-data');
             var cityName = $(this).attr('city-data');
@@ -252,7 +210,6 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                              </tr>
                              </thead>
                              <tbody>
-
                              </tbody>
                          </table>
                         <div class="backdrop"></div>
@@ -285,36 +242,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                                 </div>
                             </div>
                         </div>
-<!--                        <div id="update_window" class="modal">-->
-<!--                            <div class="close">x</div>-->
-<!--                            <h3>Update Organization</h3>-->
-<!--                            <div class="col-lg-9 align-self-center">-->
-<!--                                <fieldset>-->
-<!--                                    <input type="text" id="update_name" name="org_name" class="searchText org_name" placeholder="Organization name" autocomplete="on" required>-->
-<!--                                </fieldset>-->
-<!--                                <div class="col-lg-9">-->
-<!--                                    <p>Banning organization</p>-->
-<!--                                    <select name="banning" id="banning" class="banning">-->
-<!--                                        <option value="1">Not banned</option>-->
-<!--                                        <option value="0">Banned</option>-->
-<!--                                    </select>-->
-<!--                                </div>-->
-<!--                                <div class="col-lg-9">-->
-<!--                                    <p>Visible organization</p>-->
-<!--                                    <select name="visibility" id="visibility" class="visibility">-->
-<!--                                        <option value="0">Not visible</option>-->
-<!--                                        <option value="1">Visible</option>-->
-<!--                                    </select>-->
-<!--                                </div>-->
-<!--                                <div class="col-lg-4">-->
-<!--                                    <fieldset>-->
-<!--                                        <input type="hidden" name="action" value="update_organization_admin">-->
-<!--                                        <button class="main-button update_save" type="submit"><i class="fa fa-search"></i>Update Now</button>-->
-<!--                                    </fieldset>-->
-<!--                                </div>-->
-<!---->
-<!--                            </div>-->
-<!--                        </div>-->
+
                         <div id="confirmDelete" class="modal">
                             <div class="close">x</div>
                             <h2>Are you sure you want to delete it?</h2>

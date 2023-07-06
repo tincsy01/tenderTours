@@ -85,7 +85,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 
 <div class="main-banner">
     <div class="container">
-        <div class="row">
+        <div class="row table-responsive">
             <div id="allAttraction" class=" attractionOnly table-responsive"></div>
         </div>
     </div>
