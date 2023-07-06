@@ -28,76 +28,10 @@
     <link href="../../Admin/Admin/assets/css/style.css" rel="stylesheet">
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 </head>
-<!--<script>-->
-<!--    $(document).ready(function () {-->
-<!--        var table = $('#myTable').DataTable({-->
-<!--            responsive: true-->
-<!--        });-->
-<!--        $.ajax({-->
-<!--            url: "../ajax/get_cities_data.php",-->
-<!--            method: "GET",-->
-<!--            dataType: "json"-->
-<!--        }).done(function(data) {-->
-<!--            var table = $('#myTable').DataTable();-->
-<!--            table.clear().draw();-->
-<!--            $.each(data, function(index, value) {-->
-<!--                var updateBtn = $('<button class="btn btn-primary btn-sm updateBtn">Update</button>');-->
-<!--                updateBtn.attr('value', value.org_id);-->
-<!--                updateBtn.attr('city-data', value.city_name);-->
-<!--                updateBtn.attr('name-data', value.organization_name);-->
-<!---->
-<!--                var deleteBtn = $('<button class="btn btn-danger btn-sm deleteBtn">Delete</button>');-->
-<!--                deleteBtn.attr('id-data', value.city_id);-->
-<!--                updateBtn.attr('city-data', value.city_name);-->
-<!---->
-<!--                table.row.add([-->
-<!--                    value.org_name,-->
-<!--                    value.city_name,-->
-<!--                    updateBtn.prop('outerHTML'),-->
-<!--                    deleteBtn.prop('outerHTML')-->
-<!--                ]).draw(false);-->
-<!--            });-->
-<!--        }).fail(function(err) {-->
-<!--            console.log("Error:", err);-->
-<!--        });-->
-<!---->
-<!--        $(".updateBtn").click(function (){-->
-<!--            $('input[name="city_name"]').val($(this).attr('name-data'));-->
-<!--            $('#update_window').css({-->
-<!--                display: "block"-->
-<!--            });-->
-<!--            $('.backdrop').css({-->
-<!--                display: "block"-->
-<!--            });-->
-<!--        });-->
-<!--        $('.close').click(function (){-->
-<!--            $('.modal').css({-->
-<!--                display: "none"-->
-<!--            });-->
-<!--            $('.backdrop').css({-->
-<!--                display: "none"-->
-<!--            });-->
-<!--        });-->
-<!--        $('.update_save').click(function (){-->
-<!--            $.post("../includes/process.php", {-->
-<!--                city_id: $('.update_input_id').val(),-->
-<!--                name: $('.city_name').val(),-->
-<!--                action: 'update_city_admin',-->
-<!--            }, function (data){-->
-<!--                if (data.success) {-->
-<!--                    location.reload();-->
-<!--                    alert(data.msg);-->
-<!--                } else {-->
-<!--                    alert(data.msg);-->
-<!--                }-->
-<!--            }, 'json');-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
 <body>
 <!-- ======= Header ======= -->
 <?php
@@ -108,12 +42,12 @@ require '../includes/db_config.php';
 $pdo = connectDatabase($dsn, $pdoOptions);
 ?>
 <script>
-    $(document).ready(function () {
+
+    $(document).ready(function() {
         var table = $('#myTable').DataTable({
             responsive: true
         });
 
-        // AJAX hívás a városok adatának lekérésére
         $.ajax({
             url: "../ajax/get_cities_data.php",
             method: "GET",
@@ -124,16 +58,15 @@ $pdo = connectDatabase($dsn, $pdoOptions);
 
             $.each(data, function(index, value) {
                 var updateBtn = $('<button class="btn btn-primary btn-sm updateBtn">Update</button>');
-                updateBtn.attr('value', value.org_id);
+                updateBtn.attr('value', value.city_id); // Módosított attribútum név
                 updateBtn.attr('city-data', value.city_name);
-                updateBtn.attr('name-data', value.organization_name);
 
                 var deleteBtn = $('<button class="btn btn-danger btn-sm deleteBtn">Delete</button>');
                 deleteBtn.attr('id-data', value.city_id);
-                updateBtn.attr('city-data', value.city_name);
+                deleteBtn.attr('city-data', value.city_name);
 
                 table.row.add([
-                    value.org_name,
+                    value.organization_name,
                     value.city_name,
                     updateBtn.prop('outerHTML'),
                     deleteBtn.prop('outerHTML')
@@ -143,19 +76,37 @@ $pdo = connectDatabase($dsn, $pdoOptions);
             console.log("Error:", err);
         });
 
-        // Update gombra kattintva feltölti az adatokat a modális ablakba
-        $(document).on("click", ".updateBtn", function (){
-            $('input[name="city_name"]').val($(this).attr('city-data'));
+        $(document).on("click", ".updateBtn", function() {
+            var cityId = $(this).attr('value'); // Módosított attribútum név
+            var cityData = $(this).attr('city-data');
+
+            $('input[name="city_name"]').val(cityData);
+
             $('#update_window').css({
                 display: "block"
             });
             $('.backdrop').css({
                 display: "block"
             });
+
+            $('.update_save').click(function() {
+                var cityName = $('input[name="city_name"]').val();
+
+                $.post("../ajax/update_city_test.php", {
+                    city_id: cityId,
+                    name: cityName
+                }, function(data) {
+                    if (data.success) {
+                        alert(data.msg);
+                        location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                }, 'json');
+            });
         });
 
-        // Bezárás gombra kattintva elrejti a modális ablakot
-        $('.close').click(function (){
+        $('.close').click(function() {
             $('.modal').css({
                 display: "none"
             });
@@ -163,14 +114,25 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                 display: "none"
             });
         });
+    });
 
-        // Mentés gombra kattintva elküldi az adatokat a szervernek
-        $('.update_save').click(function (){
-            $.post("../includes/process.php", {
-                city_id: $('.update_input_id').val(),
-                name: $('.city_name').val(),
-                action: 'update_city_admin',
-            }, function (data){
+    $(document).on('click', '.deleteBtn', function() {
+        var cityId = $(this).attr('id-data');
+        var cityName = $(this).attr('city-data');
+
+        $('#confirmDelete').css({
+            display: "block"
+        });
+        $('.backdrop').css({
+            display: "block"
+        });
+
+        $('.deleteBtnConfirm').click(function() {
+            $.post("../ajax/delete_city.php", {
+                city_id: cityId,
+                city_name: cityName,
+
+            }, function(data) {
                 if (data.success) {
                     location.reload();
                     alert(data.msg);
@@ -178,8 +140,19 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                     alert(data.msg);
                 }
             }, 'json');
+            window.location.reload();
+        });
+        $('.deleteBtnCancel').click(function() {
+            $('#confirmDelete').css({
+                display: "none"
+            });
+            $('.backdrop').css({
+                display: "none"
+            });
         });
     });
+
+
 </script>
 <main id="main" class="main">
     <div class="pagetitle">
@@ -216,16 +189,21 @@ $pdo = connectDatabase($dsn, $pdoOptions);
                             <h3>Update city</h3>
                             <div class="col-lg-9 align-self-center">
                                 <fieldset>
-                                    <input type="text" id="update_name" name="city_name" class="searchText org_name" placeholder="Organization name" autocomplete="on" required>
+                                    <input type="text" id="update_name" name="city_name" class="searchText city_name" placeholder="Organization name" autocomplete="on" required>
                                 </fieldset>
                                 <div class="col-lg-4">
                                     <fieldset>
-                                        <input type="hidden" name="action" value="update_city_admin">
                                         <button class="main-button update_save" type="submit"><i class="fa fa-search"></i>Update Now</button>
                                     </fieldset>
                                 </div>
 
                             </div>
+                        </div>
+                        <div id="confirmDelete" class="modal">
+                            <div class="close">x</div>
+                            <h2>Are you sure you want to delete it?</h2>
+                            <button class="btn btn-danger btn-sm deleteBtnConfirm">Delete</button>
+                            <button class="btn btn-secondary btn-sm deleteBtnCancel">Cancel</button>
                         </div>
                     </div>
                 </div>

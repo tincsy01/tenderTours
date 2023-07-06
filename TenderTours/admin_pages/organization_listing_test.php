@@ -27,7 +27,6 @@
     <link href="../../Admin/Admin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
     <link href="../../Admin/Admin/assets/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-<!--    <script src="../vendor/jquery/jquery.min.js"></script>-->
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
@@ -81,6 +80,7 @@ $pdo = connectDatabase($dsn, $pdoOptions);
         }).fail(function(err) {
             console.log("Error:", err);
         });
+
         $(document).on('click', '.updateBtn', function() {
             var orgId = $(this).attr('id-data');
             var cityName = $(this).attr('city-data');
