@@ -1,6 +1,8 @@
 <?php
 define("SITE",'https://localhost/tourist/TenderTours/pages/');
 define("SECRET",'gfhUi34xVbds23Qgk');
+date_default_timezone_set('Europe/Belgrade');
+
 const PARAMS = [
     "HOST" => 'localhost',
     "USER" => 'root',

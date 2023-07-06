@@ -27,9 +27,11 @@
 
 <body>
 <?php
+
 require_once '../includes/header.php';
 require_once '../includes/config.php';
 require_once '../includes/db_config.php';
+
 ?>
 <div class="main-banner">
     <div class="container">
@@ -76,26 +78,15 @@ require_once '../includes/db_config.php';
                                 <input type="hidden" name="action" value="login">
                                 <button class="main-button" type="submit"><i class="bi bi-send"></i> Login Now</button>
                             </fieldset>
-
                             <fieldset>
                                 <h6>If you don't have an account yet, register:</h6>
                                 <!--<input type="button" href="register.php" class="bi bi-send">-->
                                 <button class="main-button col-" type="submit" onclick="location.href='register.php'"><i class="bi bi-send"></i> Register Now</button>
                             </fieldset>
-
                         </div>
                     </div>
                 </form>
-<!--                <div class="col-lg-3 center">-->
-<!--                    <fieldset>-->
-<!--                        <h6>If you don't have an account yet, register:</h6>-->
-<!--                        <input type="button" href="register.php" class="bi bi-send">-->
-<!--                        <button class="main-button col-" type="submit"><a href="register.php"></a><i class="bi bi-send"></i> Register Now</button>-->
-<!--                    </fieldset>-->
-<!--                </div>-->
-
             </div>
-
         </div>
     </div>
 </div>

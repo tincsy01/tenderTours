@@ -2,7 +2,10 @@
 session_start();
 require_once 'config.php';
 require_once 'db_config.php';
+require_once '../vendor/mobiledetect/mobiledetectlib/src/MobileDetect.php';
 
+
+use Detection\MobileDetect;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -11,6 +14,7 @@ require '../vendor/autoload.php';
 
 
 $pdo = connectDatabase($dsn, $pdoOptions);
+$detect = new MobileDetect;
 
 
 /**
@@ -369,8 +373,8 @@ function registerOrganization($name, $city, $username,$email, $password, $phone,
         $query2 = $pdo->query($sql2);
         $city_id = $query2->fetchColumn(); // a city_id-nek egyetlen értéket adunk át, ezért fetchColumn-t használunk
 
-        $sql3 = "INSERT INTO organizations(org_name, city_id, username, email, password, phone, address, description, code, reg_expire) VALUES
-                (:org_name, :city_id,  :username, :email, :password, :phone, :address , :description, :code, :reg_expire)";
+        $sql3 = "INSERT INTO organizations(org_name, city_id, username, email, password, phone, address, description, code, reg_expire, active) VALUES
+                (:org_name, :city_id,  :username, :email, :password, :phone, :address , :description, :code, :reg_expire, :active)";
 
         $passwordHashed = password_hash($password, PASSWORD_BCRYPT);
         $active = 0;
@@ -387,47 +391,10 @@ function registerOrganization($name, $city, $username,$email, $password, $phone,
         $query3->bindParam(':description', $description, PDO::PARAM_STR);
         $query3->bindParam(':phone', $phone, PDO::PARAM_STR);
         $query3->bindParam(':reg_expire', $reg_expire, PDO::PARAM_STR);
+        $query3->bindParam(':active', $active, PDO::PARAM_STR);
         $query3->bindParam(':code', $code, PDO::PARAM_STR);
 
         $query3->execute();
-//        $sql1 = "UPDATE cities SET organization_name = :org_name WHERE city_name = :city_name";
-//        $query = $pdo->prepare($sql1);
-//
-//        $query->bindParam(':org_name', $name, PDO::PARAM_STR);
-//        $query->bindParam(':city_name', $city, PDO::PARAM_STR);
-//        $query->execute();
-
-
-//        $sql2 = "SELECT city_id FROM cities WHERE city_name = '$city'";
-//        $query = $pdo->prepare($sql2);
-//        $city_id = $query->execute();
-//        $query->execute();
-
-//        $sql3 = "INSERT INTO organizations(org_name, city_id, username, email, password, phone, address, description, code, reg_expire) VALUES
-//                            (:org_name, :city_id,  :username, :email, :password, :phone, :address , :description, :code, :reg_expire)";
-//
-//        $passwordHashed = password_hash($password, PASSWORD_BCRYPT);
-//        $active = 0;
-//        $datetime = new DateTime('tomorrow');
-//        $reg_expire= $datetime->format('Y-m-d H:i:s');
-//        $city_id = $pdo->lastInsertId();
-//
-//        $query = $pdo->prepare($sql3);
-//        $query->bindParam(':org_name', $name, PDO::PARAM_STR);
-//        $query->bindParam(':city_id', $city_id, PDO::PARAM_STR);
-//        $query->bindParam(':username', $username, PDO::PARAM_STR);
-//        $query->bindParam(':email', $email, PDO::PARAM_STR);
-//        $query->bindParam(':password', $passwordHashed, PDO::PARAM_STR);
-//        $query->bindParam(':address', $address, PDO::PARAM_STR);
-//        $query->bindParam(':description', $description, PDO::PARAM_STR);
-//        $query->bindParam(':phone', $phone, PDO::PARAM_STR);
-//        $query->bindParam(':reg_expire', $reg_expire, PDO::PARAM_STR);
-        //$query->bindParam(':active', $active, PDO::PARAM_STR); mar eleve kommentelve volt
-//        $query->bindParam(':code', $code, PDO::PARAM_STR);
-//
-//        $query->execute();
-
-        //var_dump($name, $city,$city_id, $username, $email,$passwordHashed, $address,$description, $phone, $reg_expire, $code   );die();
     }
 }
 function addCity($city, $lattitude, $longitude, $newFileName){
@@ -519,7 +486,7 @@ function deleteAttraction($attraction_id){
     return json_encode(['success' => true, 'msg' => 'Deleted successfully']);
 
 }
-function deleteOrganization($org_id){
+function deleteOrganization($org_id, $org_name){
     global $pdo;
     $sql1 = "DELETE FROM organizations WHERE org_id = :org_id ";
     $query = $pdo->prepare($sql1);
@@ -531,9 +498,9 @@ function deleteOrganization($org_id){
     $query->bindValue(':org_id', $org_id);
     $query->execute();
 
-    $sql2 = "DELETE organization_name FROM cities WHERE org_id = :org_id";
-    $query = $pdo->prepare($sql2);
-    $query->bindValue(':org_id', $org_id);
+    $sql3 = "DELETE organization_name FROM cities WHERE organization_name = :org_name";
+    $query = $pdo->prepare($sql3);
+    $query->bindValue(':org_name', $org_name);
     $query->execute();
 
     return json_encode(['success' => true, 'msg' => 'Deleted successfully']);
@@ -630,4 +597,31 @@ function sendPasswordResetEmail($email, $newPassword) {
         // Sikertelen email küldés
         return false;
     }
+}
+
+function getIpAddress(){
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    if(!filter_var($ip, FILTER_VALIDATE_IP)) {
+        $ip = "unknown";
+    }
+    return $ip;
+}
+
+function insertIntoLog($userAgent, $deviceType, $ipAddress, $userId){
+    global $pdo;
+    $sql = "INSERT INTO logs (user_agent, device_type, ip_address, user_id) 
+             VALUES ( :user_agent, :device_type, :ip_address, :user_id) ";
+    $query = $pdo->prepare($sql);
+    $query->bindParam(':user_agent', $userAgent);
+    $query->bindParam(':device_type', $deviceType);
+    $query->bindParam(':ip_address', $ipAddress);
+    $query->bindParam(':user_id', $userId);
+    $query->execute();
+
 }

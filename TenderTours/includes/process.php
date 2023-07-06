@@ -1,11 +1,18 @@
 <?php
+
+use Detection\MobileDetect;
+
 require_once 'config.php';
 require_once 'db_config.php';
 require_once 'functions.php';
+require_once '../vendor/mobiledetect/mobiledetectlib/src/MobileDetect.php';
+
 
 $pdo = connectDatabase($dsn, $pdoOptions);
 $referer = $_SERVER['HTTP_REFERER'];
 $action = $_POST["action"];
+$detect = new MobileDetect;
+
 
 if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) === false) {
 
@@ -27,20 +34,21 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
 //                    var_dump($username, $password);die();
                     $_SESSION['username'] = $username;
                     $_SESSION['user_id'] = $data['user_id'];
+                    $userId = $_SESSION['user_id'];
+
+                    $userAgent = $detect->getUserAgent();
+                    $ipAddress = getIpAddress();
+                    $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') : 'computer');
+                    insertIntoLog($ipAddress, $deviceType, $userAgent, $userId);
                     if (array_key_exists('permission', $data)) {
                         $_SESSION['permission'] = $data['permission'];
                     }
-//                    $_SESSION['permission'] = $data['permission'];
 
                     redirection('../pages/index.php');
                 }
               else {
-                    redirection('login.php?r=1');
+                    redirection('../login.php?r=1');
                 }
-//
-//            } else {
-//                redirection('register.php?l=1');
-            //
             break;
 
 
@@ -191,8 +199,9 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
         case "delete_organization_admin":
 
             $org_id = $_POST['org_id'];
+            $org_name = $_POST['org_name'];
             if(isset($org_id)){
-                $data = deleteOrganization($org_id);
+                $data = deleteOrganization($org_id, $org_name);
             }
             break;
         case "update_organization_admin":
@@ -207,6 +216,7 @@ if ($action != "" AND in_array($action, $actions) AND strpos($referer, SITE) ===
             if(isset($_POST['visible'])){
                 $visible = $_POST['visible'];
             }
+//            var_dump($org_id,$name,$banning, $visible ); die();
             $data = updateOrganization($org_id,$name,$banning, $visible );
             break;
         case "update_user_admin":
